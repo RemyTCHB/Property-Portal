@@ -7,16 +7,16 @@
 
   <!-- =================================================================
        1. SECURITY ACCESS KEY GATEWAY (PLACE AT THE VERY TOP OF HEAD)
-       This script intercepts unauthorized direct visits silently.
+       This script intercepts unauthorized direct visits.
        ================================================================= -->
-  <!-- -->
   <script>
     (function() {
-      // CONFIGURATION: Must match the property ID and key defined on your portal config
+      // CONFIGURATION: Customize these two lines for every new property folder
       const PROPERTY_ID = "locksley";              
-      const sessionKey = 'tchb_access_granted_' + PROPERTY_ID;
+      const CORRECT_ACCESS_KEY = "larry9"; 
 
-      // If authorized, apply the lock bypass class instantly to prevent layout flashing
+      // Check if session token exists from homepage validation
+      const sessionKey = 'tchb_access_granted_' + PROPERTY_ID;
       if (sessionStorage.getItem(sessionKey) === 'true') {
         document.documentElement.classList.add('gate-unlocked');
       }
@@ -170,7 +170,7 @@
         display: table !important;
         width: 100% !important;
         border-collapse: collapse !important;
-        font-size: 11px !important; /* Shrink table slightly to fit Page 1 perfectly */
+        font-size: 11px !important; 
         line-height: 1.2 !important;
       }
       thead {
@@ -188,7 +188,7 @@
       td, th {
         display: table-cell !important;
         text-align: center !important;
-        padding: 6px 4px !important; /* Extremely tight padding to lock on one page */
+        padding: 6px 4px !important; 
       }
       
       /* Stack charts vertically on print pages */
@@ -236,7 +236,6 @@
        2. SECURE GATE MODAL (MATCHING PORTAL DESIGN)
        This screen blocks non-authenticated viewers from accessing directly.
        ================================================================= -->
-  <!-- -->
   <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print">
     <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 md:p-8 relative shadow-2xl transform transition-all duration-300" id="gateModalBox">
         
@@ -248,7 +247,6 @@
         <!-- Modal Header -->
         <div class="text-center mb-6">
             <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="gateLockIconContainer">
-                <!-- Locked Padlock SVG -->
                 <svg id="gateLockIcon" class="w-8 h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                 </svg>
@@ -292,7 +290,7 @@
       <!-- HEADER WITH EMBEDDED RETURNING HOME PORTAL PATH -->
       <header class="flex flex-col md:flex-row justify-between items-center pb-8 border-b border-gray-800 gap-6 print:pb-4">
         <div class="flex items-center gap-4">
-          <!-- Official Brand Logo - Link wrapping enabled to navigate back to index directory portal -->
+          <!-- Official Brand Logo -->
           <a href="../" class="flex items-center hover:opacity-90 active:scale-95 duration-150 transition-all cursor-pointer">
             <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" alt="Total Cash Home Buyers Logo" class="h-16 md:h-20 w-auto object-contain">
           </a>
@@ -456,7 +454,7 @@
         <div class="max-w-6xl mx-auto flex flex-col items-center">
           <div class="text-center mb-8 print:mb-4">
             <span class="text-brand-emerald font-bold uppercase text-xs tracking-wider block text-center">Holding Horizon Projection</span>
-            <h3 class="text-2xl font-black text-white mt-1 text-center print:text-lg">Projected Wealth Accumulation Milestones</h3>
+            <h3 class="text-2xl font-black text-white mt-1 text-center print:text-lg animate-pulse">Projected Wealth Accumulation Milestones</h3>
             <p class="text-sm text-gray-300 mt-2 text-center print:text-xs">
               Cumulative financial advantage breakdown comparing the Sub2 deal metrics for 9 Locksley Ct over standard options.
             </p>
@@ -623,7 +621,7 @@
           <span class="text-gray-700 hidden sm:inline">|</span>
           <a href="tel:+17035854331" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5 font-medium">
             <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582(10.582) 4.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
             </svg>
             +1 (703) 585-4331
           </a>
@@ -638,12 +636,44 @@
   </div>
 
   <script>
+    function verifyGateKey() {
+        const inputVal = document.getElementById('gateAccessKeyInput').value.trim();
+        const modalBox = document.getElementById('gateModalBox');
+        const errorMsg = document.getElementById('gateErrorMessage');
+        const correctKey = "larry9"; 
+
+        if (inputVal === correctKey) {
+            errorMsg.classList.add('hidden');
+            const lockIcon = document.getElementById('gateLockIcon');
+            sessionStorage.setItem('tchb_access_granted_locksley', 'true');
+            
+            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
+            lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
+            document.getElementById('gateLockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+
+            setTimeout(() => {
+                document.documentElement.classList.add('gate-unlocked');
+                document.getElementById('secureGate').style.display = 'none';
+            }, 800);
+        } else {
+            errorMsg.classList.remove('hidden');
+            modalBox.classList.add('shake-element');
+            document.getElementById('gateAccessKeyInput').focus();
+            setTimeout(() => {
+                modalBox.classList.remove('shake-element');
+            }, 400);
+        }
+    }
+
     const canvas = document.getElementById('gridCanvas');
     const ctx = canvas.getContext('2d');
     let gridSize = 55;
     let mouse = { x: -1000, y: -1000, active: false };
     let sparks = [];
-    let fadingLines = []; // Persistent lit grid lines as energy moves away
+    let fadingLines = []; 
+    let lastInteraction = Date.now();
+    let autoSparkInterval = 3500;
+    let lastAutoSpark = 0;
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -652,19 +682,32 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    /* Tracks hover movement across grid coordinate boundaries */
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      mouse.active = true;
-    });
+    function registerInteraction(x, y, activeState) {
+      mouse.x = x;
+      mouse.y = y;
+      mouse.active = activeState;
+      lastInteraction = Date.now();
+    }
 
-    window.addEventListener('mouseleave', () => {
-      mouse.active = false;
-    });
+    window.addEventListener('mousemove', (e) => registerInteraction(e.clientX, e.clientY, true));
+    window.addEventListener('mouseleave', () => mouse.active = false);
 
-    /* Initiate structured grid pulse sequence strictly when clicking outside info modules */
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            registerInteraction(e.touches[0].clientX, e.touches[0].clientY, true);
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            registerInteraction(e.touches[0].clientX, e.touches[0].clientY, true);
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => mouse.active = false);
+
     window.addEventListener('click', (e) => {
+      lastInteraction = Date.now();
       const isInteractive = e.target.closest('button, a, input, select, textarea, canvas, .gradient-border, .bg-gray-900\\/50, .bg-gray-900\\/40, .bg-gray-900\\/20, table, tr, td, header, img');
       if (!isInteractive) {
         triggerUniformPulse(e.clientX, e.clientY);
@@ -672,11 +715,9 @@
     });
 
     function triggerUniformPulse(clickX, clickY) {
-      // Find the absolute closest grid intersection node
       const gridX = Math.round(clickX / gridSize) * gridSize;
       const gridY = Math.round(clickY / gridSize) * gridSize;
 
-      // Spawn electrical branches traversing cleanly along the 4 grid axes
       const directions = [
         { x: 1, y: 0 },
         { x: -1, y: 0 },
@@ -693,19 +734,34 @@
           dirX: dir.x,
           dirY: dir.y,
           progress: 0,
-          speed: 0.012, // Slower uniform motion per frame (approx. 1.5 seconds per grid square segment)
+          speed: 0.012, 
           life: 1.0,
           decay: 0.09
         });
       });
     }
 
-    /* Animation Frame Rendering Loop */
+    function checkIdleActivity() {
+        let now = Date.now();
+        if (now - lastInteraction > 5000) {
+            if (now - lastAutoSpark > autoSparkInterval) {
+                const cols = Math.floor(canvas.width / gridSize);
+                const rows = Math.floor(canvas.height / gridSize);
+                if (cols > 0 && rows > 0) {
+                    const randX = Math.floor(Math.random() * cols) * gridSize;
+                    const randY = Math.floor(Math.random() * rows) * gridSize;
+                    triggerUniformPulse(randX, randY);
+                }
+                lastAutoSpark = now;
+            }
+        }
+    }
+
     function animateGrid() {
+      checkIdleActivity();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 1. Render STATIC Digital Grid Matrix - Highly Seen & Visible
-      ctx.strokeStyle = 'rgba(79, 70, 229, 0.16)'; // More seen, crisp opacity
+      ctx.strokeStyle = 'rgba(79, 70, 229, 0.16)'; 
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let x = 0; x < canvas.width; x += gridSize) {
@@ -718,11 +774,10 @@
       }
       ctx.stroke();
 
-      // 2. Render Mouse Position Radial Grid Halo
       if (mouse.active) {
         let haloGradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180);
-        haloGradient.addColorStop(0, 'rgba(79, 70, 229, 0.15)'); // Indigo accent
-        haloGradient.addColorStop(0.5, 'rgba(220, 38, 38, 0.04)'); // Crimson horizon tint
+        haloGradient.addColorStop(0, 'rgba(79, 70, 229, 0.15)'); 
+        haloGradient.addColorStop(0.5, 'rgba(220, 38, 38, 0.04)'); 
         haloGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         
         ctx.fillStyle = haloGradient;
@@ -731,7 +786,6 @@
         ctx.fill();
       }
 
-      // 3. Render Lit Fading Grid segments with beautiful Indigo/Crimson gradients
       for (let i = fadingLines.length - 1; i >= 0; i--) {
         let line = fadingLines[i];
         
@@ -739,38 +793,33 @@
         ctx.moveTo(line.x1, line.y1);
         ctx.lineTo(line.x2, line.y2);
 
-        // Multi-color linear gradient representing glowing electrical currents
         let gradient = ctx.createLinearGradient(line.x1, line.y1, line.x2, line.y2);
-        gradient.addColorStop(0, `rgba(139, 92, 246, ${line.alpha * 0.85})`); // Vibrant Indigo
-        gradient.addColorStop(1, `rgba(220, 38, 38, ${line.alpha * 0.45})`);  // Soft Crimson
+        gradient.addColorStop(0, `rgba(129, 140, 248, ${line.alpha * 0.95})`); 
+        gradient.addColorStop(0.35, `rgba(168, 85, 247, ${line.alpha * 0.85})`); 
+        gradient.addColorStop(0.7, `rgba(236, 72, 153, ${line.alpha * 0.75})`); 
+        gradient.addColorStop(1, `rgba(220, 38, 38, ${line.alpha * 0.45})`); 
 
-        // Wide background neon discharge glow
         ctx.strokeStyle = gradient; 
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 5;
         ctx.stroke();
 
-        // Focused bright core line
         ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha})`;
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 1.2;
         ctx.stroke();
 
-        // Slow clean fade out
         line.alpha -= line.decay;
         if (line.alpha <= 0) {
           fadingLines.splice(i, 1);
         }
       }
 
-      // 4. Update and Render Active Sparks moving uniformly
       for (let i = sparks.length - 1; i >= 0; i--) {
         let spark = sparks[i];
         spark.progress += spark.speed;
 
-        // Calculate exact intermediate coordinates
         let currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress;
         let currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress;
 
-        // Draw temporary connection line for seamless transition
         ctx.beginPath();
         ctx.moveTo(spark.startX, spark.startY);
         ctx.lineTo(currentX, currentY);
@@ -778,36 +827,31 @@
         ctx.lineWidth = 2.5;
         ctx.stroke();
 
-        // Glowing spark node head
         ctx.beginPath();
         ctx.arc(currentX, currentY, 3.5, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
         ctx.shadowColor = '#8b5cf6';
         ctx.shadowBlur = 10;
         ctx.fill();
-        ctx.shadowBlur = 0; // Reset shadow
+        ctx.shadowBlur = 0; 
 
-        // Check if segment is completed
         if (spark.progress >= 1.0) {
-          // Push to persistent fading lit list (leaves trail lighting the grid behind it)
           fadingLines.push({
             x1: spark.startX,
             y1: spark.startY,
             x2: spark.targetX,
             y2: spark.targetY,
             alpha: 1.0,
-            decay: 0.007 // Extremely slow fadeout to allow grid to stay beautifully illuminated
+            decay: 0.007 
           });
 
           spark.life -= spark.decay;
 
           if (spark.life > 0) {
-            // Reposition start intersection to the current node
             spark.startX = spark.targetX;
             spark.startY = spark.targetY;
             spark.progress = 0;
 
-            // Optional branching: split path uniformly at intersection nodes
             if (Math.random() < 0.32 && sparks.length < 32) {
               let isHorizontal = spark.dirX !== 0;
               let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
@@ -827,7 +871,6 @@
               });
             }
 
-            // Continue current pulse along the grid axes
             spark.targetX = spark.startX + spark.dirX * gridSize;
             spark.targetY = spark.startY + spark.dirY * gridSize;
           } else {
