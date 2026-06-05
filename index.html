@@ -228,8 +228,7 @@
                         "Monthly Cashflow Saved: $404.16",
                         "Lifetime Interest Saved: $195,525.56"
                     ],
-                    path: "./9-locksley-ct/", 
-                    password: "larry9" 
+                    path: "./9-locksley-ct/" 
                 },
                 {
                     id: "mainstreet",
@@ -241,8 +240,7 @@
                         "Close Timeline: 7 Days",
                         "No Realtor Commissions or Fees"
                     ],
-                    path: "./123-main-street/",
-                    password: "mainstreetdeal"
+                    path: "./123-main-street/"
                 },
                 {
                     id: "oaklane",
@@ -254,8 +252,7 @@
                         "Seller Carryback: 90% LTV",
                         "Monthly Principal & Interest Fixed"
                     ],
-                    path: "./456-oak-lane/",
-                    password: "oaklanebroker"
+                    path: "./456-oak-lane/"
                 },
                 {
                     id: "pineroad",
@@ -267,8 +264,7 @@
                         "Down Payment: 10% ($51,200)",
                         "Balloon Payment Terms: None"
                     ],
-                    path: "./789-pine-road/",
-                    password: "pineroadbroker"
+                    path: "./789-pine-road/"
                 },
                 {
                     id: "mapledrive",
@@ -280,8 +276,7 @@
                         "Equity Rent Credit: 20%",
                         "Option Term: 24 Months"
                     ],
-                    path: "./101-maple-drive/",
-                    password: "mapledrivebroker"
+                    path: "./101-maple-drive/"
                 },
                 {
                     id: "birchcourt",
@@ -293,8 +288,7 @@
                         "Estimated ARV: $315,000.00",
                         "Instant Equity Spread: $99,100.00"
                     ],
-                    path: "./202-birch-court/",
-                    password: "birchcourtbroker"
+                    path: "./202-birch-court/"
                 }
             ]
         };
@@ -424,40 +418,26 @@
             }, 150);
         }
 
-        // Verification Check Logic with Token Integration
+        // Pass-through Verification Engine: Relays key dynamically to the subdirectory
         function verifyKey() {
             const prop = PROPOSAL_PORTAL_CONFIG.properties.find(p => p.id === activePropertyId);
             const inputVal = document.getElementById('accessKeyInput').value.trim();
             const modalBox = document.getElementById('modalBox');
-            const errorMsg = document.getElementById('errorMessage');
 
             if (!prop) return;
 
-            if (inputVal === prop.password) {
-                // Success! Play unlock animation, store Auth Token, and redirect
-                errorMsg.classList.add('hidden');
-                const lockIcon = document.getElementById('lockIcon');
-                
-                // Save access session token for direct verification bypass on child directories
-                sessionStorage.setItem('tchb_access_granted_' + prop.id, 'true');
-                
-                // Unlocked Icon SVG
-                lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
-                lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
-                document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+            // Save the entered key dynamically as a temp token for folder checkout pass-through
+            sessionStorage.setItem('tchb_temp_key_' + prop.id, inputVal);
+            
+            // Play unlock success animation and seamlessly redirect
+            const lockIcon = document.getElementById('lockIcon');
+            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
+            lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
+            document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
-                setTimeout(() => {
-                    window.location.href = prop.path;
-                }, 800);
-            } else {
-                // Error - play shake feedback
-                errorMsg.classList.remove('hidden');
-                modalBox.classList.add('shake-element');
-                document.getElementById('accessKeyInput').focus();
-                setTimeout(() => {
-                    modalBox.classList.remove('shake-element');
-                }, 400);
-            }
+            setTimeout(() => {
+                window.location.href = prop.path;
+            }, 600);
         }
 
 
