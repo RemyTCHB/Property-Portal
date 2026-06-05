@@ -4,6 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mortgage Solution Proposal - 9 Locksley Ct</title>
+
+  <!-- =================================================================
+       1. SECURITY ACCESS KEY GATEWAY (PLACE AT THE VERY TOP OF HEAD)
+       This script intercepts unauthorized direct visits.
+       ================================================================= -->
+  <script>
+    (function() {
+      // CONFIGURATION: Customize these two lines for every new property folder
+      const PROPERTY_ID = "locksley";              // MUST match the ID in your portal index.html config
+      const CORRECT_ACCESS_KEY = "larry9"; // The password needed to access this specific deal
+
+      // Check if session token exists from homepage validation
+      const sessionKey = 'tchb_access_granted_' + PROPERTY_ID;
+      if (sessionStorage.getItem(sessionKey) !== 'true') {
+        // Halt loading and prompt for security authorization code
+        const enteredKey = prompt('Verification Required.\nPlease enter your Access Key to view this exclusive proposal analysis:');
+        
+        if (enteredKey === CORRECT_ACCESS_KEY) {
+          // Authorize session and continue loading
+          sessionStorage.setItem(sessionKey, 'true');
+        } else {
+          // Access Denied: Alert client and redirect them back to the central portal
+          alert('Access Denied.\nIncorrect security authorization code.');
+          window.location.href = '../'; // Sends them back to proposal.totalchb.com/
+        }
+      }
+    })();
+  </script>
   
   <!-- Direct Web Favicon Implementation -->
   <link rel="icon" type="image/png" href="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png">
@@ -648,7 +676,7 @@
         ctx.fill();
       }
 
-      // 3. Render Lit Fading Grid segments (Lights up the grid as the pulse moves away)
+      // 3. Render Lit Fading Grid segments with beautiful Indigo/Crimson gradients
       for (let i = fadingLines.length - 1; i >= 0; i--) {
         let line = fadingLines[i];
         
@@ -656,13 +684,18 @@
         ctx.moveTo(line.x1, line.y1);
         ctx.lineTo(line.x2, line.y2);
 
+        // Multi-color linear gradient representing glowing electrical currents (restoring spark gradient)
+        let gradient = ctx.createLinearGradient(line.x1, line.y1, line.x2, line.y2);
+        gradient.addColorStop(0, `rgba(139, 92, 246, ${line.alpha * 0.85})`); // Vibrant Indigo
+        gradient.addColorStop(1, `rgba(220, 38, 38, ${line.alpha * 0.45})`);  // Soft Crimson
+
         // Wide background neon discharge glow
-        ctx.strokeStyle = `rgba(139, 92, 246, ${line.alpha * 0.45})`; 
+        ctx.strokeStyle = gradient; 
         ctx.lineWidth = 4;
         ctx.stroke();
 
         // Focused bright core line
-        ctx.strokeStyle = `rgba(167, 139, 250, ${line.alpha})`;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha})`;
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
