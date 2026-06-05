@@ -98,7 +98,7 @@
         <!-- HEADER -->
         <header class="w-full px-4 py-8 md:py-10">
             <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-white/10 pb-8">
-                <!-- Branding Container - Made clickable & returns back to portal root directory -->
+                <!-- Branding Container - Return home action bound directly -->
                 <a href="./" class="flex items-center gap-4 hover:opacity-90 active:scale-95 duration-150 transition-all cursor-pointer z-20">
                     <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" 
                          alt="Total Cash Home Buyers Logo" 
@@ -212,10 +212,6 @@
 
     <!-- CONFIGURATION & SCRIPTING ENGINES -->
     <script>
-        /******************************************************************
-         * MASTER PORTAL CONFIGURATION
-         * Customize your active listings, target redirect paths, and passwords here.
-         ******************************************************************/
         const PROPOSAL_PORTAL_CONFIG = {
             properties: [
                 {
@@ -228,7 +224,8 @@
                         "Monthly Cashflow Saved: $404.16",
                         "Lifetime Interest Saved: $195,525.56"
                     ],
-                    path: "./9-locksley-ct/" 
+                    path: "./9-locksley-ct/", 
+                    password: "larry9" 
                 },
                 {
                     id: "mainstreet",
@@ -240,7 +237,8 @@
                         "Close Timeline: 7 Days",
                         "No Realtor Commissions or Fees"
                     ],
-                    path: "./123-main-street/"
+                    path: "./123-main-street/",
+                    password: "mainstreetdeal"
                 },
                 {
                     id: "oaklane",
@@ -252,7 +250,8 @@
                         "Seller Carryback: 90% LTV",
                         "Monthly Principal & Interest Fixed"
                     ],
-                    path: "./456-oak-lane/"
+                    path: "./456-oak-lane/",
+                    password: "oaklanebroker"
                 },
                 {
                     id: "pineroad",
@@ -264,7 +263,8 @@
                         "Down Payment: 10% ($51,200)",
                         "Balloon Payment Terms: None"
                     ],
-                    path: "./789-pine-road/"
+                    path: "./789-pine-road/",
+                    password: "pineroadbroker"
                 },
                 {
                     id: "mapledrive",
@@ -276,7 +276,8 @@
                         "Equity Rent Credit: 20%",
                         "Option Term: 24 Months"
                     ],
-                    path: "./101-maple-drive/"
+                    path: "./101-maple-drive/",
+                    password: "mapledrivebroker"
                 },
                 {
                     id: "birchcourt",
@@ -288,12 +289,12 @@
                         "Estimated ARV: $315,000.00",
                         "Instant Equity Spread: $99,100.00"
                     ],
-                    path: "./202-birch-court/"
+                    path: "./202-birch-court/",
+                    password: "birchcourtbroker"
                 }
             ]
         };
 
-        // State Manager for Authentication flow
         let activePropertyId = null;
 
         // Image Load Fail-safes
@@ -314,9 +315,6 @@
             }
         }
 
-        // Setup dynamic redirection when replacing logo element fallback
-        document.querySelector('.svg-logo-fallback')?.parentNode?.setAttribute('href', './');
-
         function fallbackIcon(img) {
             img.style.display = 'none';
             const container = img.parentNode;
@@ -330,7 +328,6 @@
             }
         }
 
-        // Initialize Property Card List
         function buildPropertyCards() {
             const grid = document.getElementById('propertyGrid');
             grid.innerHTML = '';
@@ -339,7 +336,6 @@
                 const card = document.createElement('div');
                 card.className = "fallback-card-container border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-500/50 hover:shadow-[0_20px_40px_rgba(99,102,241,0.15)] hover:-translate-y-1 relative overflow-hidden group flex flex-col justify-between";
                 
-                // Construct feature list
                 const featureList = prop.features.map(feat => `
                     <li class="flex items-center gap-2 text-xs text-gray-300">
                         <svg class="w-4 h-4 text-brand-emerald shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
@@ -349,7 +345,6 @@
 
                 card.innerHTML = `
                     <div>
-                        <!-- Badge -->
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full">
                                 ${prop.badge}
@@ -359,9 +354,8 @@
                             </div>
                         </div>
 
-                        <!-- Info with Secured Blurred Field -->
                         <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                            <span class="text-xl font-bold text-white select-none filter blur-[6px] pointer-events-none tracking-wide select-none">${prop.address}</span>
+                            <span class="text-xl font-bold text-white select-none filter blur-[6px] pointer-events-none tracking-wide">${prop.address}</span>
                             <span class="text-[9px] uppercase font-semibold px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded flex items-center gap-1 shrink-0 select-none">
                                 <svg class="w-2.5 h-2.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                                 Locked Address
@@ -369,13 +363,11 @@
                         </div>
                         <p class="text-xs text-gray-400 mb-6">${prop.cityState}</p>
 
-                        <!-- Key Highlights Box -->
                         <ul class="space-y-2.5 mb-8 border-t border-white/5 pt-4">
                             ${featureList}
                         </ul>
                     </div>
 
-                    <!-- CTA Unlock Button -->
                     <button onclick="openModal('${prop.id}')" class="w-full py-3 px-4 bg-white/5 border border-white/10 rounded-xl font-semibold text-xs tracking-wider uppercase text-white hover:bg-indigo-600 hover:border-transparent hover:shadow-[0_10px_20px_rgba(99,102,241,0.2)] transition-all duration-300">
                         Unlock Proposal Analysis
                     </button>
@@ -384,22 +376,17 @@
             });
         }
 
-        // Modal Action Logic
         function openModal(propertyId) {
             activePropertyId = propertyId;
-            
-            // Setup Text Info with generic safeguards
             document.getElementById('modalSubtitle').innerText = "Please enter your specialized key";
             document.getElementById('accessKeyInput').value = '';
             document.getElementById('errorMessage').classList.add('hidden');
             
-            // Reset lock icon to initial state
             const lockIcon = document.getElementById('lockIcon');
             lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
             lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
             document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
 
-            // Fade Modal In
             const modal = document.getElementById('passwordModal');
             modal.classList.remove('hidden');
             setTimeout(() => {
@@ -418,38 +405,49 @@
             }, 150);
         }
 
-        // Pass-through Verification Engine: Relays key dynamically to the subdirectory
         function verifyKey() {
             const prop = PROPOSAL_PORTAL_CONFIG.properties.find(p => p.id === activePropertyId);
             const inputVal = document.getElementById('accessKeyInput').value.trim();
             const modalBox = document.getElementById('modalBox');
+            const errorMsg = document.getElementById('errorMessage');
 
             if (!prop) return;
 
-            // Save the entered key dynamically as a temp token for folder checkout pass-through
-            sessionStorage.setItem('tchb_temp_key_' + prop.id, inputVal);
-            
-            // Play unlock success animation and seamlessly redirect
-            const lockIcon = document.getElementById('lockIcon');
-            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
-            lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
-            document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+            if (inputVal === prop.password) {
+                errorMsg.classList.add('hidden');
+                const lockIcon = document.getElementById('lockIcon');
+                sessionStorage.setItem('tchb_access_granted_' + prop.id, 'true');
+                
+                lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
+                lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
+                document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
-            setTimeout(() => {
-                window.location.href = prop.path;
-            }, 600);
+                setTimeout(() => {
+                    window.location.href = prop.path;
+                }, 800);
+            } else {
+                errorMsg.classList.remove('hidden');
+                modalBox.classList.add('shake-element');
+                document.getElementById('accessKeyInput').focus();
+                setTimeout(() => {
+                    modalBox.classList.remove('shake-element');
+                }, 400);
+            }
         }
 
 
         /******************************************************************
-         * DYNAMIC CANVASES GRID ENGINE (Exactly matching previous visuals)
+         * DYNAMIC CANVASES GRID ENGINE
          ******************************************************************/
         const canvas = document.getElementById('gridCanvas');
         const ctx = canvas.getContext('2d');
         let gridSize = 55;
         let mouse = { x: -1000, y: -1000, active: false };
         let sparks = [];
-        let fadingLines = []; // Persistent lit grid lines as energy moves away
+        let fadingLines = []; 
+        let lastInteraction = Date.now();
+        let autoSparkInterval = 3500; // Fire an auto-spark every 3.5s of idle time
+        let lastAutoSpark = 0;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -458,40 +456,33 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        /* Tracks hover movement across grid coordinate boundaries */
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-            mouse.active = true;
-        });
+        /* Update dynamic timers on interaction... */
+        function registerInteraction(x, y, activeState) {
+            mouse.x = x;
+            mouse.y = y;
+            mouse.active = activeState;
+            lastInteraction = Date.now();
+        }
 
-        window.addEventListener('mouseleave', () => {
-            mouse.active = false;
-        });
+        window.addEventListener('mousemove', (e) => registerInteraction(e.clientX, e.clientY, true));
+        window.addEventListener('mouseleave', () => mouse.active = false);
 
-        // iOS Touch Event Mapping
         window.addEventListener('touchstart', (e) => {
             if (e.touches.length > 0) {
-                mouse.x = e.touches[0].clientX;
-                mouse.y = e.touches[0].clientY;
-                mouse.active = true;
+                registerInteraction(e.touches[0].clientX, e.touches[0].clientY, true);
             }
         }, { passive: true });
 
         window.addEventListener('touchmove', (e) => {
             if (e.touches.length > 0) {
-                mouse.x = e.touches[0].clientX;
-                mouse.y = e.touches[0].clientY;
-                mouse.active = true;
+                registerInteraction(e.touches[0].clientX, e.touches[0].clientY, true);
             }
         }, { passive: true });
 
-        window.addEventListener('touchend', () => {
-            mouse.active = false;
-        });
+        window.addEventListener('touchend', () => mouse.active = false);
 
-        /* Initiate structured grid pulse sequence strictly when clicking outside info modules */
         window.addEventListener('click', (e) => {
+            lastInteraction = Date.now();
             const isInteractive = e.target.closest('button, a, input, select, textarea, canvas, .fallback-card-container, #modalBox, header, img');
             if (!isInteractive) {
                 triggerUniformPulse(e.clientX, e.clientY);
@@ -499,11 +490,9 @@
         });
 
         function triggerUniformPulse(clickX, clickY) {
-            // Find the absolute closest grid intersection node
             const gridX = Math.round(clickX / gridSize) * gridSize;
             const gridY = Math.round(clickY / gridSize) * gridSize;
 
-            // Spawn electrical branches traversing cleanly along the 4 grid axes
             const directions = [
                 { x: 1, y: 0 },
                 { x: -1, y: 0 },
@@ -520,19 +509,35 @@
                     dirX: dir.x,
                     dirY: dir.y,
                     progress: 0,
-                    speed: 0.012, // Slower uniform motion per frame (approx. 1.5 seconds per grid square segment)
+                    speed: 0.012, 
                     life: 1.0,
                     decay: 0.09
                 });
             });
         }
 
-        /* Animation Frame Rendering Loop */
+        function checkIdleActivity() {
+            let now = Date.now();
+            if (now - lastInteraction > 5000) {
+                if (now - lastAutoSpark > autoSparkInterval) {
+                    const cols = Math.floor(canvas.width / gridSize);
+                    const rows = Math.floor(canvas.height / gridSize);
+                    if (cols > 0 && rows > 0) {
+                        const randX = Math.floor(Math.random() * cols) * gridSize;
+                        const randY = Math.floor(Math.random() * rows) * gridSize;
+                        triggerUniformPulse(randX, randY);
+                    }
+                    lastAutoSpark = now;
+                }
+            }
+        }
+
         function animateGrid() {
+            checkIdleActivity();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Render STATIC Digital Grid Matrix - Highly Seen & Visible
-            ctx.strokeStyle = 'rgba(79, 70, 229, 0.16)'; // More seen, crisp opacity
+            // 1. Draw static grid
+            ctx.strokeStyle = 'rgba(79, 70, 229, 0.16)'; 
             ctx.lineWidth = 1;
             ctx.beginPath();
             for (let x = 0; x < canvas.width; x += gridSize) {
@@ -545,11 +550,11 @@
             }
             ctx.stroke();
 
-            // 2. Render Mouse Position Radial Grid Halo
+            // 2. Halo Glow
             if (mouse.active) {
                 let haloGradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180);
-                haloGradient.addColorStop(0, 'rgba(79, 70, 229, 0.15)'); // Indigo accent
-                haloGradient.addColorStop(0.5, 'rgba(220, 38, 38, 0.04)'); // Crimson horizon tint
+                haloGradient.addColorStop(0, 'rgba(79, 70, 229, 0.15)'); 
+                haloGradient.addColorStop(0.5, 'rgba(220, 38, 38, 0.04)'); 
                 haloGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
                 
                 ctx.fillStyle = haloGradient;
@@ -558,7 +563,7 @@
                 ctx.fill();
             }
 
-            // 3. Render Lit Fading Grid segments with beautiful Indigo/Crimson gradients
+            // 3. Render Intertwined Color Fading Trace Lines
             for (let i = fadingLines.length - 1; i >= 0; i--) {
                 let line = fadingLines[i];
                 
@@ -566,38 +571,34 @@
                 ctx.moveTo(line.x1, line.y1);
                 ctx.lineTo(line.x2, line.y2);
 
-                // Multi-color linear gradient representing glowing electrical currents (restoring spark gradient)
                 let gradient = ctx.createLinearGradient(line.x1, line.y1, line.x2, line.y2);
-                gradient.addColorStop(0, `rgba(139, 92, 246, ${line.alpha * 0.85})`); // Vibrant Indigo
-                gradient.addColorStop(1, `rgba(220, 38, 38, ${line.alpha * 0.45})`);  // Soft Crimson
+                gradient.addColorStop(0, `rgba(129, 140, 248, ${line.alpha * 0.95})`); // Indigo/Blue
+                gradient.addColorStop(0.35, `rgba(168, 85, 247, ${line.alpha * 0.85})`); // Purple/Violet
+                gradient.addColorStop(0.7, `rgba(236, 72, 153, ${line.alpha * 0.75})`); // Hot Pink
+                gradient.addColorStop(1, `rgba(220, 38, 38, ${line.alpha * 0.45})`); // Crimson/Red
 
-                // Wide background neon discharge glow
                 ctx.strokeStyle = gradient; 
-                ctx.lineWidth = 4;
+                ctx.lineWidth = 5;
                 ctx.stroke();
 
-                // Focused bright core line
                 ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha})`;
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 1.2;
                 ctx.stroke();
 
-                // Slow clean fade out
                 line.alpha -= line.decay;
                 if (line.alpha <= 0) {
                     fadingLines.splice(i, 1);
                 }
             }
 
-            // 4. Update and Render Active Sparks moving uniformly
+            // 4. Draw active sparks
             for (let i = sparks.length - 1; i >= 0; i--) {
                 let spark = sparks[i];
                 spark.progress += spark.speed;
 
-                // Calculate exact intermediate coordinates
                 let currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress;
                 let currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress;
 
-                // Draw temporary connection line for seamless transition
                 ctx.beginPath();
                 ctx.moveTo(spark.startX, spark.startY);
                 ctx.lineTo(currentX, currentY);
@@ -605,36 +606,31 @@
                 ctx.lineWidth = 2.5;
                 ctx.stroke();
 
-                // Glowing spark node head
                 ctx.beginPath();
                 ctx.arc(currentX, currentY, 3.5, 0, Math.PI * 2);
                 ctx.fillStyle = '#ffffff';
                 ctx.shadowColor = '#8b5cf6';
                 ctx.shadowBlur = 10;
                 ctx.fill();
-                ctx.shadowBlur = 0; // Reset shadow
+                ctx.shadowBlur = 0; 
 
-                // Check if segment is completed
                 if (spark.progress >= 1.0) {
-                    // Push to persistent fading lit list (leaves trail lighting the grid behind it)
                     fadingLines.push({
                         x1: spark.startX,
                         y1: spark.startY,
                         x2: spark.targetX,
                         y2: spark.targetY,
                         alpha: 1.0,
-                        decay: 0.007 // Extremely slow fadeout to allow grid to stay beautifully illuminated
+                        decay: 0.007 
                     });
 
                     spark.life -= spark.decay;
 
                     if (spark.life > 0) {
-                        // Reposition start intersection to the current node
                         spark.startX = spark.targetX;
                         spark.startY = spark.targetY;
                         spark.progress = 0;
 
-                        // Optional branching: split path uniformly at intersection nodes
                         if (Math.random() < 0.32 && sparks.length < 32) {
                             let isHorizontal = spark.dirX !== 0;
                             let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
@@ -654,7 +650,6 @@
                             });
                         }
 
-                        // Continue current pulse along the grid axes
                         spark.targetX = spark.startX + spark.dirX * gridSize;
                         spark.targetY = spark.startY + spark.dirY * gridSize;
                     } else {
@@ -666,7 +661,6 @@
             requestAnimationFrame(animateGrid);
         }
 
-        // Setup Page Systems on Load
         window.onload = function() {
             resizeCanvas();
             buildPropertyCards();
