@@ -77,12 +77,10 @@
 </head>
 <body class="font-sans antialiased relative">
 
-  <!-- Ambient Mouse Flashlight & Custom Cursor -->
   <div id="mouseGlow"></div>
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <!-- Security Gate (For direct links) -->
   <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print">
     <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 relative shadow-2xl" id="gateModalBox">
         <button onclick="window.location.href='../'" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer">
@@ -96,7 +94,6 @@
             <p class="text-xs text-gray-400">Please Enter Credentials To Unlock This Proposal</p>
         </div>
         
-        <!-- OTP 2-Step Form -->
         <div id="gateStep1Container" class="space-y-4">
             <input type="email" id="gateEmailInput" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-text">
             <input type="password" id="gateAccessKeyInput" placeholder="Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-text">
@@ -143,7 +140,6 @@
         </div>
       </header>
 
-      <!-- Primary Financial Pill -->
       <div class="mt-6 flex justify-center text-center">
         <div class="inline-flex flex-wrap justify-center items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-indigo-950/60 to-purple-950/60 text-indigo-200 border border-indigo-500/30 shadow-[0_4px_20px_rgba(99,102,241,0.15)] cursor-pointer">
           <span id="ui-pill-price" class="text-white font-black">...</span>
@@ -153,7 +149,6 @@
         </div>
       </div>
 
-      <!-- UNIVERSAL TOP KPI GRID -->
       <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(99,102,241,0.15)] transition-all duration-300 group cursor-pointer">
           <div class="flex justify-between items-start">
@@ -187,7 +182,6 @@
         </div>
       </div>
 
-      <!-- TABLES (Hidden by default, shown by dealType) -->
       <div id="module-creative-table" class="hidden-module mt-8 bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden">
         <div class="p-6 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800 flex justify-between items-center">
           <div><h3 class="text-lg font-bold text-white">Subject-To Deal Architecture</h3><p class="text-xs text-gray-400">Comparing Sub2 against standard market debt.</p></div>
@@ -247,7 +241,6 @@
         </div>
     </div>
 
-    <!-- CHARTS -->
     <div id="module-charts" class="hidden-module print-page-3 mt-12 cursor-pointer">
       <div class="text-center mb-6 no-print md:block">
         <span class="text-indigo-400 font-bold uppercase text-xs tracking-wider">Visual Performance Analytics</span>
@@ -279,7 +272,6 @@
 
     <footer class="mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-500 flex flex-col items-center gap-2">
       <div class="flex items-center gap-2 justify-center">
-        <!-- ICON POINTING TO LOCAL REPO W/O FALLBACK -->
         <img class="w-5 h-5 opacity-80" src="icon.svg" alt="TCHB Icon">
         <span class="font-bold text-gray-400">TOTAL CASH HOME BUYERS</span> • <span>Underwriting Division</span>
       </div>
@@ -309,6 +301,17 @@
     let gateExpectedOTP = null;
 
     Chart.register(ChartDataLabels);
+
+    // Unified Webhook Function (Safe for Cross-Origin Google Apps Script)
+    function sendWebhookEvent(payload) {
+        if (!LOGGING_WEBHOOK_URL) return;
+        fetch(LOGGING_WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(payload)
+        }).catch(err => console.log("Webhook sync error"));
+    }
 
     window.onload = async function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -349,10 +352,8 @@
         }
     }
 
-    // --- SIMPLE EMAIL VALIDATION (Replaced strict corporate blocker) ---
     function isValidEmail(email) {
         if (!email) return false;
-        // Just checks if it looks like a standard email: text@text.xyz
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase().trim());
     }
 
@@ -372,7 +373,6 @@
         if (gateAuthStep === 1) {
             const keyInput = document.getElementById('gateAccessKeyInput').value.trim();
 
-            // Using the new simple validation
             if (!isValidEmail(emailInput)) {
                 showGateError("Please enter a valid email address.");
                 return;
@@ -382,7 +382,6 @@
                 return;
             }
 
-            // Valid Step 1. Generate OTP and Trigger webhook
             gateExpectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
             
             const originalText = btn.innerText;
@@ -390,19 +389,15 @@
             btn.classList.add('opacity-75', 'cursor-not-allowed');
             btn.disabled = true;
 
-            if (typeof LOGGING_WEBHOOK_URL !== 'undefined') {
-                try {
-                    await fetch(LOGGING_WEBHOOK_URL, {
-                        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({ 
-                            action: 'send_otp', timestamp: Date.now(), email: emailInput, 
-                            otp: gateExpectedOTP, propertyId: urlPropId 
-                        })
-                    });
-                } catch(e) {}
-            }
+            // Trigger Email (Fire and forget style)
+            sendWebhookEvent({ 
+                action: 'send_otp', 
+                timestamp: Date.now(), 
+                email: emailInput, 
+                otp: gateExpectedOTP, 
+                propertyId: urlPropId 
+            });
 
-            // Move to Step 2
             setTimeout(() => {
                 gateAuthStep = 2;
                 document.getElementById('gateStep1Container').classList.add('hidden');
@@ -422,16 +417,16 @@
                 return;
             }
 
-            // Access Granted
             sessionStorage.setItem('tchb_access_granted_' + urlPropId, 'true');
             
-            // Log successful access
-            if (typeof LOGGING_WEBHOOK_URL !== 'undefined') {
-                fetch(LOGGING_WEBHOOK_URL, {
-                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'log_access', timestamp: Date.now(), email: emailInput, propertyId: urlPropId, status: "SUCCESS_OTP", reason: "Verified Email" })
-                }).catch(e => {});
-            }
+            sendWebhookEvent({ 
+                action: 'log_access', 
+                timestamp: Date.now(), 
+                email: emailInput, 
+                propertyId: urlPropId, 
+                status: "SUCCESS_OTP", 
+                reason: "Verified Email" 
+            });
 
             unlockPage();
         }
