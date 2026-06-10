@@ -86,15 +86,14 @@
         let authStep = 1;
         let expectedOTP = null;
 
-        // Unified Webhook Function (Safe for Cross-Origin Google Apps Script)
         function sendWebhookEvent(payload) {
             if (!LOGGING_WEBHOOK_URL) return;
             fetch(LOGGING_WEBHOOK_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Tells browser not to enforce strict preflight
-                headers: { 'Content-Type': 'text/plain' }, // Safe content-type accepted by Google
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify(payload)
-            }).catch(err => console.log("Webhook sync error"));
+            }).catch(err => console.log("Webhook Sync Error"));
         }
     </script>
 
@@ -202,7 +201,7 @@
                 document.getElementById('loadingIndicator').style.display = 'none';
 
                 if (data.error) {
-                    document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400">Error connecting to database: ${data.error}</div>`;
+                    document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400">Error Connecting To Database: ${data.error}</div>`;
                     return;
                 }
 
@@ -210,7 +209,7 @@
                 renderCards();
             } catch (err) {
                 document.getElementById('loadingIndicator').style.display = 'none';
-                document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400">Failed to load property data.</div>`;
+                document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400">Failed To Load Property Data.</div>`;
             }
         }
 
@@ -303,24 +302,23 @@
             if (!prop) return;
 
             const emailVal = document.getElementById('emailInput').value.trim();
+            const inputVal = document.getElementById('accessKeyInput').value.trim();
             const btn = document.getElementById('authButton');
 
             if (authStep === 1) {
-                const inputVal = document.getElementById('accessKeyInput').value.trim();
-
                 if (!isValidEmail(emailVal)) {
-                    showError("Please enter a valid email address.");
+                    showError("Please Enter A Valid Email Address.");
+                    sendWebhookEvent({ action: 'failed_otp_request', timestamp: Date.now(), email: emailVal, propertyId: prop.Property_ID, accessKeyUsed: inputVal, status: "ERROR", reason: "Invalid Email Address Format" });
                     return;
                 }
                 if (inputVal !== prop.Access_Password) {
-                    showError("Incorrect security authorization code. Please try again.");
+                    showError("Incorrect Security Authorization Code. Please Try Again.");
+                    sendWebhookEvent({ action: 'failed_otp_request', timestamp: Date.now(), email: emailVal, propertyId: prop.Property_ID, accessKeyUsed: inputVal, status: "ERROR", reason: "Invalid Access Key" });
                     return;
                 }
 
-                // Generates OTP and Triggers Webhook Fire-and-Forget
                 expectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                 
-                const originalText = btn.innerText;
                 btn.innerText = "Sending Code...";
                 btn.classList.add('opacity-75', 'cursor-not-allowed');
                 btn.disabled = true;
@@ -329,11 +327,13 @@
                     action: 'send_otp', 
                     timestamp: Date.now(), 
                     email: emailVal, 
-                    otp: expectedOTP, 
-                    propertyId: prop.Property_ID 
+                    propertyId: prop.Property_ID,
+                    accessKeyUsed: inputVal,
+                    otpSent: expectedOTP, 
+                    status: "SUCCESS",
+                    reason: "OTP Sent Successfully"
                 });
 
-                // Smoothly Transition
                 setTimeout(() => {
                     authStep = 2;
                     document.getElementById('step1Container').classList.add('hidden');
@@ -349,7 +349,8 @@
                 const userOTP = document.getElementById('otpInput').value.trim();
                 
                 if (userOTP !== expectedOTP) {
-                    showError("Incorrect verification code. Try again.");
+                    showError("Incorrect Verification Code. Please Try Again.");
+                    sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailVal, propertyId: prop.Property_ID, otpUsed: userOTP, status: "ERROR", reason: "Invalid Verification Code" });
                     return;
                 }
 
@@ -364,15 +365,14 @@
                 btn.innerText = "Access Granted...";
                 btn.classList.replace("bg-indigo-600", "bg-brand-emerald");
 
-                // Log final access success
                 sendWebhookEvent({ 
                     action: 'log_access', 
                     timestamp: Date.now(), 
                     email: emailVal, 
                     propertyId: prop.Property_ID,
-                    keyUsed: document.getElementById('gateAccessKeyInput').value.trim(),
-                    status: "SUCCESS_OTP", 
-                    reason: "Verified Email" 
+                    otpUsed: userOTP,
+                    status: "SUCCESS", 
+                    reason: "Access Granted" 
                 });
 
                 setTimeout(() => { window.location.href = `proposal.html?id=${prop.Property_ID}`; }, 800);
