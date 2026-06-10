@@ -393,7 +393,7 @@
             if (typeof LOGGING_WEBHOOK_URL !== 'undefined') {
                 try {
                     await fetch(LOGGING_WEBHOOK_URL, {
-                        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+                        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({ 
                             action: 'send_otp', timestamp: Date.now(), email: emailInput, 
                             otp: gateExpectedOTP, propertyId: urlPropId 
