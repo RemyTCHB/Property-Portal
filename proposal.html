@@ -428,7 +428,7 @@
             // Log successful access
             if (typeof LOGGING_WEBHOOK_URL !== 'undefined') {
                 fetch(LOGGING_WEBHOOK_URL, {
-                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action: 'log_access', timestamp: Date.now(), email: emailInput, propertyId: urlPropId, status: "SUCCESS_OTP", reason: "Verified Email" })
                 }).catch(e => {});
             }
