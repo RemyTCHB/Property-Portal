@@ -47,6 +47,7 @@
 </head>
 <body class="bg-brand-dark min-h-screen font-sans antialiased relative">
     
+    <!-- Ambient Mouse Flashlight -->
     <div id="mouseGlow"></div>
 
     <!-- Webhooks / API -->
@@ -85,8 +86,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <header class="text-center mb-16">
             <div class="inline-flex justify-center items-center mb-6 w-full">
-                <!-- LOGO CLARITY UPDATE -->
-                <img src="./logo.svg" alt="Total Cash Home Buyers" class="h-24 md:h-28 w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300 object-contain">
+                <!-- LOGO POINTING TO LOCAL REPO -->
+                <img src="./logo.svg" alt="Total Cash Home Buyers" class="h-24 md:h-28 w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300 object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
             </div>
             <p class="text-sm font-semibold tracking-[0.2em] text-indigo-400 uppercase mb-2">Investor Network</p>
             <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
@@ -106,9 +107,9 @@
             <!-- Dynamic Cards Will Inject Here -->
         </div>
 
-        <!-- UNIFIED FOOTER UPDATE WITH ICONS -->
         <footer class="mt-24 text-center border-t border-white/10 pt-8 pb-12 flex flex-col items-center gap-2">
             <div class="flex items-center justify-center gap-2 mb-2">
+                <!-- ICON POINTING TO LOCAL REPO -->
                 <img class="w-6 h-6 opacity-50" src="./icon.png" alt="TCHB Icon">
                 <span class="font-bold text-gray-400 text-xs">TOTAL CASH HOME BUYERS</span> <span class="text-gray-500 text-xs">•</span> <span class="text-gray-500 text-xs">Investor Network</span>
             </div>
@@ -130,7 +131,7 @@
 
     <script>
         // ----------------------------------------------------
-        // THEME MAPPERS
+        // THEME MAPPERS (With Dynamic Hover Halos)
         // ----------------------------------------------------
         function getStatusTheme(status) {
             const s = (status || '').toUpperCase();
@@ -182,8 +183,8 @@
                 const deal = getDealTheme(prop.Deal_Type);
                 const isLocked = status.locked;
                 
-                // ADDED THE DYNAMIC HALO AND A SLIGHT HOVER LIFT HERE
-                const cardStateClass = isLocked ? "opacity-60 grayscale cursor-not-allowed" : `hover:-translate-y-2 ${deal.halo} cursor-pointer`;
+                // Uses dynamic hover halo based on deal type
+                const cardStateClass = isLocked ? "opacity-60 grayscale cursor-not-allowed" : `hover:-translate-y-2 animate-pulse-glow ${deal.halo} cursor-pointer`;
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700" : "bg-white/5 hover:bg-indigo-600 text-white border border-white/10 hover:border-indigo-500 shadow-lg";
                 const btnText = isLocked ? "Archive Locked" : "View Analytics & Metrics &rarr;";
                 
@@ -279,7 +280,7 @@
                 const lockIcon = document.getElementById('lockIcon');
                 sessionStorage.setItem('tchb_access_granted_' + prop.Property_ID, 'true');
                 
-                lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
+                lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
                 lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
                 document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
@@ -295,7 +296,7 @@
         }
 
         // ----------------------------------------------------
-        // ANIMATION ENGINE (EMERALD, CRIMSON, INDIGO)
+        // ANIMATION ENGINE & MOUSE GLOW
         // ----------------------------------------------------
         const canvas = document.getElementById('gridCanvas');
         const ctx = canvas.getContext('2d');
@@ -340,10 +341,25 @@
             });
         }
 
-        // FIX: Attached mousedown to the document so pointer-events: none on canvas doesn't block it
+        // ON CLICK ACTION - Attached to document so pointer-events: none doesn't block it
         document.addEventListener('mousedown', (e) => { 
             lastInteractionTime = Date.now();
             for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); 
+        });
+
+        // AMBIENT MOUSE FLASHLIGHT TRACKING
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.getElementById('mouseGlow');
+            if(glow) {
+                glow.style.setProperty('--mouse-x', `${e.clientX}px`);
+                glow.style.setProperty('--mouse-y', `${e.clientY}px`);
+                if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1';
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            const glow = document.getElementById('mouseGlow');
+            if(glow) glow.style.opacity = '0';
         });
 
         function drawSparks() {
@@ -410,20 +426,6 @@
             }
             requestAnimationFrame(animateGrid);
         }
-
-        document.addEventListener('mousemove', (e) => {
-            const glow = document.getElementById('mouseGlow');
-            if(glow) {
-                glow.style.setProperty('--mouse-x', `${e.clientX}px`);
-                glow.style.setProperty('--mouse-y', `${e.clientY}px`);
-                if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1';
-            }
-        });
-
-        document.addEventListener('mouseleave', () => {
-            const glow = document.getElementById('mouseGlow');
-            if(glow) glow.style.opacity = '0';
-        });
 
         window.onload = function() {
             loadProperties();
