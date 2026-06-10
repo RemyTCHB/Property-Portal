@@ -77,7 +77,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <header class="text-center mb-16">
             <div class="inline-flex justify-center items-center mb-6 w-full">
-                <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" alt="Total Cash Home Buyers" class="h-24 md:h-28 w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300">
+                <!-- LOGO CLARITY UPDATE -->
+                <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" alt="Total Cash Home Buyers" class="h-24 md:h-28 w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300 object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
             </div>
             <p class="text-sm font-semibold tracking-[0.2em] text-indigo-400 uppercase mb-2">Investor Network</p>
             <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
@@ -97,9 +98,14 @@
             <!-- Dynamic Cards Will Inject Here -->
         </div>
 
-        <footer class="mt-24 text-center border-t border-white/10 pt-8 pb-12">
-            <div class="flex items-center justify-center gap-2 mb-4">
+        <!-- UNIFIED FOOTER UPDATE -->
+        <footer class="mt-24 text-center border-t border-white/10 pt-8 pb-12 flex flex-col items-center gap-2">
+            <div class="flex items-center justify-center gap-2 mb-2">
                 <img class="w-6 h-6 opacity-50" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png" alt="TCHB Icon">
+                <span class="font-bold text-gray-400 text-xs">TOTAL CASH HOME BUYERS</span> <span class="text-gray-500 text-xs">•</span> <span class="text-gray-500 text-xs">Investor Network</span>
+            </div>
+            <div class="flex gap-4 justify-center text-xs mt-1 mb-4 text-gray-400">
+                <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors">Carlos@totalchb.com</a> | <a href="tel:+17035854331" class="hover:text-indigo-400 transition-colors">+1 (703) 585-4331</a>
             </div>
             <p class="text-xs text-gray-500">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
             <p class="text-[10px] text-gray-600 mt-2 max-w-md mx-auto">All data contained within is proprietary and subject to non-disclosure agreements.</p>
@@ -279,6 +285,7 @@
         let gridSize = 55;
         let sparks = [];
         let lastSpanSpawn = 0;
+        let lastInteractionTime = Date.now(); // AUTO SPARK IDLE TIMER
         const brandColors = [
             { r: 79, g: 70, b: 229 },  // Indigo
             { r: 220, g: 38, b: 38 },  // Crimson
@@ -316,7 +323,11 @@
             });
         }
 
-        canvas.addEventListener('mousedown', (e) => { for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); });
+        // ON CLICK ACTION (Spawns sparks & resets idle timer)
+        canvas.addEventListener('mousedown', (e) => { 
+            lastInteractionTime = Date.now();
+            for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); 
+        });
 
         function drawSparks() {
             ctx.lineCap = 'round';
@@ -349,7 +360,14 @@
             ctx.stroke();
 
             drawSparks();
-            if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; }
+            
+            // AUTO SPARK CHECK (Only spawn if 5 seconds have passed without a click)
+            if (Date.now() - lastInteractionTime > 5000) {
+                if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { 
+                    createSpark(); 
+                    lastSpanSpawn = timestamp; 
+                }
+            }
 
             for (let i = sparks.length - 1; i >= 0; i--) {
                 let spark = sparks[i];
