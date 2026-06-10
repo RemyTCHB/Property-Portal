@@ -46,16 +46,19 @@
         }
         
         /* FIXED CUSTOM CURSOR */
-        body, a, button, input, [onclick], .cursor-pointer { cursor: none !important; }
+        body, a, button, input, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
         
         #cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; pointer-events: none; z-index: 999999; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, background-color 0.2s; opacity: 0; }
         #cursor-ring { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1.5px solid rgba(79, 70, 229, 0.6); border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; opacity: 0; }
         
         body.mouse-active #cursor-dot, body.mouse-active #cursor-ring { opacity: 1; }
         
-        /* CRIMSON RING AND EMERALD DOT ON HOVER */
         body.cursor-hover #cursor-ring { width: 56px; height: 56px; background-color: rgba(79, 70, 229, 0.1); border-color: rgba(220, 38, 38, 0.8); }
         body.cursor-hover #cursor-dot { transform: translate(-50%, -50%) scale(1.5); background: #10b981; }
+
+        /* LOCKED CUSTOM CURSOR */
+        body.cursor-locked #cursor-ring { width: 44px; height: 44px; background-color: rgba(220, 38, 38, 0.1); border-color: rgba(220, 38, 38, 0.8); border-style: dashed; }
+        body.cursor-locked #cursor-dot { transform: translate(-50%, -50%) scale(1.2); background: #dc2626; }
 
         /* HORIZONTAL ANIMATED TEXT GRADIENT */
         .animate-text-gradient {
@@ -394,10 +397,14 @@
         });
 
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('a, button, input, [onclick], .cursor-pointer')) {
-                document.body.classList.add('cursor-hover');
-            } else {
+            if (e.target.closest('.cursor-not-allowed')) {
+                document.body.classList.add('cursor-locked');
                 document.body.classList.remove('cursor-hover');
+            } else if (e.target.closest('a, button, input, [onclick], .cursor-pointer')) {
+                document.body.classList.add('cursor-hover');
+                document.body.classList.remove('cursor-locked');
+            } else {
+                document.body.classList.remove('cursor-hover', 'cursor-locked');
             }
         });
 
