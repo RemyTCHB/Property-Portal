@@ -43,12 +43,24 @@
             background: radial-gradient(800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(79,70,229,0.12) 0%, rgba(16,185,129,0.06) 40%, rgba(220,38,38,0.02) 60%, transparent 80%);
             opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
         }
+
+        /* CUSTOM CURSOR */
+        @media (hover: hover) and (pointer: fine) {
+            body, a, button, input, [onclick], .cursor-pointer { cursor: none !important; }
+            #cursor-dot, #cursor-ring { display: block; }
+        }
+        #cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, background-color 0.2s; display: none; }
+        #cursor-ring { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1.5px solid rgba(79, 70, 229, 0.6); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; display: none; }
+        body.cursor-hover #cursor-ring { width: 56px; height: 56px; background-color: rgba(79, 70, 229, 0.1); border-color: rgba(16, 185, 129, 0.8); }
+        body.cursor-hover #cursor-dot { transform: translate(-50%, -50%) scale(1.5); background: #10b981; }
     </style>
 </head>
 <body class="bg-brand-dark min-h-screen font-sans antialiased relative">
     
-    <!-- Ambient Mouse Flashlight -->
+    <!-- Ambient Mouse Flashlight & Custom Cursor -->
     <div id="mouseGlow"></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
     <!-- Webhooks / API -->
     <script>
@@ -310,6 +322,12 @@
             { r: 16, g: 185, b: 129 }  // Emerald
         ];
 
+        // Custom Cursor Variables
+        let customMouseX = window.innerWidth / 2;
+        let customMouseY = window.innerHeight / 2;
+        let ringX = customMouseX;
+        let ringY = customMouseY;
+
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
@@ -345,15 +363,41 @@
         document.addEventListener('mousedown', (e) => { 
             lastInteractionTime = Date.now();
             for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); 
+
+            // Cursor click compression effect
+            const ring = document.getElementById('cursor-ring');
+            if(ring) {
+                ring.style.transform = `translate(-50%, -50%) scale(0.7)`;
+                setTimeout(() => ring.style.transform = `translate(-50%, -50%) scale(1)`, 150);
+            }
         });
 
-        // AMBIENT MOUSE FLASHLIGHT TRACKING
+        // AMBIENT MOUSE FLASHLIGHT TRACKING & CURSOR
         document.addEventListener('mousemove', (e) => {
+            customMouseX = e.clientX;
+            customMouseY = e.clientY;
+
+            // Move Dot instantly
+            const dot = document.getElementById('cursor-dot');
+            if(dot) {
+                dot.style.left = `${customMouseX}px`;
+                dot.style.top = `${customMouseY}px`;
+            }
+
             const glow = document.getElementById('mouseGlow');
             if(glow) {
                 glow.style.setProperty('--mouse-x', `${e.clientX}px`);
                 glow.style.setProperty('--mouse-y', `${e.clientY}px`);
                 if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1';
+            }
+        });
+
+        // Cursor Hover Effects for interactive elements
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('a, button, input, [onclick], .cursor-pointer')) {
+                document.body.classList.add('cursor-hover');
+            } else {
+                document.body.classList.remove('cursor-hover');
             }
         });
 
@@ -391,6 +435,15 @@
             for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
             for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
             ctx.stroke();
+
+            // Custom Cursor Trailing Ring Animation (Smooth follow physics)
+            ringX += (customMouseX - ringX) * 0.15;
+            ringY += (customMouseY - ringY) * 0.15;
+            const ring = document.getElementById('cursor-ring');
+            if (ring) {
+                ring.style.left = `${ringX}px`;
+                ring.style.top = `${ringY}px`;
+            }
 
             drawSparks();
             
