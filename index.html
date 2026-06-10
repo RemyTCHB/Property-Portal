@@ -224,7 +224,7 @@
                 
                 // 2. Added cursor-not-allowed / cursor-pointer explicitly to the button
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed" : `bg-white/5 text-white border border-white/10 shadow-lg ${deal.btnHover} cursor-pointer`;
-                const btnText = isLocked ? "Locked" : "View Proposal &rarr;";
+                const btnText = isLocked ? "Archive Locked" : "View Analytics & Metrics &rarr;";
                 
                 // 3. Click handler will be bound to the button instead of the wrapper
                 const clickHandler = isLocked ? "" : `onclick="openModal('${prop.Property_ID}')"`;
@@ -281,6 +281,27 @@
             activePropertyId = null;
         }
 
+        // --- EMAIL VALIDATION RULESET ---
+        function isValidCorporateEmail(email) {
+            if (!email) return false;
+            email = email.toLowerCase().trim();
+            
+            // 1. Basic structural validation (Requires text@text.xyz format)
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return false;
+            
+            const [localPart, domain] = email.split('@');
+            
+            // 2. Block disposable / test domains
+            const blockedDomains = ['test.com', 'example.com', 'mailinator.com', 'yopmail.com', '10minutemail.com', 'tempmail.com', 'guerrillamail.com', 'fake.com', 'email.com'];
+            if (blockedDomains.some(d => domain === d || domain.endsWith('.' + d))) return false;
+            
+            // 3. Block common fake prefixes
+            const blockedPrefixes = ['test', 'fake', 'demo', 'spam', 'admin', 'nobody', '1234', '12345', 'user'];
+            if (blockedPrefixes.includes(localPart)) return false;
+
+            return true;
+        }
+
         function verifyKey() {
             const prop = globalProperties.find(p => p.Property_ID === activePropertyId);
             const emailInput = document.getElementById('emailInput');
@@ -295,9 +316,9 @@
             let attemptReason = "Unknown Error";
             let isAuthorized = false;
 
-            if (!emailVal || !emailVal.includes('@')) {
-                attemptReason = "Invalid or Missing Email";
-                errorMsg.innerText = "Please enter a valid email address.";
+            if (!isValidCorporateEmail(emailVal)) {
+                attemptReason = "Invalid or Test Email";
+                errorMsg.innerText = "Please enter a valid, verifiable email address.";
             } else if (inputVal !== prop.Access_Password) {
                 attemptReason = "Incorrect Security Key";
                 errorMsg.innerText = "Incorrect security authorization code. Please try again.";
