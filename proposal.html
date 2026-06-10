@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TCHB - Proposal</title>
   
-  <link rel="icon" type="image/png" href="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png">
+  <link rel="icon" type="image/png" href="./icon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
@@ -40,6 +40,12 @@
 
     @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); } 20%, 40%, 60%, 80% { transform: translateX(6px); } }
     .shake-element { animation: shake 0.4s ease-in-out; }
+
+    #mouseGlow {
+        position: fixed; inset: 0; pointer-events: none; z-index: 1;
+        background: radial-gradient(800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(79,70,229,0.12) 0%, rgba(16,185,129,0.06) 40%, rgba(220,38,38,0.02) 60%, transparent 80%);
+        opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
+    }
     
     /* Gate control */
     .gate-unlocked #secureGate { display: none !important; }
@@ -58,6 +64,9 @@
   </style>
 </head>
 <body class="font-sans antialiased relative">
+
+  <!-- Ambient Mouse Flashlight -->
+  <div id="mouseGlow"></div>
 
   <!-- Security Gate (For direct links) -->
   <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print">
@@ -101,8 +110,8 @@
       <header class="flex flex-col md:flex-row justify-between items-center pb-8 border-b border-gray-800 gap-6">
         <div class="flex items-center gap-4">
           <a href="../" class="flex items-center hover:opacity-90 active:scale-95 duration-150 transition-all">
-            <!-- LOGO CLARITY UPDATE -->
-            <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" alt="Total Cash Home Buyers Logo" class="h-16 md:h-20 w-auto object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+            <!-- LOGO POINTING TO LOCAL REPO -->
+            <img src="./logo.svg" alt="Total Cash Home Buyers Logo" class="h-16 md:h-20 w-auto object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
           </a>
         </div>
         <div class="text-right flex flex-col items-center md:items-end">
@@ -131,7 +140,7 @@
               <p id="ui-kpi-1-label" class="text-xs uppercase font-semibold text-indigo-400 tracking-wider">...</p>
               <h3 id="ui-kpi-1-value" class="text-4xl font-extrabold text-indigo-500 mt-1">...</h3>
             </div>
-            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png"></div>
+            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
           </div>
           <p id="ui-kpi-1-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
@@ -142,7 +151,7 @@
               <p id="ui-kpi-2-label" class="text-xs uppercase font-semibold text-brand-emerald tracking-wider">...</p>
               <h3 id="ui-kpi-2-value" class="text-4xl font-extrabold text-emerald-400 mt-1">...</h3>
             </div>
-            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png"></div>
+            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
           </div>
           <p id="ui-kpi-2-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
@@ -153,7 +162,7 @@
               <p id="ui-kpi-3-label" class="text-xs uppercase font-semibold text-brand-gold tracking-wider">...</p>
               <h3 id="ui-kpi-3-value" class="text-4xl font-extrabold text-amber-400 mt-1">...</h3>
             </div>
-            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png"></div>
+            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
           </div>
           <p id="ui-kpi-3-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
@@ -204,14 +213,14 @@
 
     <div class="print-page-2 mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left">
-          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png"></div>
+          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
           <div>
             <h4 id="ui-narrative-1-title" class="text-base font-extrabold text-white">...</h4>
             <p id="ui-narrative-1-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
           </div>
         </div>
         <div class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left">
-          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png"></div>
+          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
           <div>
             <h4 id="ui-narrative-2-title" class="text-base font-extrabold text-white">...</h4>
             <p id="ui-narrative-2-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
@@ -249,22 +258,22 @@
       </div>
     </div>
 
-    <!-- UNIFIED FOOTER UPDATE WITH ICONS -->
     <footer class="mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-500 flex flex-col items-center gap-2">
       <div class="flex items-center gap-2 justify-center">
-        <img class="w-5 h-5" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png" alt="TCHB Icon">
+        <!-- ICON POINTING TO LOCAL REPO -->
+        <img class="w-5 h-5 opacity-80" src="./icon.png" alt="TCHB Icon">
         <span class="font-bold text-gray-400">TOTAL CASH HOME BUYERS</span> • <span>Underwriting Division</span>
       </div>
-      <div class="flex flex-wrap gap-4 justify-center items-center text-xs mt-1 mb-1 text-gray-400">
-          <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-              Carlos@totalchb.com
-          </a> 
-          <span class="text-gray-700 hidden sm:inline">|</span> 
-          <a href="tel:+17035854331" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-              +1 (703) 585-4331
-          </a>
+      <div class="flex gap-4 text-xs mt-1 mb-1">
+        <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            Carlos@totalchb.com
+        </a> 
+        <span class="text-gray-700 hidden sm:inline">|</span> 
+        <a href="tel:+17035854331" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+            +1 (703) 585-4331
+        </a>
       </div>
       <p class="max-w-md text-[10px] mx-auto">Analysis constructed for informational real estate portfolio modeling purposes based on verified underwriting metrics.</p>
     </footer>
@@ -585,7 +594,7 @@
     }
 
     // ----------------------------------------------------
-    // ANIMATION ENGINE (EMERALD, CRIMSON, INDIGO)
+    // ANIMATION ENGINE & MOUSE GLOW
     // ----------------------------------------------------
     const canvas = document.getElementById('gridCanvas');
     const ctx = canvas.getContext('2d');
@@ -615,10 +624,25 @@
         sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color });
     }
 
-    // FIX: Attached mousedown to the document so pointer-events: none on canvas doesn't block it
+    // ON CLICK ACTION - Attached to document so pointer-events: none doesn't block it
     document.addEventListener('mousedown', (e) => { 
         lastInteractionTime = Date.now();
         for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); 
+    });
+
+    // AMBIENT MOUSE FLASHLIGHT TRACKING
+    document.addEventListener('mousemove', (e) => {
+        const glow = document.getElementById('mouseGlow');
+        if(glow) {
+            glow.style.setProperty('--mouse-x', `${e.clientX}px`);
+            glow.style.setProperty('--mouse-y', `${e.clientY}px`);
+            if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1';
+        }
+    });
+
+    document.addEventListener('mouseleave', () => {
+        const glow = document.getElementById('mouseGlow');
+        if(glow) glow.style.opacity = '0';
     });
 
     function drawSparks() {
