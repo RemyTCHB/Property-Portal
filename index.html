@@ -105,7 +105,7 @@
                     <svg id="lockIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-1">Verification Required</h3>
-                <p class="text-xs text-gray-400">Please verify identity and enter specialized key</p>
+                <p class="text-xs text-gray-400">Please Verify Identity & Enter Access Key</p>
             </div>
             
             <!-- OTP 2-Step Form -->
@@ -115,12 +115,12 @@
             </div>
 
             <div id="step2Container" class="space-y-4 hidden mt-2">
-                <p class="text-xs text-brand-emerald text-center font-medium mb-4">A 6-digit verification code has been sent to your email.</p>
+                <p class="text-xs text-brand-emerald text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
                 <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-xl focus:outline-none focus:ring-2 focus:ring-brand-emerald transition-all">
-                <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors">← Back to edit email</button>
+                <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors">← Back To Edit Email</button>
             </div>
 
-            <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect security authorization code.</p>
+            <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Security Authorization Code.</p>
             
             <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4">
                 Send Verification Code
@@ -139,7 +139,7 @@
                 Property <span class="animate-text-gradient">Portal</span>
             </h1>
             <p class="max-w-2xl mx-auto text-gray-400 text-sm md:text-base">
-                Use your email and the access key provided to you to get all the info about the property in question.
+                Use Your Email & The Access Key Provided To Gain Access To The Proposal.
             </p>
         </header>
 
@@ -171,7 +171,7 @@
                 </a>
             </div>
             <p class="text-xs text-gray-500">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
-            <p class="text-[10px] text-gray-600 mt-2 max-w-md mx-auto">All data contained within is proprietary and subject to non-disclosure agreements.</p>
+            <p class="text-[10px] text-gray-600 mt-2 max-w-md mx-auto">All Data Contained Within Is Proprietary And Subject To Non-Disclosure Agreements.</p>
         </footer>
     </div>
 
