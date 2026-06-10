@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Total Cash Home Buyers - Executive Broker Portal</title>
-    <!-- Favicon using your exact white icon logo -->
+    <title>Total Cash Home Buyers - Executive Property Portal</title>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png">
-    
-    <!-- Tailwind CSS (with immediate raw fallback styling) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,659 +12,374 @@
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#0b0f19',
-                            card: 'rgba(17, 24, 39, 0.75)',
-                            purple: '#4f46e5',
-                            crimson: '#dc2626',
-                            emerald: '#10b981',
-                            gold: '#f59e0b'
+                            dark: '#0b0f19', card: 'rgba(17, 24, 39, 0.75)',
+                            purple: '#4f46e5', crimson: '#dc2626', emerald: '#10b981', gold: '#f59e0b'
                         }
                     }
                 }
             }
         }
     </script>
-
-    <!-- Native iOS and Safari Core Protection Styles (No-CDN Fallbacks) -->
     <style>
-        body {
-            background-color: #0b0f19 !important;
-            color: #f3f4f6 !important;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+        body { background-color: #0b0f19 !important; color: #f3f4f6 !important; overflow-x: hidden; }
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
-        
-        /* Direct Layout fallback in case Tailwind CDN fails in security sandboxes */
-        .fallback-card-container {
-            background: rgba(17, 24, 39, 0.75);
-            border: 1px solid rgba(79, 70, 229, 0.2);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 1rem;
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
+            50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.3); }
         }
-
-        /* Prevent system font override issues */
-        h1, h2, h3, p, span, button, input {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-        }
-
-        /* Shake animation for incorrect password entry */
+        .animate-pulse-glow { animation: pulse-glow 3s infinite; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
             20%, 40%, 60%, 80% { transform: translateX(6px); }
         }
-        .shake-element {
-            animation: shake 0.4s ease-in-out;
-        }
-
-        /* Smooth glow effects */
-        .gold-glow {
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
-        }
-
-        /* Canvas element settings */
-        #gridCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .relative-content {
-            position: relative;
-            z-index: 10;
-        }
+        .shake-element { animation: shake 0.4s ease-in-out; }
     </style>
 </head>
-<body class="bg-brand-dark text-gray-100 min-h-screen flex flex-col justify-between">
+<body class="bg-brand-dark min-h-screen font-sans antialiased relative">
 
-    <!-- Interactive Grid Canvas -->
-    <canvas id="gridCanvas" class="no-print"></canvas>
+    <!-- Webhooks / API -->
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbwUPnhj0leETYDP86FpvOOtsyF1Oqa8GgcBm-spsX9xcLvQE2F4LDnjR7IUUsbpw7uQ/exec";
+        const LOGGING_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw5XeS-cpbP8vBrdCM32ZR5cK3kxf66TpdVC8NyWNK4HbYqxh8eWFqN0U0xss8zuWZq/exec";
+        let globalProperties = [];
+        let activePropertyId = null;
+    </script>
 
-    <!-- MAIN PORTAL CONTENT WRAPPER -->
-    <div class="relative-content flex-grow flex flex-col justify-between">
-        
-        <!-- HEADER -->
-        <header class="w-full px-4 py-8 md:py-10">
-            <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-white/10 pb-8">
-                <!-- Branding Container - Return home action bound directly -->
-                <a href="./" class="flex items-center gap-4 hover:opacity-90 active:scale-95 duration-150 transition-all cursor-pointer z-20">
-                    <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" 
-                         alt="Total Cash Home Buyers Logo" 
-                         class="h-16 md:h-20 w-auto object-contain"
-                         onerror="fallbackLogo(this)">
-                </a>
-                <!-- Portal Tag -->
-                <div class="text-right flex flex-col items-center sm:items-end">
-                    <span class="text-xs uppercase tracking-widest text-indigo-400 font-semibold">Underwriting Division</span>
-                    <span class="text-xs text-gray-400 mt-1.5 flex items-center gap-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-brand-emerald animate-pulse"></span>
-                        Secure Broker Network
-                    </span>
+    <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10" style="pointer-events: none;"></canvas>
+
+    <div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 relative shadow-2xl" id="modalBox">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-6">
+                <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="lockIconContainer">
+                    <svg id="lockIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
+                <h3 class="text-xl font-bold text-white mb-1">Verification Required</h3>
+                <p class="text-xs text-gray-400">Please verify identity and enter specialized key</p>
             </div>
-        </header>
-
-        <!-- WELCOME HERO SECTION -->
-        <main class="max-w-6xl mx-auto px-4 py-12 w-full flex-grow flex flex-col justify-center">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6">
-                    Exclusive Portfolio Portal
-                </h1>
-                <p class="text-gray-300 text-base md:text-xl font-medium leading-relaxed">
-                    Select an Active Listing Below Using Your Access Key
-                </p>
-            </div>
-
-            <!-- PROPERTY CARD GRID -->
-            <div id="propertyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center">
-                <!-- Dynamic cards populated by Javascript config -->
-            </div>
-        </main>
-
-        <!-- SECURE PASSWORD GATEWAY MODAL -->
-        <div id="passwordModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden">
-            <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 md:p-8 relative shadow-2xl gold-glow transform transition-all scale-95 duration-200" id="modalBox">
-                
-                <!-- Close Button -->
-                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <div class="space-y-4">
+                <input type="email" id="emailInput" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                <input type="password" id="accessKeyInput" placeholder="Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden">Incorrect security authorization code.</p>
+                <button onclick="verifyKey()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    Unlock Property Analysis
                 </button>
-
-                <!-- Modal Header -->
-                <div class="text-center mb-6">
-                    <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="lockIconContainer">
-                        <!-- Locked Padlock SVG -->
-                        <svg id="lockIcon" class="w-8 h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg md:text-xl font-bold text-white mb-1" id="modalTitle">Verification Required</h3>
-                    <p class="text-xs text-gray-400" id="modalSubtitle">Please enter your specialized key</p>
-                </div>
-
-                <!-- Input Field Wrapper -->
-                <div class="space-y-4">
-                    <div class="relative">
-                        <input type="password" 
-                               id="accessKeyInput" 
-                               placeholder="Access Key" 
-                               class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                               onkeydown="if(event.key === 'Enter') verifyKey()">
-                    </div>
-                    
-                    <!-- Feedback Message -->
-                    <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden">
-                        Incorrect security authorization code. Please try again.
-                    </p>
-
-                    <!-- Submit Button -->
-                    <button onclick="verifyKey()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-                        Unlock Portfolio Link
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
-                </div>
             </div>
         </div>
-
-        <!-- FOOTER -->
-        <footer class="w-full px-4 py-6 md:py-8 border-t border-white/10 mt-12 bg-black/40">
-            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-                <!-- Contact Methods on a single horizontal row -->
-                <div class="flex flex-row items-center gap-6 text-xs sm:text-sm text-gray-400 order-2 md:order-1">
-                    <a href="mailto:Carlos@totalchb.com" class="hover:text-white transition-colors flex items-center gap-2.5">
-                        <!-- Email SVG -->
-                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        Carlos@totalchb.com
-                    </a>
-                    <span class="text-white/20">|</span>
-                    <a href="tel:+17035854331" class="hover:text-white transition-colors flex items-center gap-2.5">
-                        <!-- Phone SVG -->
-                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1.3 1.3 0 01-.321.988l-1.305 1.305a12.937 12.937 0 005.414 5.414l1.305-1.305a1.3 1.3 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        +1 (703) 585-4331
-                    </a>
-                </div>
-
-                <!-- Footer Circle Icon Badge, Rights and Trademark Details in single line -->
-                <div class="flex flex-row items-center gap-4 text-[10px] text-gray-500 order-1 md:order-2">
-                    <div class="flex items-center gap-2">
-                        <img src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png" alt="TCHB Icon Badge" class="h-6 w-auto" onerror="fallbackIcon(this)">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Total Cash Home Buyers</span>
-                    </div>
-                    <span class="hidden md:inline text-white/20">•</span>
-                    <span>© 2026 Transaction Underwriting Division.</span>
-                </div>
-            </div>
-        </footer>
-
     </div>
 
-    <!-- CONFIGURATION & SCRIPTING ENGINES -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+        <header class="text-center mb-16">
+            <div class="inline-flex justify-center items-center mb-6 w-full">
+                <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" alt="Total Cash Home Buyers" class="h-24 md:h-28 w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-sm font-semibold tracking-[0.2em] text-indigo-400 uppercase mb-2">Investor Network & Underwriting</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+                Property <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">Portfolio</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-gray-400 text-sm md:text-base">
+                Secure access gateway to proprietary underwriting models, comparative analytics, and joint-venture structures.
+            </p>
+        </header>
+
+        <div id="loadingIndicator" class="text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
+            <p class="text-gray-400 font-mono text-sm tracking-widest uppercase">Syncing Live Database...</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertyGrid">
+            <!-- Dynamic Cards Will Inject Here -->
+        </div>
+
+        <footer class="mt-24 text-center border-t border-white/10 pt-8 pb-12">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <img class="w-6 h-6 grayscale opacity-50" src="https://i.postimg.cc/47YwXN6z/TCHB-ICON-1-white.png" alt="TCHB Icon">
+            </div>
+            <p class="text-xs text-gray-500">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
+            <p class="text-[10px] text-gray-600 mt-2 max-w-md mx-auto">Access restricted to verified partners. All data contained within is proprietary and subject to non-disclosure agreements.</p>
+        </footer>
+    </div>
+
     <script>
-        const PROPOSAL_PORTAL_CONFIG = {
-            properties: [
-                {
-                    id: "locksley",
-                    address: "9 Locksley Ct",
-                    cityState: "Bedford, IN 47421",
-                    badge: "Subject-To - 3.250% Sub2",
-                    features: [
-                        "Sub2 Loan: $230,611.18",
-                        "Monthly Cashflow Saved: $404.16",
-                        "Lifetime Interest Saved: $195,525.56"
-                    ],
-                    path: "./9-locksley-ct/", 
-                    password: "larry9" 
-                },
-                {
-                    id: "mainstreet",
-                    address: "123 Main Street",
-                    cityState: "Dallas, TX 75201",
-                    badge: "Direct Cash Buyout",
-                    features: [
-                        "Purchase Price: $345,000.00",
-                        "Close Timeline: 7 Days",
-                        "No Realtor Commissions or Fees"
-                    ],
-                    path: "./123-main-street/",
-                    password: "mainstreetdeal"
-                },
-                {
-                    id: "oaklane",
-                    address: "456 Oak Lane",
-                    cityState: "Tampa, FL 33602",
-                    badge: "Seller Finance - 4.000%",
-                    features: [
-                        "Purchase Price: $185,420.00",
-                        "Seller Carryback: 90% LTV",
-                        "Monthly Principal & Interest Fixed"
-                    ],
-                    path: "./456-oak-lane/",
-                    password: "oaklanebroker"
-                },
-                {
-                    id: "pineroad",
-                    address: "789 Pine Road",
-                    cityState: "Los Angeles, CA 90012",
-                    badge: "Creative Finance Wrap",
-                    features: [
-                        "Wrap Loan Amount: $512,000.00",
-                        "Down Payment: 10% ($51,200)",
-                        "Balloon Payment Terms: None"
-                    ],
-                    path: "./789-pine-road/",
-                    password: "pineroadbroker"
-                },
-                {
-                    id: "mapledrive",
-                    address: "101 Maple Drive",
-                    cityState: "Buffalo, NY 14202",
-                    badge: "Lease Option - High Yield",
-                    features: [
-                        "Monthly Option Payment: $2,200",
-                        "Equity Rent Credit: 20%",
-                        "Option Term: 24 Months"
-                    ],
-                    path: "./101-maple-drive/",
-                    password: "mapledrivebroker"
-                },
-                {
-                    id: "birchcourt",
-                    address: "202 Birch Court",
-                    cityState: "Naperville, IL 60540",
-                    badge: "Wholesale - Max Discount",
-                    features: [
-                        "Buy Price: $215,900.00",
-                        "Estimated ARV: $315,000.00",
-                        "Instant Equity Spread: $99,100.00"
-                    ],
-                    path: "./202-birch-court/",
-                    password: "birchcourtbroker"
+        // ----------------------------------------------------
+        // THEME MAPPERS
+        // ----------------------------------------------------
+        function getStatusTheme(status) {
+            const s = (status || '').toUpperCase();
+            if (s === 'SOLD') return { bg: 'bg-brand-crimson/10', text: 'text-brand-crimson', border: 'border-brand-crimson/20', dot: '🔴', label: 'Sold / Closed', locked: true };
+            if (s === 'PENDING') return { bg: 'bg-brand-gold/10', text: 'text-brand-gold', border: 'border-brand-gold/20', dot: '🟡', label: 'Under Contract', locked: false, pulse: 'animate-pulse' };
+            return { bg: 'bg-brand-emerald/10', text: 'text-brand-emerald', border: 'border-brand-emerald/20', dot: '🟢', label: 'Available', locked: false };
+        }
+
+        function getDealTheme(type) {
+            const t = (type || '').toLowerCase();
+            if (t === 'creative') return { class: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20', glow: 'border-t-indigo-500', label: 'Subject-To / Creative' };
+            if (t === 'wholesale') return { class: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', glow: 'border-t-emerald-500', label: 'Wholesale' };
+            if (t === 'fix_flip') return { class: 'text-blue-400 bg-blue-500/10 border-blue-500/20', glow: 'border-t-blue-500', label: 'Fix & Flip' };
+            if (t === 'novation') return { class: 'text-amber-400 bg-amber-500/10 border-amber-500/20', glow: 'border-t-amber-500', label: 'Novation JV' };
+            if (t === 'seller_finance') return { class: 'text-purple-400 bg-purple-500/10 border-purple-500/20', glow: 'border-t-purple-500', label: 'Seller Financed' };
+            if (t === 'rental') return { class: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20', glow: 'border-t-cyan-500', label: 'Turnkey / Rental' };
+            return { class: 'text-gray-400 bg-gray-500/10 border-gray-500/20', glow: 'border-t-gray-500', label: 'Investment Deal' };
+        }
+
+        // ----------------------------------------------------
+        // LOAD LIVE GOOGLE SHEET DATA
+        // ----------------------------------------------------
+        async function loadProperties() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                document.getElementById('loadingIndicator').style.display = 'none';
+
+                if (data.error) {
+                    document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400">Error connecting to database: ${data.error}</div>`;
+                    return;
                 }
-            ]
-        };
 
-        let activePropertyId = null;
-
-        // Image Load Fail-safes
-        function fallbackLogo(img) {
-            img.style.display = 'none';
-            const container = img.parentNode;
-            if (!container.querySelector('.svg-logo-fallback')) {
-                container.insertAdjacentHTML('beforeend', `
-                    <div class="svg-logo-fallback flex items-center gap-2">
-                        <svg class="w-12 h-12 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                        </svg>
-                        <span class="text-white font-extrabold text-2xl tracking-tight leading-none flex flex-col">
-                            TOTAL CASH <span class="text-xs text-indigo-400 font-semibold tracking-widest mt-1">HOME BUYERS</span>
-                        </span>
-                    </div>
-                `);
+                globalProperties = data.properties || [];
+                renderCards();
+            } catch (err) {
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400">Failed to load property data.</div>`;
             }
         }
 
-        function fallbackIcon(img) {
-            img.style.display = 'none';
-            const container = img.parentNode;
-            if (!container.querySelector('.svg-icon-fallback')) {
-                container.insertAdjacentHTML('beforeend', `
-                    <svg class="svg-icon-fallback w-6 h-6 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M8 12h8m-4-4v8"/>
-                    </svg>
-                `);
-            }
-        }
-
-        function buildPropertyCards() {
+        function renderCards() {
             const grid = document.getElementById('propertyGrid');
             grid.innerHTML = '';
 
-            PROPOSAL_PORTAL_CONFIG.properties.forEach(prop => {
-                const card = document.createElement('div');
-                card.className = "fallback-card-container border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-500/50 hover:shadow-[0_20px_40px_rgba(99,102,241,0.15)] hover:-translate-y-1 relative overflow-hidden group flex flex-col justify-between";
+            globalProperties.forEach(prop => {
+                const status = getStatusTheme(prop.Status);
+                const deal = getDealTheme(prop.Deal_Type);
+                const isLocked = status.locked;
                 
-                const featureList = prop.features.map(feat => `
-                    <li class="flex items-center gap-2 text-xs text-gray-300">
-                        <svg class="w-4 h-4 text-brand-emerald shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                        ${feat}
-                    </li>
-                `).join('');
+                const cardStateClass = isLocked ? "opacity-60 grayscale cursor-not-allowed" : "hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(79,70,229,0.15)] animate-pulse-glow cursor-pointer";
+                const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700" : "bg-white/5 hover:bg-indigo-600 text-white border border-white/10 hover:border-indigo-500 shadow-lg";
+                const btnText = isLocked ? "Archive Locked" : "View Analytics & Metrics &rarr;";
+                
+                const clickHandler = isLocked ? "" : `onclick="openModal('${prop.Property_ID}')"`;
 
-                card.innerHTML = `
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full">
-                                ${prop.badge}
+                const cardHTML = `
+                    <div class="bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-6 transition-all duration-300 flex flex-col ${cardStateClass}" ${clickHandler}>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${deal.class}">
+                                ${deal.label}
                             </span>
-                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-gray-400 group-hover:text-indigo-400 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                            <span class="text-xl font-bold text-white select-none filter blur-[6px] pointer-events-none tracking-wide">${prop.address}</span>
-                            <span class="text-[9px] uppercase font-semibold px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded flex items-center gap-1 shrink-0 select-none">
-                                <svg class="w-2.5 h-2.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                Locked Address
+                            <span class="flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border ${status.bg} ${status.text} ${status.border} ${status.pulse || ''}">
+                                ${status.dot} ${status.label}
                             </span>
                         </div>
-                        <p class="text-xs text-gray-400 mb-6">${prop.cityState}</p>
+                        
+                        <div class="mb-6 flex-grow">
+                            <h3 class="text-xl font-bold text-white mb-1 truncate">${prop.Address}</h3>
+                            <p class="text-sm text-gray-400 font-mono">${prop.City_State}</p>
+                        </div>
 
-                        <ul class="space-y-2.5 mb-8 border-t border-white/5 pt-4">
-                            ${featureList}
-                        </ul>
+                        <div class="space-y-3 mb-6">
+                            ${[prop.Portal_Feature_1, prop.Portal_Feature_2, prop.Portal_Feature_3].filter(f => f).map(feature => `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                    <span class="text-sm text-gray-300 font-medium">${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <button class="w-full mt-auto py-3 px-4 rounded-xl font-semibold transition-all duration-300 text-sm ${btnStateClass}">
+                            ${btnText}
+                        </button>
                     </div>
-
-                    <button onclick="openModal('${prop.id}')" class="w-full py-3 px-4 bg-white/5 border border-white/10 rounded-xl font-semibold text-xs tracking-wider uppercase text-white hover:bg-indigo-600 hover:border-transparent hover:shadow-[0_10px_20px_rgba(99,102,241,0.2)] transition-all duration-300">
-                        Unlock Proposal Analysis
-                    </button>
                 `;
-                grid.appendChild(card);
+                grid.innerHTML += cardHTML;
             });
         }
 
-        function openModal(propertyId) {
-            activePropertyId = propertyId;
-            document.getElementById('modalSubtitle').innerText = "Please enter your specialized key";
+        // ----------------------------------------------------
+        // GATE MODAL & SECURITY
+        // ----------------------------------------------------
+        function openModal(id) {
+            activePropertyId = id;
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('emailInput').value = '';
             document.getElementById('accessKeyInput').value = '';
             document.getElementById('errorMessage').classList.add('hidden');
-            
-            const lockIcon = document.getElementById('lockIcon');
-            lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
-            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
-            document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
-
-            const modal = document.getElementById('passwordModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('modalBox').classList.remove('scale-95');
-                document.getElementById('modalBox').classList.add('scale-100');
-                document.getElementById('accessKeyInput').focus();
-            }, 50);
+            document.getElementById('emailInput').focus();
         }
 
         function closeModal() {
-            document.getElementById('modalBox').classList.remove('scale-100');
-            document.getElementById('modalBox').classList.add('scale-95');
-            setTimeout(() => {
-                document.getElementById('passwordModal').classList.add('hidden');
-                activePropertyId = null;
-            }, 150);
+            document.getElementById('authModal').classList.add('hidden');
+            activePropertyId = null;
         }
 
         function verifyKey() {
-            const prop = PROPOSAL_PORTAL_CONFIG.properties.find(p => p.id === activePropertyId);
+            const prop = globalProperties.find(p => p.Property_ID === activePropertyId);
+            const emailInput = document.getElementById('emailInput');
+            const emailVal = emailInput ? emailInput.value.trim() : "Unknown";
             const inputVal = document.getElementById('accessKeyInput').value.trim();
             const modalBox = document.getElementById('modalBox');
             const errorMsg = document.getElementById('errorMessage');
 
             if (!prop) return;
 
-            if (inputVal === prop.password) {
+            let attemptStatus = "FAILED";
+            let attemptReason = "Unknown Error";
+            let isAuthorized = false;
+
+            if (!emailVal || !emailVal.includes('@')) {
+                attemptReason = "Invalid or Missing Email";
+                errorMsg.innerText = "Please enter a valid email address.";
+            } else if (inputVal !== prop.Access_Password) {
+                attemptReason = "Incorrect Security Key";
+                errorMsg.innerText = "Incorrect security authorization code. Please try again.";
+            } else {
+                attemptStatus = "SUCCESS";
+                attemptReason = "Valid Credentials";
+                isAuthorized = true;
+            }
+
+            // Webhook Logger
+            if (typeof LOGGING_WEBHOOK_URL !== 'undefined' && LOGGING_WEBHOOK_URL) {
+                fetch(LOGGING_WEBHOOK_URL, {
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'log_access', timestamp: Date.now(), email: emailVal, propertyId: prop.Property_ID, keyUsed: inputVal, status: attemptStatus, reason: attemptReason })
+                }).catch(err => console.log("Logging silently failed", err));
+            }
+
+            if (isAuthorized) {
                 errorMsg.classList.add('hidden');
                 const lockIcon = document.getElementById('lockIcon');
-                sessionStorage.setItem('tchb_access_granted_' + prop.id, 'true');
+                sessionStorage.setItem('tchb_access_granted_' + prop.Property_ID, 'true');
                 
                 lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
                 lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
                 document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
                 setTimeout(() => {
-                    window.location.href = prop.path;
+                    window.location.href = `proposal.html?id=${prop.Property_ID}`;
                 }, 800);
             } else {
                 errorMsg.classList.remove('hidden');
                 modalBox.classList.add('shake-element');
-                document.getElementById('accessKeyInput').focus();
-                setTimeout(() => {
-                    modalBox.classList.remove('shake-element');
-                }, 400);
+                document.getElementById(emailVal && emailVal.includes('@') ? 'accessKeyInput' : 'emailInput').focus();
+                setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
             }
         }
 
-
-        /******************************************************************
-         * DYNAMIC CANVASES GRID ENGINE
-         ******************************************************************/
+        // ----------------------------------------------------
+        // ANIMATION ENGINE (EMERALD, CRIMSON, INDIGO)
+        // ----------------------------------------------------
         const canvas = document.getElementById('gridCanvas');
         const ctx = canvas.getContext('2d');
         let gridSize = 55;
-        let mouse = { x: -1000, y: -1000, active: false };
         let sparks = [];
-        let fadingLines = []; 
-        let lastInteraction = Date.now();
-        let autoSparkInterval = 3500; // Fire an auto-spark every 3.5s of idle time
-        let lastAutoSpark = 0;
+        let lastSpanSpawn = 0;
+        const brandColors = [
+            { r: 79, g: 70, b: 229 },  // Indigo
+            { r: 220, g: 38, b: 38 },  // Crimson
+            { r: 16, g: 185, b: 129 }  // Emerald
+        ];
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        /* Update dynamic timers on interaction... */
-        function registerInteraction(x, y, activeState) {
-            mouse.x = x;
-            mouse.y = y;
-            mouse.active = activeState;
-            lastInteraction = Date.now();
-        }
-
-        window.addEventListener('mousemove', (e) => registerInteraction(e.clientX, e.clientY, true));
-        window.addEventListener('mouseleave', () => mouse.active = false);
-
-        window.addEventListener('touchstart', (e) => {
-            if (e.touches.length > 0) {
-                registerInteraction(e.touches[0].clientX, e.touches[0].clientY, true);
+        function createSpark(x = null, y = null, isClick = false) {
+            const isHorizontal = Math.random() > 0.5;
+            let startX, startY, dirX, dirY;
+            
+            if (isClick && x !== null && y !== null) {
+                startX = Math.floor(x / gridSize) * gridSize; startY = Math.floor(y / gridSize) * gridSize;
+                dirX = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0;
+                dirY = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
+            } else {
+                if (isHorizontal) {
+                    startX = Math.random() < 0.5 ? 0 : canvas.width; startY = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
+                    dirX = startX === 0 ? 1 : -1; dirY = 0;
+                } else {
+                    startX = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize; startY = Math.random() < 0.5 ? 0 : canvas.height;
+                    dirX = 0; dirY = startY === 0 ? 1 : -1;
+                }
             }
-        }, { passive: true });
+            
+            const color = brandColors[Math.floor(Math.random() * brandColors.length)];
 
-        window.addEventListener('touchmove', (e) => {
-            if (e.touches.length > 0) {
-                registerInteraction(e.touches[0].clientX, e.touches[0].clientY, true);
-            }
-        }, { passive: true });
-
-        window.addEventListener('touchend', () => mouse.active = false);
-
-        window.addEventListener('click', (e) => {
-            lastInteraction = Date.now();
-            const isInteractive = e.target.closest('button, a, input, select, textarea, canvas, .fallback-card-container, #modalBox, header, img');
-            if (!isInteractive) {
-                triggerUniformPulse(e.clientX, e.clientY);
-            }
-        });
-
-        function triggerUniformPulse(clickX, clickY) {
-            const gridX = Math.round(clickX / gridSize) * gridSize;
-            const gridY = Math.round(clickY / gridSize) * gridSize;
-
-            const directions = [
-                { x: 1, y: 0 },
-                { x: -1, y: 0 },
-                { x: 0, y: 1 },
-                { x: 0, y: -1 }
-            ];
-
-            directions.forEach(dir => {
-                sparks.push({
-                    startX: gridX,
-                    startY: gridY,
-                    targetX: gridX + dir.x * gridSize,
-                    targetY: gridY + dir.y * gridSize,
-                    dirX: dir.x,
-                    dirY: dir.y,
-                    progress: 0,
-                    speed: 0.012, 
-                    life: 1.0,
-                    decay: 0.09
-                });
+            sparks.push({
+                startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize,
+                dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01,
+                history: [], color: color
             });
         }
 
-        function checkIdleActivity() {
-            let now = Date.now();
-            if (now - lastInteraction > 5000) {
-                if (now - lastAutoSpark > autoSparkInterval) {
-                    const cols = Math.floor(canvas.width / gridSize);
-                    const rows = Math.floor(canvas.height / gridSize);
-                    if (cols > 0 && rows > 0) {
-                        const randX = Math.floor(Math.random() * cols) * gridSize;
-                        const randY = Math.floor(Math.random() * rows) * gridSize;
-                        triggerUniformPulse(randX, randY);
-                    }
-                    lastAutoSpark = now;
-                }
-            }
+        canvas.addEventListener('mousedown', (e) => { for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); });
+
+        function drawSparks() {
+            ctx.lineCap = 'round';
+            sparks.forEach(spark => {
+                const c = spark.color;
+                ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY);
+                ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress);
+                ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke();
+
+                spark.history.forEach((point, index) => {
+                    ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY);
+                    ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`;
+                    ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke();
+                });
+
+                ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath();
+                const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress;
+                const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress;
+                ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`;
+                ctx.fill(); ctx.shadowBlur = 0;
+            });
         }
 
-        function animateGrid() {
-            checkIdleActivity();
+        function animateGrid(timestamp) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // 1. Draw static grid
-            ctx.strokeStyle = 'rgba(79, 70, 229, 0.16)'; 
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            for (let x = 0; x < canvas.width; x += gridSize) {
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, canvas.height);
-            }
-            for (let y = 0; y < canvas.height; y += gridSize) {
-                ctx.moveTo(0, y);
-                ctx.lineTo(canvas.width, y);
-            }
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)'; ctx.lineWidth = 1; ctx.beginPath();
+            for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
+            for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
             ctx.stroke();
 
-            // 2. Halo Glow
-            if (mouse.active) {
-                let haloGradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180);
-                haloGradient.addColorStop(0, 'rgba(79, 70, 229, 0.15)'); 
-                haloGradient.addColorStop(0.5, 'rgba(220, 38, 38, 0.04)'); 
-                haloGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-                
-                ctx.fillStyle = haloGradient;
-                ctx.beginPath();
-                ctx.arc(mouse.x, mouse.y, 180, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            drawSparks();
+            if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; }
 
-            // 3. Render Intertwined Color Fading Trace Lines
-            for (let i = fadingLines.length - 1; i >= 0; i--) {
-                let line = fadingLines[i];
-                
-                ctx.beginPath();
-                ctx.moveTo(line.x1, line.y1);
-                ctx.lineTo(line.x2, line.y2);
-
-                let gradient = ctx.createLinearGradient(line.x1, line.y1, line.x2, line.y2);
-                gradient.addColorStop(0, `rgba(129, 140, 248, ${line.alpha * 0.95})`); // Indigo/Blue
-                gradient.addColorStop(0.35, `rgba(168, 85, 247, ${line.alpha * 0.85})`); // Purple/Violet
-                gradient.addColorStop(0.7, `rgba(236, 72, 153, ${line.alpha * 0.75})`); // Hot Pink
-                gradient.addColorStop(1, `rgba(220, 38, 38, ${line.alpha * 0.45})`); // Crimson/Red
-
-                ctx.strokeStyle = gradient; 
-                ctx.lineWidth = 5;
-                ctx.stroke();
-
-                ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha})`;
-                ctx.lineWidth = 1.2;
-                ctx.stroke();
-
-                line.alpha -= line.decay;
-                if (line.alpha <= 0) {
-                    fadingLines.splice(i, 1);
-                }
-            }
-
-            // 4. Draw active sparks
             for (let i = sparks.length - 1; i >= 0; i--) {
                 let spark = sparks[i];
-                spark.progress += spark.speed;
+                spark.progress += spark.speed; spark.life -= spark.decay;
 
-                let currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress;
-                let currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress;
+                if (spark.history.length > 5) spark.history.shift();
+                spark.history.push({
+                    x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress,
+                    nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1)
+                });
 
-                ctx.beginPath();
-                ctx.moveTo(spark.startX, spark.startY);
-                ctx.lineTo(currentX, currentY);
-                ctx.strokeStyle = `rgba(167, 139, 250, 0.95)`;
-                ctx.lineWidth = 2.5;
-                ctx.stroke();
-
-                ctx.beginPath();
-                ctx.arc(currentX, currentY, 3.5, 0, Math.PI * 2);
-                ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = '#8b5cf6';
-                ctx.shadowBlur = 10;
-                ctx.fill();
-                ctx.shadowBlur = 0; 
-
-                if (spark.progress >= 1.0) {
-                    fadingLines.push({
-                        x1: spark.startX,
-                        y1: spark.startY,
-                        x2: spark.targetX,
-                        y2: spark.targetY,
-                        alpha: 1.0,
-                        decay: 0.007 
-                    });
-
-                    spark.life -= spark.decay;
-
-                    if (spark.life > 0) {
-                        spark.startX = spark.targetX;
-                        spark.startY = spark.targetY;
-                        spark.progress = 0;
-
-                        if (Math.random() < 0.32 && sparks.length < 32) {
-                            let isHorizontal = spark.dirX !== 0;
-                            let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
-                            let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0;
-
-                            sparks.push({
-                                startX: spark.startX,
-                                startY: spark.startY,
-                                targetX: spark.startX + branchDirX * gridSize,
-                                targetY: spark.startY + branchDirY * gridSize,
-                                dirX: branchDirX,
-                                dirY: branchDirY,
-                                progress: 0,
-                                speed: spark.speed,
-                                life: spark.life * 0.75,
-                                decay: spark.decay
-                            });
-                        }
-
-                        spark.targetX = spark.startX + spark.dirX * gridSize;
-                        spark.targetY = spark.startY + spark.dirY * gridSize;
-                    } else {
-                        sparks.splice(i, 1);
+                if (spark.life <= 0) { sparks.splice(i, 1); } 
+                else if (spark.progress >= 1) {
+                    spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0;
+                    if (Math.random() < 0.3 && sparks.length < 32) {
+                        let isHorizontal = spark.dirX !== 0;
+                        let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
+                        let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0;
+                        sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color });
                     }
+                    spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize;
                 }
             }
-
             requestAnimationFrame(animateGrid);
         }
 
         window.onload = function() {
-            resizeCanvas();
-            buildPropertyCards();
-            animateGrid();
+            loadProperties();
+            requestAnimationFrame(animateGrid);
         };
-
-        window.onresize = resizeCanvas;
     </script>
 </body>
 </html>
