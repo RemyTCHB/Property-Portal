@@ -110,7 +110,7 @@
                 <input type="password" id="accessKeyInput" placeholder="Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
                 <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden">Incorrect security authorization code.</p>
                 <button onclick="verifyKey()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-                    Unlock Property Analysis
+                    Unlock Proposal
                 </button>
             </div>
         </div>
@@ -224,7 +224,7 @@
                 
                 // 2. Added cursor-not-allowed / cursor-pointer explicitly to the button
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed" : `bg-white/5 text-white border border-white/10 shadow-lg ${deal.btnHover} cursor-pointer`;
-                const btnText = isLocked ? "Archive Locked" : "View Analytics & Metrics &rarr;";
+                const btnText = isLocked ? "Locked" : "View Proposal &rarr;";
                 
                 // 3. Click handler will be bound to the button instead of the wrapper
                 const clickHandler = isLocked ? "" : `onclick="openModal('${prop.Property_ID}')"`;
