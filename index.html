@@ -39,9 +39,27 @@
         .shake-element { animation: shake 0.4s ease-in-out; }
 
         #mouseGlow {
-            position: fixed; inset: 0; pointer-events: none; z-index: 1;
-            background: radial-gradient(220px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(79,70,229,0.15) 0%, rgba(16,185,129,0.08) 40%, rgba(220,38,38,0.02) 60%, transparent 80%);
+            position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
+            width: 220px; height: 220px;
+            transform: translate(calc(var(--mouse-x, 50vw) - 110px), calc(var(--mouse-y, 50vh) - 110px));
             opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
+        }
+        #mouseGlow::before {
+            content: ""; position: absolute; inset: 0; border-radius: 50%;
+            background: radial-gradient(circle at center, 
+                transparent 15%, 
+                rgba(16, 185, 129, 0.25) 35%,  /* Emerald Inner */
+                rgba(79, 70, 229, 0.25) 60%,   /* Indigo Middle */
+                rgba(220, 38, 38, 0.25) 85%,   /* Crimson Outer */
+                transparent 100%
+            );
+            filter: blur(16px);
+            opacity: 0.7;
+            animation: color-cycle 5s linear infinite;
+        }
+        @keyframes color-cycle {
+            0% { filter: blur(16px) hue-rotate(0deg); }
+            100% { filter: blur(16px) hue-rotate(360deg); }
         }
         
         body, a, button, input, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
