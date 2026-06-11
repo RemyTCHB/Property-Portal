@@ -115,7 +115,7 @@
 
   <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10 no-print" style="pointer-events: none;"></canvas>
 
-  <div id="fullPageLoader" class="fixed inset-0 z-40 bg-brand-dark flex flex-col items-center justify-center">
+  <div id="fullPageLoader" class="fixed inset-0 z-[110] bg-brand-dark flex flex-col items-center justify-center">
       <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500 mb-4"></div>
       <p class="text-indigo-400 font-bold uppercase tracking-widest animate-pulse" id="loaderText">Constructing Proposal...</p>
   </div>
@@ -395,7 +395,7 @@
                 propertyId: urlPropId,
                 accessKeyUsed: keyInput,
                 otpSent: gateExpectedOTP, 
-                status: "SUCCESS",
+                status: "OTP SENT",
                 reason: "OTP Sent Successfully"
             });
 
