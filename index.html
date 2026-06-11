@@ -222,7 +222,7 @@
                 const deal = getDealTheme(prop.Deal_Type);
                 const isLocked = status.locked;
                 
-                const cardStateClass = "transition-all duration-500 hover:-translate-y-1";
+                const cardStateClass = `transition-all duration-500 hover:-translate-y-1 ${isLocked ? 'opacity-50 hover:opacity-80' : ''}`;
                 const dynamicHoverHalo = `onmouseover="this.style.boxShadow='0 20px 40px ${deal.halo}'" onmouseout="this.style.boxShadow='none'"`;
                 
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed" : `bg-white/5 text-white border border-white/10 shadow-lg ${deal.btnHover} cursor-pointer`;
