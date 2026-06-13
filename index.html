@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCHB Property Portal</title>
     <link rel="icon" type="image/svg+xml" href="icon.svg">
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    <script defer src="/_vercel/speed-insights/script.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -18,7 +13,7 @@
                     colors: {
                         brand: {
                             dark: '#0b0f19', card: 'rgba(17, 24, 39, 0.75)',
-                            purple: '#4f46e5', crimson: '#dc2626', emerald: '#10b981', gold: '#f59e0b'
+                            purple: '#4f46e5', crimson: '#dc2626', emerald: '#10b981', gold: '#f59e0b', cyan: '#06b6d4'
                         }
                     }
                 }
@@ -108,7 +103,6 @@
             50% { opacity: 0.4; }
         }
 
-        /* NEW LOADER STYLES */
         .gradient-ring-border {
             position: absolute;
             inset: 0;
@@ -174,7 +168,7 @@
 
     <div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
         <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 relative shadow-2xl" id="modalBox">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="text-center mb-6">
@@ -186,19 +180,19 @@
             </div>
             
             <div id="step1Container" class="space-y-4">
-                <input type="email" id="emailInput" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
-                <input type="password" id="accessKeyInput" placeholder="Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                <input type="email" id="emailInput" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-text">
+                <input type="password" id="accessKeyInput" placeholder="Access Key / Admin Pass" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-text">
             </div>
 
             <div id="step2Container" class="space-y-4 hidden mt-2">
                 <p class="text-xs text-brand-emerald text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
-                <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-xl focus:outline-none focus:ring-2 focus:ring-brand-emerald transition-all">
-                <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors">← Back To Edit Email</button>
+                <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-xl focus:outline-none focus:ring-2 focus:ring-brand-emerald transition-all cursor-text">
+                <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
             </div>
 
             <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Security Authorization Code.</p>
             
-            <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4">
+            <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer">
                 Send Verification Code
             </button>
         </div>
@@ -207,7 +201,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <header class="text-center mb-16">
             <div class="inline-flex justify-center items-center mb-6 w-full">
-                <img src="logo.svg" alt="Total Cash Home Buyers" class="h-24 md:h-28 w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300 object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+                <!-- Using placeholder if user replaces with dynamic link, assuming the logo url -->
+                <img src="logo.svg" alt="Total Cash Home Buyers" class="h-24 md:h-28 w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300 object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;" onerror="this.src='https://via.placeholder.com/200x80?text=TCHB+Logo'">
             </div>
             <p class="text-sm font-semibold tracking-[0.2em] text-indigo-400 uppercase mb-2">Investor Network</p>
             <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
@@ -222,7 +217,7 @@
             <div class="relative w-20 h-20 mb-8 flex items-center justify-center">
                 <div class="gradient-ring-glow z-0"></div>
                 <div class="gradient-ring-border z-10"></div>
-                <img src="icon.svg" alt="Loading" class="w-8 h-8 z-20 animate-icon-pulse object-contain" />
+                <img src="icon.svg" alt="Loading" class="w-8 h-8 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
             </div>
             <p class="font-mono text-sm tracking-widest uppercase animate-text-gradient-pulse">Syncing Live Database...</p>
         </div>
@@ -232,16 +227,16 @@
 
         <footer class="mt-24 text-center border-t border-white/10 pt-8 pb-12 flex flex-col items-center gap-2">
             <div class="flex items-center justify-center gap-2 mb-2">
-                <img class="w-6 h-6 opacity-50" src="icon.svg" alt="TCHB Icon">
+                <img class="w-6 h-6 opacity-50" src="icon.svg" alt="TCHB Icon" onerror="this.style.display='none'">
                 <span class="font-bold text-gray-400 text-xs">TOTAL CASH HOME BUYERS</span> <span class="text-gray-500 text-xs">•</span> <span class="text-gray-500 text-xs">Investor Network</span>
             </div>
             <div class="flex gap-4 justify-center text-xs mt-1 mb-4 text-gray-400">
-                <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5 cursor-pointer">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     Carlos@totalchb.com
                 </a> 
                 <span class="text-gray-700 hidden sm:inline">|</span> 
-                <a href="tel:+17035854331" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                <a href="tel:+17035854331" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5 cursor-pointer">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                     +1 (703) 585-4331
                 </a>
@@ -254,20 +249,27 @@
     <script>
         function getStatusTheme(status) {
             const s = (status || '').toUpperCase();
-            if (s === 'SOLD') return { bg: 'bg-brand-crimson/10', text: 'text-brand-crimson', border: 'border-brand-crimson/20', dot: '🔴', label: 'Sold / Closed', locked: true };
+            if (s === 'SOLD') return { bg: 'bg-brand-crimson/10', text: 'text-brand-crimson', border: 'border-brand-crimson/20', dot: '🔴', label: 'Sold', locked: true };
             if (s === 'PENDING') return { bg: 'bg-brand-gold/10', text: 'text-brand-gold', border: 'border-brand-gold/20', dot: '🟡', label: 'Under Contract', locked: false, pulse: 'animate-pulse' };
             return { bg: 'bg-brand-emerald/10', text: 'text-brand-emerald', border: 'border-brand-emerald/20', dot: '🟢', label: 'Available', locked: false };
         }
 
+        // Deal Colors adjusted per requests
         function getDealTheme(type) {
-            const t = (type || '').toLowerCase();
-            if (t === 'creative') return { class: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20', halo: 'rgba(79,70,229,0.15)', glow: 'border-t-indigo-500', btnHover: 'hover:bg-indigo-600 hover:border-indigo-500', label: 'Subject-To / Creative' };
-            if (t === 'wholesale') return { class: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', halo: 'rgba(16,185,129,0.15)', glow: 'border-t-emerald-500', btnHover: 'hover:bg-emerald-600 hover:border-emerald-500', label: 'Wholesale' };
-            if (t === 'fix_flip') return { class: 'text-blue-400 bg-blue-500/10 border-blue-500/20', halo: 'rgba(59,130,246,0.15)', glow: 'border-t-blue-500', btnHover: 'hover:bg-blue-600 hover:border-blue-500', label: 'Fix & Flip' };
-            if (t === 'novation') return { class: 'text-amber-400 bg-amber-500/10 border-amber-500/20', halo: 'rgba(245,158,11,0.15)', glow: 'border-t-amber-500', btnHover: 'hover:bg-amber-600 hover:border-amber-500', label: 'Novation JV' };
-            if (t === 'seller_finance') return { class: 'text-purple-400 bg-purple-500/10 border-purple-500/20', halo: 'rgba(168,85,247,0.15)', glow: 'border-t-purple-500', btnHover: 'hover:bg-purple-600 hover:border-purple-500', label: 'Seller Financed' };
-            if (t === 'rental') return { class: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20', halo: 'rgba(6,182,212,0.15)', glow: 'border-t-cyan-500', btnHover: 'hover:bg-cyan-600 hover:border-cyan-500', label: 'Turnkey / Rental' };
-            return { class: 'text-gray-400 bg-gray-500/10 border-gray-500/20', halo: 'rgba(156,163,175,0.15)', glow: 'border-t-gray-500', btnHover: 'hover:bg-gray-600 hover:border-gray-500', label: 'Investment Deal' };
+            const t = (type || '').toUpperCase();
+            
+            // If Deal is SUBJECT-TO / CREATIVE (Use Seller Financed Purple Color)
+            if (t.includes('SUBJECT-TO') || t.includes('CREATIVE')) {
+                return { class: 'text-purple-400 bg-purple-500/10 border-purple-500/20', halo: 'rgba(168,85,247,0.15)', glow: 'border-t-purple-500', btnHover: 'hover:bg-purple-600 hover:border-purple-500', label: 'SUBJECT-TO / CREATIVE' };
+            }
+            
+            // If Deal is Wholesale, Fix & Flip, or Turnkey Rental (Use Turnkey Cyan Color, Map as Wholesale / Off-Market on Index)
+            if (t.includes('WHOLESALE') || t.includes('FIX & FLIP') || t.includes('RENTAL') || t.includes('TURN KEY') || t.includes('TURNKEY')) {
+                return { class: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20', halo: 'rgba(6,182,212,0.15)', glow: 'border-t-cyan-500', btnHover: 'hover:bg-cyan-600 hover:border-cyan-500', label: 'WHOLESALE / OFF-MARKET' };
+            }
+            
+            // Fallback
+            return { class: 'text-gray-400 bg-gray-500/10 border-gray-500/20', halo: 'rgba(156,163,175,0.15)', glow: 'border-t-gray-500', btnHover: 'hover:bg-gray-600 hover:border-gray-500', label: 'INVESTMENT DEAL' };
         }
 
         async function loadProperties() {
@@ -326,7 +328,7 @@
                         <div class="space-y-3 mb-6">
                             ${[prop.Portal_Feature_1, prop.Portal_Feature_2, prop.Portal_Feature_3].filter(f => f).map(feature => `
                                 <div class="flex items-center gap-3">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                    <div class="w-1.5 h-1.5 rounded-full bg-purple-500"></div>
                                     <span class="text-sm text-gray-300 font-medium">${feature}</span>
                                 </div>
                             `).join('')}
@@ -388,6 +390,13 @@
                     sendWebhookEvent({ action: 'failed_otp_request', timestamp: Date.now(), email: emailVal, propertyId: prop.Property_ID, accessKeyUsed: inputVal, status: "ERROR", reason: "Invalid Email Address Format" });
                     return;
                 }
+                
+                // ADMIN OVERRIDE CHECK
+                if (emailVal.toLowerCase().endsWith('@totalchb.com') && inputVal === 'Portal@2026') {
+                    grantAccess(prop.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true);
+                    return;
+                }
+
                 if (inputVal !== prop.Access_Password) {
                     showError("Incorrect Security Authorization Code. Please Try Again.");
                     sendWebhookEvent({ action: 'failed_otp_request', timestamp: Date.now(), email: emailVal, propertyId: prop.Property_ID, accessKeyUsed: inputVal, status: "ERROR", reason: "Invalid Access Key" });
@@ -431,31 +440,40 @@
                     return;
                 }
 
-                document.getElementById('errorMessage').classList.add('hidden');
-                const lockIcon = document.getElementById('lockIcon');
-                sessionStorage.setItem('tchb_access_granted_' + prop.Property_ID, 'true');
-                
-                lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
-                lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
-                document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
-
-                btn.innerText = "Access Granted...";
-                btn.classList.replace("bg-indigo-600", "bg-brand-emerald");
-
-                sendWebhookEvent({ 
-                    action: 'log_access', 
-                    timestamp: Date.now(), 
-                    email: emailVal, 
-                    propertyId: prop.Property_ID,
-                    otpUsed: userOTP,
-                    status: "SUCCESS", 
-                    reason: "Access Granted" 
-                });
-
-                setTimeout(() => { window.location.href = `proposal.html?id=${prop.Property_ID}`; }, 800);
+                grantAccess(prop.Property_ID, emailVal, userOTP, 'Access Granted', false);
             }
         }
 
+        function grantAccess(propId, email, otpOrKeyUsed, reasonStr, isAdmin = false) {
+            const btn = document.getElementById('authButton');
+            document.getElementById('errorMessage').classList.add('hidden');
+            const lockIcon = document.getElementById('lockIcon');
+            
+            // Set session flags for Proposal Page
+            sessionStorage.setItem('tchb_access_granted_' + propId, 'true');
+            sessionStorage.setItem('tchb_email_' + propId, email); // Store for session tracking
+            
+            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
+            lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
+            document.getElementById('lockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+
+            btn.innerText = isAdmin ? "Admin Access Granted..." : "Access Granted...";
+            btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90";
+
+            sendWebhookEvent({ 
+                action: 'log_access', 
+                timestamp: Date.now(), 
+                email: email, 
+                propertyId: propId,
+                otpUsed: otpOrKeyUsed,
+                status: "SUCCESS", 
+                reason: reasonStr 
+            });
+
+            setTimeout(() => { window.location.href = `proposal.html?id=${propId}`; }, 800);
+        }
+
+        // Background Animation Matrix
         const canvas = document.getElementById('gridCanvas');
         const ctx = canvas.getContext('2d');
         let gridSize = 55; let sparks = []; let lastSpanSpawn = 0;
