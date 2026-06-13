@@ -172,7 +172,7 @@
         <div class="text-right flex flex-col items-center md:items-end">
           <span id="ui-badge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border mb-2 uppercase tracking-wide">...</span>
           <h2 id="ui-address" class="text-xl font-bold tracking-tight text-white">...</h2>
-          <p id="ui-citystate" class="text-xs text-gray-400 font-mono tracking-widest mt-1">...</p>
+          <p id="ui-citystate" class="text-xs text-gray-400 font-mono tracking-widest mt-1">... </p>
         </div>
       </header>
 
@@ -281,9 +281,9 @@
         </div>
     </div>
 
-    <!-- NARRATIVE BOXES -->
+    <!-- NARRATIVE BOXES (HUE FILLS APPLIED DYNAMICALLY VIA JS) -->
     <div id="narrative-container" class="print-break-inside-avoid flex flex-col gap-6 cursor-pointer mb-12">
-        <div class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:bg-gray-900/40 transition-all">
+        <div id="box-1-wrapper" class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
             <h4 id="ui-box-1-title" class="text-base font-extrabold text-white">...</h4>
@@ -291,7 +291,7 @@
           </div>
         </div>
 
-        <div class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:bg-gray-900/40 transition-all">
+        <div id="box-2-wrapper" class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
             <h4 id="ui-box-2-title" class="text-base font-extrabold text-white">...</h4>
@@ -301,7 +301,7 @@
     </div>
 
     <!-- SUBJECT-TO WEALTH MILESTONES (DYNAMIC) -->
-    <div id="creative-milestones" class="print-break-inside-avoid mt-12 mb-8 hidden-module">
+    <div id="creative-milestones" class="print-break-inside-avoid mb-12 hidden-module">
       <div class="bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 p-8 rounded-2xl border border-gray-800 text-center flex flex-col items-center">
         <div class="max-w-6xl mx-auto flex flex-col items-center">
           <div class="text-center mb-8">
@@ -345,7 +345,7 @@
     </div>
 
     <!-- RENTAL WEALTH MILESTONES (DYNAMIC) -->
-    <div id="rental-milestones" class="print-break-inside-avoid mt-12 mb-8 hidden-module">
+    <div id="rental-milestones" class="print-break-inside-avoid mb-12 hidden-module">
       <div class="bg-gradient-to-br from-cyan-950/30 to-brand-emerald/10 p-8 rounded-2xl border border-gray-800 text-center flex flex-col items-center">
         <div class="max-w-6xl mx-auto flex flex-col items-center">
           <div class="text-center mb-8">
@@ -355,19 +355,19 @@
           </div>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full justify-center">
+            <!-- Year 1 -->
+            <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 text-center flex flex-col justify-between">
+              <span class="text-xs font-bold text-cyan-400 tracking-wider uppercase block text-center">Year 1 Milestone</span>
+              <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y1-rent" class="text-xl font-bold text-white text-center">...</p></div>
+              <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y1-opex" class="text-lg font-bold text-red-400 text-center">...</p></div>
+              <div class="mt-3 text-center bg-cyan-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y1-noi" class="text-sm font-bold text-brand-emerald text-center">...</p></div>
+            </div>
             <!-- Year 5 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-cyan-400 tracking-wider uppercase block text-center">Year 5 Milestone</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y5-rent" class="text-xl font-bold text-white text-center">...</p></div>
               <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y5-opex" class="text-lg font-bold text-red-400 text-center">...</p></div>
               <div class="mt-3 text-center bg-cyan-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y5-noi" class="text-sm font-bold text-brand-emerald text-center">...</p></div>
-            </div>
-            <!-- Year 10 -->
-            <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 text-center flex flex-col justify-between">
-              <span class="text-xs font-bold text-cyan-400 tracking-wider uppercase block text-center">Year 10 Milestone</span>
-              <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y10-rent" class="text-xl font-bold text-white text-center">...</p></div>
-              <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y10-opex" class="text-lg font-bold text-red-400 text-center">...</p></div>
-              <div class="mt-3 text-center bg-cyan-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y10-noi" class="text-sm font-bold text-brand-emerald text-center">...</p></div>
             </div>
             <!-- Year 15 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 text-center flex flex-col justify-between">
@@ -415,18 +415,6 @@
           <div class="flex justify-center">
               <div class="bg-gray-900/40 p-6 rounded-2xl border border-gray-800 w-full max-w-2xl hover:border-cyan-500/30 transition-all">
               <div class="relative h-80 w-full chart-container-print flex justify-center"><canvas id="doughnutChart"></canvas></div>
-              </div>
-          </div>
-        </div>
-
-        <div id="module-rental-chart" class="hidden-module mb-12 cursor-pointer">
-          <div class="text-center mb-6 no-print md:block">
-              <span class="text-brand-emerald font-bold uppercase text-xs tracking-wider">Revenue Growth Projection</span>
-              <h3 class="text-2xl font-black text-white mt-1">Long-Term Gross Rental Income</h3>
-          </div>
-          <div class="flex justify-center">
-              <div class="bg-gray-900/40 p-6 rounded-2xl border border-gray-800 w-full hover:border-brand-emerald/30 transition-all">
-              <div class="relative h-80 w-full chart-container-print"><canvas id="rentalChartCanvas"></canvas></div>
               </div>
           </div>
         </div>
@@ -701,6 +689,19 @@
         document.getElementById('ui-box-1-title').innerText = data.box1Title; document.getElementById('ui-box-1-desc').innerText = data.box1Desc;
         document.getElementById('ui-box-2-title').innerText = data.box2Title; document.getElementById('ui-box-2-desc').innerText = data.box2Desc;
 
+        // Apply dynamic hue gradients to narrative boxes based on Deal Type
+        const b1 = document.getElementById('box-1-wrapper');
+        const b2 = document.getElementById('box-2-wrapper');
+        b1.className = b1.className.replace(/bg-gray-900\/20/g, '');
+        b2.className = b2.className.replace(/bg-gray-900\/20/g, '');
+        if (data.dealType === 'creative') {
+            b1.classList.add('bg-gradient-to-br', 'from-indigo-950/30', 'to-brand-crimson/10');
+            b2.classList.add('bg-gradient-to-br', 'from-indigo-950/30', 'to-brand-crimson/10');
+        } else {
+            b1.classList.add('bg-gradient-to-br', 'from-cyan-950/30', 'to-brand-emerald/10');
+            b2.classList.add('bg-gradient-to-br', 'from-cyan-950/30', 'to-brand-emerald/10');
+        }
+
         document.querySelectorAll('.hidden-module').forEach(el => el.classList.add('hidden-module'));
         if(currentDBRow.Status && currentDBRow.Status.toUpperCase() === 'SOLD') document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
 
@@ -740,7 +741,7 @@
             document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-cyan-400');
             document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-cyan-400');
 
-            // Build Dynamic Rental Milestones
+            // Build Dynamic Rental Milestones (Year 1, 5, 15, 30)
             const annRent = clean(data.rnEstRent) * 12;
             const annOpEx = clean(data.rnOpEx) * 12;
             const annNOI = annRent - annOpEx;
@@ -754,7 +755,7 @@
                 document.getElementById(`ui-rn-y${year}-noi`).innerText = n;
             };
 
-            setupRentalMilestone(5); setupRentalMilestone(10); setupRentalMilestone(15); setupRentalMilestone(30);
+            setupRentalMilestone(1); setupRentalMilestone(5); setupRentalMilestone(15); setupRentalMilestone(30);
             document.getElementById('rental-milestones').classList.remove('hidden-module');
 
         } else {
@@ -784,8 +785,8 @@
                 renderWholesaleTable(data); renderDoughnutChart(data); break;
             case 'rental':
                 document.getElementById('module-rental-table').classList.remove('hidden-module');
-                document.getElementById('module-rental-chart').classList.remove('hidden-module');
-                renderRentalTable(data); renderRentalChart(data); break;
+                // Rental chart removed natively, only showing milestones
+                renderRentalTable(data); break;
         }
     }
 
@@ -817,7 +818,7 @@
               <td class="px-6 py-4 text-center text-brand-emerald font-bold text-base">Rate Advantage</td>
             </tr>
             <tr>
-              <td class="px-6 py-4 font-semibold text-gray-200 text-center">30-Year Maturity Date</td>
+              <td class="px-6 py-4 font-semibold text-gray-200 text-center">Maturity Date</td>
               <td class="px-6 py-4 bg-purple-950/10 text-center">${data.crSub2Maturity || 'N/A'}</td>
               <td class="px-6 py-4 text-center">${data.crMarketMaturity || 'N/A'}</td>
               <td class="px-6 py-4 text-center text-brand-emerald font-semibold">Timeline Advantage</td>
@@ -907,7 +908,7 @@
         `;
     }
 
-    let lineChart1, lineChart2, pieChart, barChart1;
+    let lineChart1, lineChart2, pieChart;
 
     function renderLineCharts(data) {
         if(lineChart1) lineChart1.destroy(); if(lineChart2) lineChart2.destroy();
@@ -947,35 +948,6 @@
             options: {
                 responsive: true, maintainAspectRatio: false, cutout: '65%',
                 plugins: { legend: { position: 'bottom', labels: { color: '#f3f4f6' } }, datalabels: { color: '#ffffff', font: { weight: 'bold', size: 12 }, formatter: (v) => '$' + v.toLocaleString('en-US', {maximumFractionDigits:0}) } }
-            }
-        });
-    }
-
-    function renderRentalChart(data) {
-        if(barChart1) barChart1.destroy();
-        const ctx = document.getElementById('rentalChartCanvas').getContext('2d');
-        const annualRent = clean(data.rnEstRent) * 12;
-
-        barChart1 = new Chart(ctx, {
-            type: 'bar',
-            data: { 
-                labels: ['Year 1', 'Year 5', 'Year 15', 'Year 30'], 
-                datasets: [{ 
-                    label: 'Cumulative Gross Rent', 
-                    data: [annualRent * 1, annualRent * 5, annualRent * 15, annualRent * 30], 
-                    backgroundColor: '#10b981', borderRadius: 4 
-                }] 
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    datalabels: { align: 'end', anchor: 'end', color: '#10b981', font: { weight: 'bold', size: 11 }, formatter: (v) => '$' + v.toLocaleString('en-US', {maximumFractionDigits:0}) }
-                },
-                scales: {
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } },
-                    x: { grid: { display: false }, ticks: { color: '#9ca3af' } }
-                }
             }
         });
     }
