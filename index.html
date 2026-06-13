@@ -13,7 +13,7 @@
                     colors: {
                         brand: {
                             dark: '#0b0f19', card: 'rgba(17, 24, 39, 0.75)',
-                            purple: '#4f46e5', crimson: '#dc2626', emerald: '#10b981', gold: '#f59e0b'
+                            purple: '#4f46e5', crimson: '#dc2626', emerald: '#10b981', gold: '#f59e0b', cyan: '#06b6d4'
                         }
                     }
                 }
@@ -143,8 +143,8 @@
             </div>
 
             <div id="step2Container" class="space-y-4 hidden mt-2">
-                <p class="text-xs text-brand-emerald text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
-                <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-xl focus:outline-none focus:ring-2 focus:ring-brand-emerald transition-all cursor-text">
+                <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
+                <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-text">
                 <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
             </div>
 
@@ -298,7 +298,10 @@
             document.getElementById('accessKeyInput').value = '';
             document.getElementById('otpInput').value = '';
             document.getElementById('errorMessage').classList.add('hidden');
-            document.getElementById('authButton').innerText = "Send Verification Code";
+            const btn = document.getElementById('authButton');
+            btn.innerText = "Send Verification Code";
+            btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+            btn.disabled = false;
             document.getElementById('emailInput').focus();
         }
 
@@ -336,7 +339,7 @@
                 }
                 
                 if (emailVal.toLowerCase().endsWith('@totalchb.com') && inputVal === 'Portal@2026') {
-                    grantAccess(prop.Property_ID, emailVal, 'Admin Password Bypass', 'Access Granted', true);
+                    grantAccess(prop.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true);
                     return;
                 }
 
@@ -348,7 +351,7 @@
                 expectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                 
                 btn.innerText = "Sending Code...";
-                btn.classList.add('opacity-75', 'cursor-not-allowed');
+                btn.className = "w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-75 cursor-not-allowed";
                 btn.disabled = true;
 
                 sendWebhookEvent({ 
@@ -362,8 +365,7 @@
                     document.getElementById('step2Container').classList.remove('hidden');
                     document.getElementById('errorMessage').classList.add('hidden');
                     btn.innerText = "Verify & Unlock Proposal";
-                    // Change Button color immediately upon successful OTP generation
-                    btn.className = "w-full bg-brand-emerald hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+                    btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
                     btn.disabled = false;
                     document.getElementById('otpInput').focus();
                 }, 500);
@@ -371,7 +373,7 @@
             } else if (authStep === 2) {
                 const userOTP = document.getElementById('otpInput').value.trim();
                 
-                if (userOTP !== gateExpectedOTP) {
+                if (userOTP !== expectedOTP) {
                     showError("Incorrect Verification Code. Please Try Again.");
                     sendWebhookEvent({ 
                         action: 'failed_access', timestamp: Date.now(), email: emailVal, 
@@ -464,6 +466,23 @@
                 glow.style.setProperty('--mouse-y', `${e.clientY}px`);
                 if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1';
             }
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.cursor-not-allowed')) {
+                document.body.classList.add('cursor-locked');
+                document.body.classList.remove('cursor-hover');
+            } else if (e.target.closest('a, button, input, [onclick], .cursor-pointer')) {
+                document.body.classList.add('cursor-hover');
+                document.body.classList.remove('cursor-locked');
+            } else {
+                document.body.classList.remove('cursor-hover', 'cursor-locked');
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            const glow = document.getElementById('mouseGlow');
+            if(glow) glow.style.opacity = '0';
         });
 
         function drawSparks() {
