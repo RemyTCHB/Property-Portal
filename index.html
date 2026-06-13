@@ -362,16 +362,36 @@
                 });
 
                 setTimeout(() => {
-                    authStep = 2;
-                    document.getElementById('step1Container').classList.add('hidden');
-                    document.getElementById('step2Container').classList.remove('hidden');
-                    document.getElementById('errorMessage').classList.add('hidden');
+                    // Success Animation for sending code
+                    const lockIcon = document.getElementById('lockIcon');
+                    const lockContainer = document.getElementById('lockIconContainer');
+                    const origIconHtml = lockIcon.innerHTML;
+
+                    lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
+                    lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
+                    lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
                     
-                    btn.innerText = "Verify & Unlock Proposal";
-                    btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
-                    btn.removeAttribute('disabled');
-                    document.getElementById('otpInput').focus();
-                }, 800);
+                    btn.innerText = "Code Sent Successfully!";
+                    btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed";
+
+                    setTimeout(() => {
+                        // Transition to step 2
+                        authStep = 2;
+                        document.getElementById('step1Container').classList.add('hidden');
+                        document.getElementById('step2Container').classList.remove('hidden');
+                        document.getElementById('errorMessage').classList.add('hidden');
+                        
+                        // Revert to Indigo for Step 2
+                        lockIcon.innerHTML = origIconHtml;
+                        lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
+                        lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
+                        
+                        btn.innerText = "Verify & Unlock Proposal";
+                        btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+                        btn.removeAttribute('disabled');
+                        document.getElementById('otpInput').focus();
+                    }, 1500);
+                }, 500);
 
             } else if (authStep === 2) {
                 const userOTP = document.getElementById('otpInput').value.trim();
