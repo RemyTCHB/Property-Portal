@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TCHB Investor Network Portal - Proposal</title>
+  
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -54,7 +55,7 @@
     }
     @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
     
-    body, a, button, input, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
+    body, a, button, input, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
     
     #cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; pointer-events: none; z-index: 999999; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, background-color 0.2s; opacity: 0; }
     #cursor-ring { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1.5px solid rgba(79, 70, 229, 0.6); border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; opacity: 0; }
@@ -113,6 +114,7 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
+  <!-- AUTHENTICATION GATE -->
   <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print">
     <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 relative shadow-2xl" id="gateModalBox">
         <button onclick="window.location.href='../'" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer">
@@ -140,6 +142,38 @@
         <p id="gateErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Security Authorization Code.</p>
         <button id="gateAuthButton" onclick="handleGateAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer">
             Send Verification Code
+        </button>
+    </div>
+  </div>
+
+  <!-- MAKE AN OFFER MODAL -->
+  <div id="offerModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print">
+    <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl" id="offerModalBox">
+        <button onclick="closeOfferModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="text-center mb-6">
+            <div class="mx-auto w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4">
+                <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-1">Submit Your Offer</h3>
+            <p class="text-xs text-gray-400" id="offerModalAddress">...</p>
+        </div>
+        
+        <div class="space-y-4">
+            <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none transition-all cursor-text">
+            <input type="tel" id="offerPhone" placeholder="Phone Number" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none transition-all cursor-text">
+            <div class="relative">
+                <span class="absolute left-4 top-3.5 text-gray-400 font-bold">$</span>
+                <input type="number" id="offerAmount" placeholder="Cash Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg pl-8 pr-4 py-3 text-center text-white font-bold tracking-wider focus:outline-none transition-all cursor-text">
+            </div>
+            <textarea id="offerNote" placeholder="Additional Notes / Terms..." rows="3" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none transition-all cursor-text resize-none"></textarea>
+        </div>
+
+        <p id="offerErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+        
+        <button id="submitOfferBtn" onclick="submitOffer()" class="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer">
+            Send Official Offer
         </button>
     </div>
   </div>
@@ -182,6 +216,14 @@
           <span id="ui-pill-detail-1">...</span>
           <span class="text-gray-500">[</span><span id="ui-pill-detail-2" class="text-brand-emerald font-black">...</span><span class="text-gray-500">]</span>
         </div>
+      </div>
+
+      <!-- MAKE AN OFFER BUTTON -->
+      <div class="mt-6 flex justify-center text-center no-print hidden-module" id="offerButtonContainer">
+         <button id="makeOfferBtn" onclick="openOfferModal()" class="text-white font-bold py-3 px-8 rounded-xl transition-all hover:-translate-y-1 flex items-center gap-2 cursor-pointer shadow-lg border border-white/10">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Make An Offer
+         </button>
       </div>
 
       <!-- CREATIVE KPIs -->
@@ -411,7 +453,8 @@
               </div>
           </div>
         </div>
-        <div id="module-doughnut-chart" class="hidden-module mb-12 cursor-pointer">
+
+        <div id="module-doughnut-chart" class="hidden-module mb-12">
           <div class="text-center mb-6 no-print md:block">
               <span class="text-emerald-400 font-bold uppercase text-xs tracking-wider">Capital Architecture</span>
               <h3 class="text-2xl font-black text-white mt-1">Capital Slice Breakdown</h3>
@@ -449,6 +492,9 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwUPnhj0leETYDP86FpvOOtsyF1Oqa8GgcBm-spsX9xcLvQE2F4LDnjR7IUUsbpw7uQ/exec";
     const LOGGING_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw5XeS-cpbP8vBrdCM32ZR5cK3kxf66TpdVC8NyWNK4HbYqxh8eWFqN0U0xss8zuWZq/exec";
+    
+    // 🔥 PASTE YOUR GO HIGH LEVEL INBOUND WEBHOOK URL HERE 🔥
+    const GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/c6450962-0a87-4265-8632-bf002efc45d9";
     
     let currentDBRow = null;
     let urlPropId = null;
@@ -744,8 +790,16 @@
         document.querySelectorAll('.hidden-module').forEach(el => el.classList.add('hidden-module'));
         if(currentDBRow.Status && currentDBRow.Status.toUpperCase() === 'SOLD') document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
 
+        // Dynamic Offer Button & Modal Theme Styling
+        const offerBtn = document.getElementById('makeOfferBtn');
+        const submitOfferBtn = document.getElementById('submitOfferBtn');
+        
         if (data.dealType === 'creative') {
             document.getElementById('creative-kpis').classList.remove('hidden-module');
+            document.getElementById('offerButtonContainer').classList.remove('hidden-module');
+            
+            offerBtn.className = "bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-xl transition-all hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(79,70,229,0.3)] flex items-center gap-2 cursor-pointer shadow-lg border border-white/10";
+            submitOfferBtn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
             
             // Build Dynamic Sub2 Milestones
             const mPI = data.marketPI || 0;
@@ -768,6 +822,11 @@
 
         } else if (data.dealType === 'rental') {
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
+            document.getElementById('offerButtonContainer').classList.remove('hidden-module');
+            
+            offerBtn.className = "bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(16,185,129,0.3)] flex items-center gap-2 cursor-pointer shadow-lg border border-white/10";
+            submitOfferBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+
             document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
             document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
             
@@ -806,6 +865,11 @@
         } else {
             // Standard Wholesale
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
+            document.getElementById('offerButtonContainer').classList.remove('hidden-module');
+            
+            offerBtn.className = "bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(16,185,129,0.3)] flex items-center gap-2 cursor-pointer shadow-lg border border-white/10";
+            submitOfferBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+
             document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
             document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
             
@@ -837,6 +901,100 @@
             case 'rental':
                 document.getElementById('module-rental-table').classList.remove('hidden-module');
                 renderRentalTable(data); break;
+        }
+    }
+
+    // ==========================================
+    // MAKE AN OFFER LOGIC
+    // ==========================================
+    function openOfferModal() {
+        document.getElementById('offerModal').classList.remove('hidden');
+        document.getElementById('offerModalAddress').innerText = currentDBRow.Address + ", " + currentDBRow.City_State;
+        
+        // Auto-fill their logged in email
+        document.getElementById('offerEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
+        document.getElementById('offerAmount').focus();
+        
+        // Reset button text
+        document.getElementById('submitOfferBtn').innerText = "Send Official Offer";
+        document.getElementById('offerErrorMessage').classList.add('hidden');
+    }
+
+    function closeOfferModal() {
+        document.getElementById('offerModal').classList.add('hidden');
+    }
+
+    async function submitOffer() {
+        const email = document.getElementById('offerEmail').value.trim();
+        const phone = document.getElementById('offerPhone').value.trim();
+        const amount = document.getElementById('offerAmount').value.trim();
+        const note = document.getElementById('offerNote').value.trim();
+        const errorMsg = document.getElementById('offerErrorMessage');
+        const btn = document.getElementById('submitOfferBtn');
+
+        // Strip everything but numbers to validate US phone length
+        const phoneDigits = phone.replace(/\D/g, '');
+
+        if(!email || !phone || !amount || !note) {
+            errorMsg.innerText = "Email, Phone, Offer Amount, and Notes are strictly required.";
+            errorMsg.classList.remove('hidden');
+            return;
+        }
+
+        if(phoneDigits.length < 10 || phoneDigits.length > 11) {
+            errorMsg.innerText = "Please enter a valid US Phone Number.";
+            errorMsg.classList.remove('hidden');
+            return;
+        }
+
+        errorMsg.classList.add('hidden');
+        btn.innerText = "Sending Secure Offer...";
+        btn.disabled = true;
+        btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+        const payload = {
+            propertyId: urlPropId,
+            address: currentDBRow.Address, // Property Address automatically included here!
+            email: email,
+            phone: phone,
+            offerAmount: amount,
+            note: note,
+            source: "TCHB Investor Portal",
+            timestamp: new Date().toISOString()
+        };
+
+        try {
+            if (GHL_WEBHOOK_URL && GHL_WEBHOOK_URL !== "YOUR_GHL_WEBHOOK_URL_HERE") {
+                await fetch(GHL_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } else {
+                console.warn("GHL Webhook URL not set. Logging Mock Data:", payload);
+                await new Promise(r => setTimeout(r, 1000)); // simulate delay
+            }
+            
+            btn.innerText = "Offer Submitted Successfully!";
+            btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors mt-4 cursor-not-allowed opacity-90";
+            
+            setTimeout(() => {
+                closeOfferModal();
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                
+                // Reset styling to original deal type based on the stored logic
+                const rawType = (currentDBRow.Deal_Type || '').toUpperCase();
+                const isCreative = rawType.includes('SUBJECT-TO') || rawType.includes('CREATIVE');
+                btn.className = `w-full ${isCreative ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white font-semibold py-3 px-4 rounded-lg transition-colors mt-4 cursor-pointer`;
+            }, 2000);
+
+        } catch (err) {
+            errorMsg.innerText = "Error securely submitting offer. Please try again or contact us directly.";
+            errorMsg.classList.remove('hidden');
+            btn.innerText = "Send Official Offer";
+            btn.disabled = false;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     }
 
@@ -1055,7 +1213,7 @@
         if (e.target.closest('.cursor-not-allowed')) {
             document.body.classList.add('cursor-locked');
             document.body.classList.remove('cursor-hover');
-        } else if (e.target.closest('a, button, input, [onclick], .cursor-pointer')) {
+        } else if (e.target.closest('a, button, input, textarea, [onclick], .cursor-pointer')) {
             document.body.classList.add('cursor-hover');
             document.body.classList.remove('cursor-locked');
         } else {
