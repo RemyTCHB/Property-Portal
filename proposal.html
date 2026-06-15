@@ -172,7 +172,7 @@
         
         <div class="space-y-4">
             <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none transition-all cursor-text">
-            <input type="tel" id="offerPhone" placeholder="Phone Number" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none transition-all cursor-text">
+            <input type="tel" id="offerPhone" placeholder="US Phone (+1XXXXXXXXXX)" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none transition-all cursor-text">
             <div class="relative">
                 <span class="absolute left-4 top-3.5 text-gray-400 font-bold">$</span>
                 <input type="number" id="offerAmount" placeholder="Cash Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg pl-8 pr-4 py-3 text-center text-white font-bold tracking-wider focus:outline-none transition-all cursor-text">
@@ -338,7 +338,7 @@
 
     <!-- NARRATIVE BOXES (HUE FILLS APPLIED DYNAMICALLY VIA JS) -->
     <div id="narrative-container" class="print-break-inside-avoid flex flex-col gap-6 mb-12">
-        <div id="box-1-wrapper" class="p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
+        <div id="box-1-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
             <h4 id="ui-box-1-title" class="text-base font-extrabold text-white">...</h4>
@@ -346,11 +346,27 @@
           </div>
         </div>
 
-        <div id="box-2-wrapper" class="p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
+        <div id="box-2-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
             <h4 id="ui-box-2-title" class="text-base font-extrabold text-white">...</h4>
             <p id="ui-box-2-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
+          </div>
+        </div>
+
+        <div id="box-3-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
+          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
+          <div>
+            <h4 id="ui-box-3-title" class="text-base font-extrabold text-white">...</h4>
+            <p id="ui-box-3-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
+          </div>
+        </div>
+
+        <div id="box-4-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
+          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
+          <div>
+            <h4 id="ui-box-4-title" class="text-base font-extrabold text-white">...</h4>
+            <p id="ui-box-4-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
           </div>
         </div>
     </div>
@@ -731,6 +747,8 @@
 
             box1Title: currentDBRow.Box_1_Title, box1Desc: currentDBRow.Box_1_Desc,
             box2Title: currentDBRow.Box_2_Title, box2Desc: currentDBRow.Box_2_Desc,
+            box3Title: currentDBRow.Box_3_Title, box3Desc: currentDBRow.Box_3_Desc,
+            box4Title: currentDBRow.Box_4_Title, box4Desc: currentDBRow.Box_4_Desc,
 
             crSub2Principal: currentDBRow.CR_Sub2_Principal, crMarketPrincipal: currentDBRow.CR_Market_Principal,
             crSub2Maturity: currentDBRow.CR_Sub2_Maturity, crMarketMaturity: currentDBRow.CR_Market_Maturity,
@@ -784,16 +802,28 @@
         document.getElementById('ui-kpi-2-label').innerText = data.info2Label; document.getElementById('ui-kpi-2-value').innerText = data.info2Value; document.getElementById('ui-kpi-2-desc').innerText = data.info2Desc;
         document.getElementById('ui-kpi-3-label').innerText = data.info3Label; document.getElementById('ui-kpi-3-value').innerText = data.info3Value; document.getElementById('ui-kpi-3-desc').innerText = data.info3Desc;
 
-        document.getElementById('ui-box-1-title').innerText = data.box1Title; document.getElementById('ui-box-1-desc').innerText = data.box1Desc;
-        document.getElementById('ui-box-2-title').innerText = data.box2Title; document.getElementById('ui-box-2-desc').innerText = data.box2Desc;
+        // Apply dynamic hue gradients universally to narrative boxes & conditionally hide empty ones
+        const narrativeBoxes = [
+            { t: data.box1Title, d: data.box1Desc, wr: 'box-1-wrapper', tt: 'ui-box-1-title', dd: 'ui-box-1-desc' },
+            { t: data.box2Title, d: data.box2Desc, wr: 'box-2-wrapper', tt: 'ui-box-2-title', dd: 'ui-box-2-desc' },
+            { t: data.box3Title, d: data.box3Desc, wr: 'box-3-wrapper', tt: 'ui-box-3-title', dd: 'ui-box-3-desc' },
+            { t: data.box4Title, d: data.box4Desc, wr: 'box-4-wrapper', tt: 'ui-box-4-title', dd: 'ui-box-4-desc' }
+        ];
 
-        // Apply dynamic hue gradients universally to narrative boxes
-        const b1 = document.getElementById('box-1-wrapper');
-        const b2 = document.getElementById('box-2-wrapper');
-        b1.className = b1.className.replace(/bg-gray-900\/20/g, '');
-        b2.className = b2.className.replace(/bg-gray-900\/20/g, '');
-        b1.classList.add('bg-gradient-to-br', 'from-indigo-950/30', 'to-brand-crimson/10');
-        b2.classList.add('bg-gradient-to-br', 'from-indigo-950/30', 'to-brand-crimson/10');
+        narrativeBoxes.forEach(box => {
+            const wrapper = document.getElementById(box.wr);
+            if (box.t && String(box.t).trim() !== '') {
+                document.getElementById(box.tt).innerText = box.t;
+                document.getElementById(box.dd).innerText = box.d || '';
+                wrapper.classList.remove('hidden');
+                
+                // Add Gradient
+                wrapper.className = wrapper.className.replace(/bg-gray-900\/20/g, '');
+                wrapper.classList.add('bg-gradient-to-br', 'from-indigo-950/30', 'to-brand-crimson/10');
+            } else {
+                wrapper.classList.add('hidden');
+            }
+        });
 
         document.querySelectorAll('.hidden-module').forEach(el => el.classList.add('hidden-module'));
         if(currentDBRow.Status && currentDBRow.Status.toUpperCase() === 'SOLD') document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
@@ -936,20 +966,29 @@
         const errorMsg = document.getElementById('offerErrorMessage');
         const btn = document.getElementById('submitOfferBtn');
 
-        // Strip everything but numbers to validate US phone length
-        const phoneDigits = phone.replace(/\D/g, '');
-
         if(!email || !phone || !amount || !note) {
             errorMsg.innerText = "Email, Phone, Offer Amount, and Notes are strictly required.";
             errorMsg.classList.remove('hidden');
             return;
         }
 
-        if(phoneDigits.length < 10 || phoneDigits.length > 11) {
-            errorMsg.innerText = "Please enter a valid US Phone Number.";
+        // Strict US Phone formatting logic
+        let phoneDigits = phone.replace(/\D/g, ''); // Strip all non-numeric characters
+        
+        // Auto-correct 10-digit formats to start with US country code '1'
+        if (phoneDigits.length === 10) {
+            phoneDigits = '1' + phoneDigits;
+        }
+
+        // Must exactly be 11 digits starting with 1 to be a valid US Number
+        if(phoneDigits.length !== 11 || !phoneDigits.startsWith('1')) {
+            errorMsg.innerText = "Please enter a valid US Phone Number (+1 format).";
             errorMsg.classList.remove('hidden');
             return;
         }
+        
+        // Final properly formatted payload phone
+        const formattedPhone = '+' + phoneDigits;
 
         errorMsg.classList.add('hidden');
         btn.innerText = "Sending Secure Offer...";
@@ -958,9 +997,9 @@
 
         const payload = {
             propertyId: urlPropId,
-            address: currentDBRow.Address, // Property Address automatically included here!
+            address: currentDBRow.Address,
             email: email,
-            phone: phone,
+            phone: formattedPhone,
             offerAmount: amount,
             note: note,
             source: "TCHB Investor Portal",
