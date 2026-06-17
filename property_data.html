@@ -25,10 +25,7 @@
         extend: {
           fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
           colors: {
-            brand: {
-                dark: '#0b0f19', card: 'rgba(17, 24, 39, 0.75)',
-                purple: '#4f46e5', crimson: '#dc2626', emerald: '#10b981', gold: '#f59e0b', cyan: '#06b6d4'
-            }
+            brand: { purple: '#4f46e5', crimson: '#dc2626', emerald: '#10b981', gold: '#f59e0b', cyan: '#06b6d4', bgDark: '#0b0f19', cardBg: '#111827' }
           }
         }
       }
@@ -56,19 +53,19 @@
     @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); } 20%, 40%, 60%, 80% { transform: translateX(6px); } }
     .shake-element { animation: shake 0.4s ease-in-out; }
 
-    /* Empty Center Ripple Halo mapped to 3 main colors */
+    /* Custom Pointer Glow */
     #mouseGlow {
         position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
-        width: 220px; height: 220px;
-        transform: translate(calc(var(--mouse-x, 50vw) - 110px), calc(var(--mouse-y, 50vh) - 110px));
+        width: 300px; height: 300px;
+        transform: translate(calc(var(--mouse-x, 50vw) - 150px), calc(var(--mouse-y, 50vh) - 150px));
         opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
     }
     #mouseGlow::before {
         content: ""; position: absolute; inset: 0; border-radius: 50%;
-        background: radial-gradient(circle at center, transparent 15%, rgba(220, 38, 38, 0.35) 35%, rgba(79, 70, 229, 0.35) 60%, rgba(16, 185, 129, 0.35) 85%, transparent 100%);
-        filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite;
+        background: conic-gradient(from 0deg, rgba(220,38,38,0.3), rgba(79,70,229,0.3), rgba(16,185,129,0.3), rgba(220,38,38,0.3));
+        filter: blur(40px); animation: color-spin 4s linear infinite;
     }
-    @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
+    @keyframes color-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     
     body, a, button, input, textarea, select, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
     
@@ -84,18 +81,17 @@
     .gate-unlocked #secureGate { display: none !important; }
     .hidden-module { display: none !important; }
 
-    .animate-text-gradient { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s ease-in-out infinite; }
-    .animate-text-gradient-pulse { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s ease-in-out infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-    @keyframes text-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
+    @keyframes pan-x { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     .gradient-ring-border { position: absolute; inset: 0; border-radius: 50%; padding: 3px; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: pan-x 6s ease-in-out infinite, custom-spin 1.5s linear infinite; }
     .gradient-ring-glow { position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; filter: blur(12px); animation: pan-x 6s ease-in-out infinite, pulse-glow-strong 2s ease-in-out infinite alternate; }
-    @keyframes pan-x { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     @keyframes custom-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes pulse-glow-strong { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 0.8; transform: scale(1.1); } }
     @keyframes icon-pulse { 0%, 100% { transform: scale(0.85); opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 15px rgba(255,255,255,0.6)); } }
     .animate-icon-pulse { animation: icon-pulse 2s ease-in-out infinite; }
     
+    .animate-text-gradient-pulse { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s ease-in-out infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes text-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
     .btn-mixed-hue { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; animation: pan-x 6s ease-in-out infinite; }
     .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
@@ -131,11 +127,8 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <!-- FIXED CANVAS: At the top level so it doesn't break -->
-  <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10 no-print" style="pointer-events: none;"></canvas>
-
   <!-- AUTHENTICATION GATE -->
-  <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
+  <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print">
     <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl animate-modal-in" id="gateModalBox">
         <button onclick="window.location.href='../'" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -348,7 +341,7 @@
     </div>
   </div>
 
-  <!-- REQUEST ACCESS KEY MODAL -->
+  <!-- REQUEST ACCESS KEY MODAL (FOR GATE/PAGE) -->
   <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
     <div class="bg-[#0f0f1f] border border-indigo-500/20 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
         <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
@@ -920,18 +913,29 @@
         } else {
             document.getElementById('fullPageLoader').classList.add('hidden');
             document.getElementById('secureGate').classList.remove('hidden');
+            
+            if(currentDBRow) {
+                document.getElementById('gateAddressDisplay').innerText = `Property: ${currentDBRow.Address}, ${currentDBRow.City_State}`;
+                document.getElementById('gateEmailInput').value = sessionStorage.getItem('tchb_email_' + urlPropId) || '';
+            }
+        }
+    }
+
+    function shakeElement(id) {
+        const el = document.getElementById(id);
+        if(el) {
+            el.classList.remove('shake-element');
+            void el.offsetWidth; // trigger rapid reflow
+            el.classList.add('shake-element');
+            setTimeout(() => el.classList.remove('shake-element'), 400);
         }
     }
 
     function showGateError(msg) {
         const errorElement = document.getElementById('gateErrorMessage');
-        const modalBox = document.getElementById('gateModalBox');
         errorElement.innerText = msg;
         errorElement.classList.remove('hidden');
-        modalBox.classList.remove('shake-element');
-        void modalBox.offsetWidth;
-        modalBox.classList.add('shake-element');
-        setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+        shakeElement('gateModalBox');
     }
 
     function isValidEmail(email) {
@@ -1206,16 +1210,12 @@
 
         if(!fn || !ln || !email || !phoneDigits || !amountClean || !note) { 
             errorMsg.innerText = "All fields are required."; errorMsg.classList.remove('hidden'); 
-            const modalBox = document.getElementById('offerModalBox');
-            modalBox.classList.remove('shake-element'); void modalBox.offsetWidth; modalBox.classList.add('shake-element');
-            setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+            shakeElement('offerModalBox');
             return; 
         }
         if(phoneDigits.length !== 10) { 
             errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); 
-            const modalBox = document.getElementById('offerModalBox');
-            modalBox.classList.remove('shake-element'); void modalBox.offsetWidth; modalBox.classList.add('shake-element');
-            setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+            shakeElement('offerModalBox');
             return; 
         }
         
@@ -1277,16 +1277,12 @@
 
         if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { 
             errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); 
-            const modalBox = document.getElementById('showingModalBox');
-            modalBox.classList.remove('shake-element'); void modalBox.offsetWidth; modalBox.classList.add('shake-element');
-            setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+            shakeElement('showingModalBox');
             return; 
         }
         if(phoneDigits.length !== 10) { 
             errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); 
-            const modalBox = document.getElementById('showingModalBox');
-            modalBox.classList.remove('shake-element'); void modalBox.offsetWidth; modalBox.classList.add('shake-element');
-            setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+            shakeElement('showingModalBox');
             return; 
         }
         
@@ -1346,16 +1342,12 @@
         let phoneDigits = rawPhone.replace(/\D/g, ''); 
         if(!fn || !ln || !email || !phoneDigits) { 
             errorMsg.innerText = "First Name, Last Name, Email, and Phone are required."; errorMsg.classList.remove('hidden'); 
-            const modalBox = document.getElementById('accessModalBox');
-            modalBox.classList.remove('shake-element'); void modalBox.offsetWidth; modalBox.classList.add('shake-element');
-            setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+            shakeElement('accessModalBox');
             return; 
         }
         if(phoneDigits.length !== 10) { 
             errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); 
-            const modalBox = document.getElementById('accessModalBox');
-            modalBox.classList.remove('shake-element'); void modalBox.offsetWidth; modalBox.classList.add('shake-element');
-            setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+            shakeElement('accessModalBox');
             return; 
         }
         
