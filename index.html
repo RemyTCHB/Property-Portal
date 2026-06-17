@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCHB Investor Network Portal</title>
+    
+    <!-- PWA & Mobile App Meta Tags -->
+    <meta name="theme-color" content="#0b0f19">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
@@ -332,7 +340,7 @@
                 Investor Network <span class="animate-text-gradient">Portal</span>
             </h1>
             <p class="max-w-2xl mx-auto text-gray-400 text-sm md:text-base">
-                Use Your Email & The Property Data Access Key Provided To Gain Access To The Property Data.
+                Use Your Email & The Property Data Access Key Provided To Gain Access.
             </p>
         </header>
 
@@ -821,7 +829,7 @@
             const payload = {
                 propertyId: activeShowingPropId, accessKey: activeShowingAccessKey, address: activeShowingAddress,
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: dateTimeInput, note: note,
-                source: "TCHB Investor Portal - Showing", timestamp: new Date().toISOString()
+                source: "Investor Portal - Request Showing (Home)", timestamp: new Date().toISOString()
             };
 
             try {
@@ -927,10 +935,10 @@
 
             const payload = {
                 propertyId: activePropData ? activePropData.Property_ID : "Unknown",
-                accessKey: "Requesting Property Data Access",
+                accessKey: activePropData ? activePropData.Access_Password : "Unknown",
                 address: activePropData ? activePropData.Address + ", " + activePropData.City_State : "Unknown",
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
-                source: "TCHB Investor Portal - Access Request", timestamp: new Date().toISOString()
+                source: "Investor Portal - Request Access Key (Home)", timestamp: new Date().toISOString()
             };
 
             try {
