@@ -193,35 +193,15 @@
                     </div>
                 </div>
                 
-                <!-- CUSTOM PREMIUM DATE/TIME & TIMEZONE UI -->
-                <div class="flex gap-3 text-left relative w-full">
-                    <div class="flex-[3] min-w-0 relative">
-                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date & Time</label>
-                        <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
-                            <!-- Readonly display, bypasses native browser picker -->
-                            <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date & Time" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            </div>
+                <!-- CUSTOM PREMIUM DATE, TIME & TIMEZONE UI -->
+                <div class="relative w-full text-left">
+                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date, Time & Zone</label>
+                    <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
+                        <!-- Readonly display, bypasses native browser picker -->
+                        <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         </div>
-                    </div>
-                    <div id="tzDropdownContainer" class="relative flex-[2] min-w-0">
-                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Time Zone</label>
-                        <div onclick="toggleTzDropdown()" class="w-full bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 rounded-lg px-3 py-3 text-left text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer text-[13px] sm:text-sm flex justify-between items-center select-none group h-[46px]">
-                            <span id="shTimeZoneLabel" class="text-gray-400 truncate group-hover:text-gray-300 transition-colors">Zone</span>
-                            <svg class="w-3.5 h-3.5 text-gray-500 group-hover:text-indigo-400 flex-shrink-0 ml-1 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <div id="tzDropdownMenu" class="absolute z-[150] w-full mt-2 bg-[#0b0f19]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] opacity-0 invisible transform -translate-y-2 transition-all duration-200 overflow-hidden text-left right-0">
-                            <div class="max-h-48 overflow-y-auto py-1 custom-scrollbar">
-                                <div onclick="selectTz('EST', 'Eastern (EST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Eastern (EST)</div>
-                                <div onclick="selectTz('CST', 'Central (CST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Central (CST)</div>
-                                <div onclick="selectTz('MST', 'Mountain (MST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Mountain (MST)</div>
-                                <div onclick="selectTz('PST', 'Pacific (PST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Pacific (PST)</div>
-                                <div onclick="selectTz('AKST', 'Alaskan (AKST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Alaskan (AKST)</div>
-                                <div onclick="selectTz('HST', 'Hawaii (HST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Hawaii (HST)</div>
-                            </div>
-                        </div>
-                        <input type="hidden" id="shTimeZone" value="">
                     </div>
                 </div>
 
@@ -235,19 +215,19 @@
         </div>
     </div>
 
-    <!-- CUSTOM DATE/TIME PICKER MODAL -->
+    <!-- CUSTOM DATE/TIME/ZONE PICKER MODAL -->
     <div id="customDtModal" class="fixed inset-0 z-[160] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-sm p-6 relative shadow-2xl opacity-0 scale-95" id="customDtModalBox">
+        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-sm p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="customDtModalBox">
             <button onclick="closeCustomDateTimePicker()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <h3 class="text-lg font-bold text-white mb-5 text-center border-b border-white/10 pb-4">Select Date & Time</h3>
+            <h3 class="text-base sm:text-lg font-bold text-white mb-4 text-center border-b border-white/10 pb-3">Select Date, Time & Zone</h3>
             
             <!-- Calendar Header -->
-            <div class="flex justify-between items-center mb-5 px-2">
-                <button onclick="changeMonth(-1)" class="p-1.5 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+            <div class="flex justify-between items-center mb-4 px-2">
+                <button onclick="changeMonth(-1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
                 <div id="dtMonthYear" class="text-white font-bold text-sm tracking-wide">June 2026</div>
-                <button onclick="changeMonth(1)" class="p-1.5 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+                <button onclick="changeMonth(1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
             </div>
             
             <!-- Calendar Grid -->
@@ -260,32 +240,44 @@
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Fr</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Sa</div>
             </div>
-            <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-6 px-1">
+            <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-4 px-1">
                 <!-- Days injected by JS -->
             </div>
 
             <!-- Time Selector -->
-            <div class="border-t border-white/10 pt-5 pb-2">
-                <div class="flex items-center justify-center gap-5">
-                    <div class="flex flex-col items-center gap-2">
+            <div class="border-t border-white/10 pt-4 pb-1">
+                <div class="flex items-center justify-center gap-4">
+                    <div class="flex flex-col items-center gap-1.5">
                         <button onclick="changeHour(1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
-                        <div class="w-14 h-12 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-xl font-bold text-white shadow-inner" id="dtHour">12</div>
+                        <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtHour">12</div>
                         <button onclick="changeHour(-1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
                     </div>
-                    <span class="text-2xl text-gray-600 font-bold pb-7">:</span>
-                    <div class="flex flex-col items-center gap-2">
+                    <span class="text-2xl text-gray-600 font-bold pb-6">:</span>
+                    <div class="flex flex-col items-center gap-1.5">
                         <button onclick="changeMinute(15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
-                        <div class="w-14 h-12 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-xl font-bold text-white shadow-inner" id="dtMinute">00</div>
+                        <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtMinute">00</div>
                         <button onclick="changeMinute(-15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
                     </div>
-                    <div class="flex flex-col gap-2 ml-3">
-                        <button onclick="setAmPm('AM')" id="dtAmBtn" class="px-3.5 py-2 rounded-lg bg-indigo-600 text-white font-bold text-[11px] tracking-wider transition-colors cursor-pointer">AM</button>
-                        <button onclick="setAmPm('PM')" id="dtPmBtn" class="px-3.5 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PM</button>
+                    <div class="flex flex-col gap-1.5 ml-2">
+                        <button onclick="setAmPm('AM')" id="dtAmBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-[10px] tracking-wider transition-colors cursor-pointer">AM</button>
+                        <button onclick="setAmPm('PM')" id="dtPmBtn" class="px-3 py-1.5 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PM</button>
                     </div>
                 </div>
             </div>
 
-            <button onclick="confirmDateTime()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-4 rounded-xl transition-colors mt-6 text-[13px] sm:text-sm shadow-[0_0_15px_rgba(79,70,229,0.3)] cursor-pointer tracking-wide uppercase">
+            <!-- Time Zone Selector -->
+            <div class="border-t border-white/10 pt-4 pb-2 mt-4">
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setModalTz('EST')" id="tzBtn-EST" class="px-2 py-2 rounded-lg bg-indigo-600 shadow-md shadow-indigo-500/20 text-white font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors cursor-pointer">EST</button>
+                    <button onclick="setModalTz('CST')" id="tzBtn-CST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">CST</button>
+                    <button onclick="setModalTz('MST')" id="tzBtn-MST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">MST</button>
+                    <button onclick="setModalTz('PST')" id="tzBtn-PST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PST</button>
+                    <button onclick="setModalTz('AKST')" id="tzBtn-AKST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">AKST</button>
+                    <button onclick="setModalTz('HST')" id="tzBtn-HST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">HST</button>
+                </div>
+            </div>
+
+            <button onclick="confirmDateTime()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl transition-colors mt-5 text-[12px] sm:text-[13px] shadow-[0_0_15px_rgba(79,70,229,0.3)] cursor-pointer tracking-wide uppercase">
                 Confirm Selection
             </button>
         </div>
@@ -374,7 +366,7 @@
                 <span class="text-brand-emerald text-[10px] hidden sm:inline">•</span> 
                 <a href="tel:+18889889150" class="hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                    +1 (888) 988-9150
+                    <span class="tracking-widest font-medium">+1&nbsp;&nbsp;(888)&nbsp;&nbsp;988-9150</span>
                 </a>
             </div>
             
@@ -407,7 +399,7 @@
             else input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         }
 
-        // --- Custom Date Time Logic ---
+        // --- Custom Date Time & Zone Logic ---
         let dtCurrentDate = new Date();
         let dtSelectedYear = dtCurrentDate.getFullYear();
         let dtSelectedMonth = dtCurrentDate.getMonth(); 
@@ -415,6 +407,8 @@
         let dtHourVal = dtCurrentDate.getHours() % 12 || 12;
         let dtMinuteVal = 0; 
         let dtAmPm = dtCurrentDate.getHours() >= 12 ? 'PM' : 'AM';
+        let dtSelectedTz = 'EST';
+        const tzOptions = ['EST', 'CST', 'MST', 'PST', 'AKST', 'HST'];
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         function openCustomDateTimePicker() {
@@ -465,59 +459,37 @@
             document.getElementById('dtMinute').innerText = dtMinuteVal < 10 ? '0'+dtMinuteVal : dtMinuteVal;
             
             if(dtAmPm === 'AM') {
-                document.getElementById('dtAmBtn').className = "px-3.5 py-2 rounded-lg bg-indigo-600 text-white font-bold text-[11px] tracking-wider transition-colors cursor-pointer";
-                document.getElementById('dtPmBtn').className = "px-3.5 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer";
+                document.getElementById('dtAmBtn').className = "px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-[10px] tracking-wider transition-colors cursor-pointer";
+                document.getElementById('dtPmBtn').className = "px-3 py-1.5 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer";
             } else {
-                document.getElementById('dtPmBtn').className = "px-3.5 py-2 rounded-lg bg-indigo-600 text-white font-bold text-[11px] tracking-wider transition-colors cursor-pointer";
-                document.getElementById('dtAmBtn').className = "px-3.5 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer";
+                document.getElementById('dtPmBtn').className = "px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-[10px] tracking-wider transition-colors cursor-pointer";
+                document.getElementById('dtAmBtn').className = "px-3 py-1.5 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer";
             }
+
+            tzOptions.forEach(tz => {
+                const btn = document.getElementById('tzBtn-' + tz);
+                if(tz === dtSelectedTz) {
+                    btn.className = "px-2 py-2 rounded-lg bg-indigo-600 shadow-md shadow-indigo-500/20 text-white font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors cursor-pointer";
+                } else {
+                    btn.className = "px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer";
+                }
+            });
         }
 
         function changeHour(dir) { dtHourVal += dir; if (dtHourVal > 12) dtHourVal = 1; if (dtHourVal < 1) dtHourVal = 12; updateTimeUI(); }
         function changeMinute(dir) { dtMinuteVal += dir; if (dtMinuteVal >= 60) dtMinuteVal = 0; if (dtMinuteVal < 0) dtMinuteVal = 45; updateTimeUI(); }
         function setAmPm(val) { dtAmPm = val; updateTimeUI(); }
+        function setModalTz(val) { dtSelectedTz = val; updateTimeUI(); }
 
         function confirmDateTime() {
             const fMonth = (dtSelectedMonth + 1).toString().padStart(2, '0');
             const fDate = dtSelectedDate.toString().padStart(2, '0');
             const fHour = dtHourVal.toString().padStart(2, '0');
             const fMin = dtMinuteVal.toString().padStart(2, '0');
-            document.getElementById('shDateTimeDisplay').value = `${fMonth}/${fDate}/${dtSelectedYear} ${fHour}:${fMin} ${dtAmPm}`;
+            document.getElementById('shDateTimeDisplay').value = `${fMonth}/${fDate}/${dtSelectedYear} ${fHour}:${fMin} ${dtAmPm} ${dtSelectedTz}`;
             closeCustomDateTimePicker();
         }
-        // --- End Custom Date Time Logic ---
-
-        function toggleTzDropdown() {
-            const menu = document.getElementById('tzDropdownMenu');
-            if(menu.classList.contains('opacity-0')) {
-                menu.classList.remove('opacity-0', 'invisible', '-translate-y-2');
-                menu.classList.add('opacity-100', 'visible', 'translate-y-0');
-            } else {
-                closeTzDropdown();
-            }
-        }
-
-        function closeTzDropdown() {
-            const menu = document.getElementById('tzDropdownMenu');
-            if(menu) {
-                menu.classList.add('opacity-0', 'invisible', '-translate-y-2');
-                menu.classList.remove('opacity-100', 'visible', 'translate-y-0');
-            }
-        }
-
-        function selectTz(val, label) {
-            document.getElementById('shTimeZone').value = val;
-            const labelEl = document.getElementById('shTimeZoneLabel');
-            labelEl.innerText = label;
-            labelEl.classList.remove('text-gray-400');
-            labelEl.classList.add('text-white');
-            closeTzDropdown();
-        }
-
-        document.addEventListener('click', (e) => {
-            const container = document.getElementById('tzDropdownContainer');
-            if(container && !container.contains(e.target)) closeTzDropdown();
-        });
+        // --- End Custom Date Time & Zone Logic ---
 
         function sendWebhookEvent(payload) {
             if (!LOGGING_WEBHOOK_URL) return;
@@ -819,13 +791,12 @@
             const email = document.getElementById('shEmail').value.trim();
             const rawPhone = document.getElementById('shPhone').value.trim();
             const dateTimeInput = document.getElementById('shDateTimeDisplay').value.trim();
-            const tz = document.getElementById('shTimeZone').value;
             const note = document.getElementById('shNote').value.trim();
             const errorMsg = document.getElementById('showingErrorMessage');
             const btn = document.getElementById('submitShowingBtn');
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits || !dateTimeInput || !tz) {
+            if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) {
                 errorMsg.innerText = "All fields except Notes are required.";
                 errorMsg.classList.remove('hidden'); 
                 shakeElement('showingModalFormContent');
@@ -838,7 +809,6 @@
                 return;
             }
 
-            const formattedDateTime = `${dateTimeInput} ${tz}`;
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
             btn.innerText = "Sending Request...";
@@ -847,7 +817,7 @@
 
             const payload = {
                 propertyId: activeShowingPropId, accessKey: activeShowingAccessKey, address: activeShowingAddress,
-                firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: formattedDateTime, note: note,
+                firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: dateTimeInput, note: note,
                 source: "TCHB Investor Portal - Showing", timestamp: new Date().toISOString()
             };
 
@@ -877,7 +847,7 @@
                         btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
-                        document.getElementById('shDateTimeDisplay').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shTimeZoneLabel').innerText = 'Select Zone'; document.getElementById('shTimeZoneLabel').classList.add('text-gray-400'); document.getElementById('shTimeZoneLabel').classList.remove('text-white'); document.getElementById('shNote').value = '';
+                        document.getElementById('shDateTimeDisplay').value = ''; document.getElementById('shNote').value = '';
                         
                         iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
                         iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
