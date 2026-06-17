@@ -42,17 +42,8 @@
     @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); } 20%, 40%, 60%, 80% { transform: translateX(6px); } }
     .shake-element { animation: shake 0.4s ease-in-out; }
 
-    #mouseGlow {
-        position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
-        width: 220px; height: 220px;
-        transform: translate(calc(var(--mouse-x, 50vw) - 110px), calc(var(--mouse-y, 50vh) - 110px));
-        opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
-    }
-    #mouseGlow::before {
-        content: ""; position: absolute; inset: 0; border-radius: 50%;
-        background: radial-gradient(circle at center, transparent 15%, rgba(16, 185, 129, 0.25) 35%, rgba(79, 70, 229, 0.25) 60%, rgba(220, 38, 38, 0.25) 85%, transparent 100%);
-        filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite;
-    }
+    #mouseGlow { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1; width: 220px; height: 220px; transform: translate(calc(var(--mouse-x, 50vw) - 110px), calc(var(--mouse-y, 50vh) - 110px)); opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen; }
+    #mouseGlow::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at center, transparent 15%, rgba(16, 185, 129, 0.25) 35%, rgba(79, 70, 229, 0.25) 60%, rgba(220, 38, 38, 0.25) 85%, transparent 100%); filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite; }
     @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
     
     body, a, button, input, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
@@ -70,48 +61,20 @@
     .hidden-module { display: none !important; }
 
     @keyframes pan-x { 0% { background-position: 100% center; } 100% { background-position: 0% center; } }
-    .gradient-ring-border {
-        position: absolute; inset: 0; border-radius: 50%; padding: 3.5px;
-        background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5);
-        background-size: 300% 100%;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-        animation: pan-x 6s linear infinite, custom-spin 1.5s linear infinite;
-    }
-    .gradient-ring-glow {
-        position: absolute; inset: -4px; border-radius: 50%;
-        background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5);
-        background-size: 300% 100%; filter: blur(14px);
-        animation: pan-x 6s linear infinite, pulse-glow-strong 2s ease-in-out infinite alternate;
-    }
+    .gradient-ring-border { position: absolute; inset: 0; border-radius: 50%; padding: 3.5px; background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: pan-x 6s linear infinite, custom-spin 1.5s linear infinite; }
+    .gradient-ring-glow { position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; filter: blur(14px); animation: pan-x 6s linear infinite, pulse-glow-strong 2s ease-in-out infinite alternate; }
     @keyframes custom-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes pulse-glow-strong { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 0.8; transform: scale(1.1); } }
     @keyframes icon-pulse { 0%, 100% { transform: scale(0.85); opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 15px rgba(255,255,255,0.6)); } }
     .animate-icon-pulse { animation: icon-pulse 2s ease-in-out infinite; }
-    .animate-text-gradient-pulse {
-        background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5);
-        background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
-        animation: pan-x 6s linear infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
+    .animate-text-gradient-pulse { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s linear infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     @keyframes text-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    .btn-mixed-hue {
-        background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5);
-        background-size: 300% 100%;
-        animation: pan-x 6s linear infinite;
-    }
-    .btn-mixed-hue:hover {
-        filter: brightness(1.15);
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-    }
+    .btn-mixed-hue { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 6s linear infinite; }
+    .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
-    @keyframes modal-enter {
-        from { opacity: 0; transform: translateY(20px) scale(0.95); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes modal-exit {
-        from { opacity: 1; transform: translateY(0) scale(1); }
-        to { opacity: 0; transform: translateY(20px) scale(0.95); }
-    }
+    @keyframes modal-enter { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes modal-exit { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(20px) scale(0.95); } }
     .animate-modal-in { animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .animate-modal-out { animation: modal-exit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
@@ -164,6 +127,11 @@
         <button id="gateAuthButton" onclick="handleGateAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer">
             Send Verification Code
         </button>
+
+        <!-- Disclamer -->
+        <p class="text-xs text-gray-400 mt-6 border-t border-gray-800 pt-4 text-center">
+            No Access Key? Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or <button onclick="openAccessModal()" class="text-emerald-400 hover:text-emerald-300 font-bold transition-colors cursor-pointer">Request Access Key</button>
+        </p>
     </div>
   </div>
 
@@ -186,39 +154,110 @@
                 <input type="text" id="offerFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
                 <input type="text" id="offerLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
             </div>
-
             <div>
                 <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
             </div>
-            
             <div>
                 <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
                 <div class="flex gap-2">
-                    <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">
-                        +1
-                    </div>
+                    <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
                     <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
                 </div>
             </div>
-
             <div>
                 <div class="relative">
                     <span class="absolute left-4 top-3.5 text-gray-500 font-bold">$</span>
                     <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center text-white font-bold tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
                 </div>
             </div>
-
             <div>
                 <textarea id="offerNote" placeholder="Notes" rows="3" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
             </div>
         </div>
 
         <p id="offerErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-        
         <button id="submitOfferBtn" onclick="submitOffer()" class="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10">
             Send Official Offer
         </button>
     </div>
+  </div>
+
+  <!-- REQUEST SHOWING MODAL (PROPOSAL SPECIFIC) -->
+  <div id="showingModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+      <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="showingModalBox">
+          <button onclick="closeShowingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+          <div class="text-center mb-6">
+              <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300" id="showingModalIconContainer">
+                  <svg id="showingModalIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
+              <p class="text-xs text-gray-400" id="showingModalAddress">...</p>
+          </div>
+          
+          <div class="space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
+              <div class="grid grid-cols-2 gap-4">
+                  <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                  <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+              </div>
+              <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text"></div>
+              <div>
+                  <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
+                  <div class="flex gap-2">
+                      <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
+                      <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+                  </div>
+              </div>
+              <div>
+                  <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">Requested Date & Time</label>
+                  <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer">
+              </div>
+              <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+          </div>
+
+          <p id="showingErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+          <button id="submitShowingBtn" onclick="submitShowingRequest()" class="btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20">
+              Confirm Showing Request
+          </button>
+      </div>
+  </div>
+
+  <!-- REQUEST ACCESS KEY MODAL (FOR GATE) -->
+  <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+      <div class="bg-[#0f0f1f] border border-emerald-500/20 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
+          <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+          <div class="text-center mb-6">
+              <div class="mx-auto w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 mb-4 transition-all duration-300" id="accessModalIconContainer">
+                  <svg id="accessModalIcon" class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
+              <p class="text-xs text-gray-400" id="accessModalAddress">...</p>
+          </div>
+          
+          <div class="space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
+              <div class="grid grid-cols-2 gap-4">
+                  <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text">
+                  <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text">
+              </div>
+              <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text"></div>
+              <div>
+                  <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
+                  <div class="flex gap-2">
+                      <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
+                      <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-emerald-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+                  </div>
+              </div>
+              <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all cursor-text resize-none"></textarea></div>
+          </div>
+
+          <p id="accessErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+          <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-emerald-500/20">
+              Submit Access Request
+          </button>
+      </div>
   </div>
 
   <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10 no-print" style="pointer-events: none;"></canvas>
@@ -245,10 +284,14 @@
             <img src="logo.svg" alt="Total Cash Home Buyers Logo" class="h-16 md:h-20 w-auto object-contain" onerror="this.src='https://via.placeholder.com/200x80?text=TCHB+Logo'">
           </a>
         </div>
-        <div class="flex justify-center no-print hidden-module" id="offerButtonContainer">
-           <button id="makeOfferBtn" onclick="openOfferModal()" class="btn-mixed-hue text-white font-bold py-3 px-8 rounded-xl transition-all hover:-translate-y-1 flex items-center gap-2 cursor-pointer shadow-lg border border-white/20">
+        <div class="flex flex-col sm:flex-row justify-center gap-3 no-print hidden-module" id="offerButtonContainer">
+           <button id="makeOfferBtn" onclick="openOfferModal()" class="btn-mixed-hue text-white font-bold py-3 px-6 rounded-xl transition-all hover:-translate-y-1 flex items-center gap-2 cursor-pointer shadow-lg border border-white/20">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <span class="drop-shadow-md">Make An Offer</span>
+              <span class="drop-shadow-md whitespace-nowrap">Make An Offer</span>
+           </button>
+           <button onclick="openShowingModal()" class="bg-gray-800/80 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:-translate-y-1 flex items-center gap-2 cursor-pointer shadow-lg border border-white/10">
+              <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              <span class="drop-shadow-md whitespace-nowrap">Request Showing</span>
            </button>
         </div>
         <div class="flex flex-col items-center md:items-end text-center md:text-right">
@@ -369,7 +412,7 @@
         </div>
     </div>
 
-    <!-- NARRATIVE BOXES (HUE FILLS APPLIED DYNAMICALLY VIA JS) -->
+    <!-- NARRATIVE BOXES -->
     <div id="narrative-container" class="print-break-inside-avoid flex flex-col gap-6 mb-12">
         <div id="box-1-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
@@ -378,7 +421,6 @@
             <p id="ui-box-1-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
           </div>
         </div>
-
         <div id="box-2-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
@@ -386,7 +428,6 @@
             <p id="ui-box-2-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
           </div>
         </div>
-
         <div id="box-3-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
@@ -394,7 +435,6 @@
             <p id="ui-box-3-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
           </div>
         </div>
-
         <div id="box-4-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
@@ -404,7 +444,7 @@
         </div>
     </div>
 
-    <!-- SUBJECT-TO WEALTH MILESTONES (DYNAMIC) -->
+    <!-- SUBJECT-TO WEALTH MILESTONES -->
     <div id="creative-milestones" class="print-break-inside-avoid mb-12 hidden-module">
       <div class="bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 p-8 rounded-2xl border border-gray-800 text-center flex flex-col items-center">
         <div class="max-w-6xl mx-auto flex flex-col items-center">
@@ -413,30 +453,25 @@
             <h3 class="text-2xl font-black text-white mt-1 text-center">Projected Wealth Accumulation Milestones</h3>
             <p class="text-sm text-gray-300 mt-2 text-center">Cumulative financial advantage breakdown comparing the Sub2 deal metrics over standard options.</p>
           </div>
-          
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full justify-center">
-            <!-- Year 5 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-indigo-400 tracking-wider uppercase block text-center">Year 5 Milestone</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y5-cf" class="text-xl font-bold text-white text-center">...</p></div>
               <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Interest Saved</p><p id="ui-sub2-y5-int" class="text-lg font-bold text-brand-emerald text-center">...</p></div>
               <div class="mt-3 text-center bg-indigo-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Combined Yield Boost</p><p id="ui-sub2-y5-tot" class="text-sm font-bold text-white text-center">...</p></div>
             </div>
-            <!-- Year 10 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-indigo-400 tracking-wider uppercase block text-center">Year 10 Milestone</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y10-cf" class="text-xl font-bold text-white text-center">...</p></div>
               <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Interest Saved</p><p id="ui-sub2-y10-int" class="text-lg font-bold text-brand-emerald text-center">...</p></div>
               <div class="mt-3 text-center bg-indigo-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Combined Yield Boost</p><p id="ui-sub2-y10-tot" class="text-sm font-bold text-white text-center">...</p></div>
             </div>
-            <!-- Year 15 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-indigo-400 tracking-wider uppercase block text-center">Year 15 Milestone</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y15-cf" class="text-xl font-bold text-white text-center">...</p></div>
               <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Interest Saved</p><p id="ui-sub2-y15-int" class="text-lg font-bold text-brand-emerald text-center">...</p></div>
               <div class="mt-3 text-center bg-indigo-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Combined Yield Boost</p><p id="ui-sub2-y15-tot" class="text-sm font-bold text-white text-center">...</p></div>
             </div>
-            <!-- Year 30 (Full Maturity) -->
             <div class="bg-gradient-to-b from-indigo-950/60 to-gray-900/80 p-5 rounded-xl border border-indigo-500/30 hover:border-indigo-400/50 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_30px_rgba(99,102,241,0.2)] transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-brand-gold tracking-wider uppercase block text-center">Full Maturity (30 Yr)</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y30-cf" class="text-xl font-bold text-white text-center">...</p></div>
@@ -448,7 +483,7 @@
       </div>
     </div>
 
-    <!-- RENTAL WEALTH MILESTONES (DYNAMIC) -->
+    <!-- RENTAL WEALTH MILESTONES -->
     <div id="rental-milestones" class="print-break-inside-avoid mb-12 hidden-module">
       <div class="bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 p-8 rounded-2xl border border-gray-800 text-center flex flex-col items-center">
         <div class="max-w-6xl mx-auto flex flex-col items-center">
@@ -457,30 +492,25 @@
             <h3 class="text-2xl font-black text-white mt-1 text-center">Projected Rental Wealth Accumulation Milestones</h3>
             <p class="text-sm text-gray-300 mt-2 text-center">Cumulative revenue and operational metrics mapped across key holding milestones.</p>
           </div>
-          
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full justify-center">
-            <!-- Year 1 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase block text-center">Year 1 Milestone</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y1-rent" class="text-xl font-bold text-white text-center">...</p></div>
               <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y1-opex" class="text-lg font-bold text-red-400 text-center">...</p></div>
               <div class="mt-3 text-center bg-emerald-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y1-noi" class="text-sm font-bold text-brand-emerald text-center">...</p></div>
             </div>
-            <!-- Year 5 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase block text-center">Year 5 Milestone</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y5-rent" class="text-xl font-bold text-white text-center">...</p></div>
               <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y5-opex" class="text-lg font-bold text-red-400 text-center">...</p></div>
               <div class="mt-3 text-center bg-emerald-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y5-noi" class="text-sm font-bold text-brand-emerald text-center">...</p></div>
             </div>
-            <!-- Year 15 -->
             <div class="bg-gray-900/80 p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase block text-center">Year 15 Milestone</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y15-rent" class="text-xl font-bold text-white text-center">...</p></div>
               <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y15-opex" class="text-lg font-bold text-red-400 text-center">...</p></div>
               <div class="mt-3 text-center bg-emerald-950/50 rounded py-1"><p class="text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y15-noi" class="text-sm font-bold text-brand-emerald text-center">...</p></div>
             </div>
-            <!-- Year 30 (Full Maturity) -->
             <div class="bg-gradient-to-b from-emerald-950/60 to-gray-900/80 p-5 rounded-xl border border-emerald-500/30 hover:border-emerald-400/50 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_30px_rgba(16,185,129,0.2)] transition-all duration-300 text-center flex flex-col justify-between">
               <span class="text-xs font-bold text-brand-gold tracking-wider uppercase block text-center">Full Horizon (30 Yr)</span>
               <div class="mt-3"><p class="text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y30-rent" class="text-xl font-bold text-white text-center">...</p></div>
@@ -537,7 +567,7 @@
             <span class="text-gray-700 hidden sm:inline">|</span> 
             <a href="tel:+18889889150" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5 cursor-pointer">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                +1 888-988-9150
+                +1 (888) 988-9150
             </a>
         </div>
         <p class="text-xs text-gray-500">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
@@ -550,8 +580,10 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwUPnhj0leETYDP86FpvOOtsyF1Oqa8GgcBm-spsX9xcLvQE2F4LDnjR7IUUsbpw7uQ/exec";
     const LOGGING_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw5XeS-cpbP8vBrdCM32ZR5cK3kxf66TpdVC8NyWNK4HbYqxh8eWFqN0U0xss8zuWZq/exec";
     
-    // 🔥 PASTE YOUR GO HIGH LEVEL INBOUND WEBHOOK URL HERE 🔥
-    const GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/c6450962-0a87-4265-8632-bf002efc45d9";
+    // GHL WEBHOOKS
+    const WH_OFFER = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/c6450962-0a87-4265-8632-bf002efc45d9";
+    const WH_SHOWING = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/GuLD43aCVTknmY2BdYhF";
+    const WH_ACCESS = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/w9yBpC5f26rlvYd7fdg1";
     
     let currentDBRow = null;
     let urlPropId = null;
@@ -563,6 +595,35 @@
 
     const clean = (val) => parseFloat((val || '0').toString().replace(/[^0-9.-]+/g, '')) || 0;
     const formatDollar = (num) => '$' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    function formatPhoneInput(input) {
+        let val = input.value.replace(/\D/g, '');
+        let x = val.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        if (!x[2]) input.value = x[1];
+        else input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    }
+
+    function formatCurrencyInput(input) {
+        let val = input.value.replace(/[^0-9.]/g, '');
+        let parts = val.split('.');
+        if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+        parts = val.split('.');
+        if (parts[0]) parts[0] = parseInt(parts[0], 10).toLocaleString('en-US');
+        if (parts.length > 1) {
+            parts[1] = parts[1].substring(0, 2);
+            input.value = parts.join('.');
+        } else {
+            input.value = parts[0] || '';
+        }
+    }
+
+    function formatCurrencyBlur(input) {
+        let val = input.value.replace(/[^0-9.]/g, '');
+        if(val) {
+            let num = parseFloat(val);
+            if(!isNaN(num)) input.value = num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+    }
 
     function sendWebhookEvent(payload) {
         if (!LOGGING_WEBHOOK_URL) return;
@@ -612,7 +673,6 @@
 
     function checkGate() {
         const currentAllowed = sessionStorage.getItem('tchb_active_property');
-        // Secure comparison enforces strictly locking out mismatched URL ?ids
         if (currentAllowed === urlPropId) {
             unlockPage();
         } else {
@@ -643,34 +703,16 @@
         currentSessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2,7);
 
         if (gateAuthStep === 1) {
-            if (!isValidEmail(emailInput)) {
-                showGateError("Please Enter A Valid Email Address.");
-                return;
-            }
-            
-            if (emailInput.toLowerCase().endsWith('@totalchb.com') && keyInput === 'Portal@2026') {
-                grantAccess(urlPropId, emailInput, 'Admin Password Bypass', 'ADMIN ACCESS', true);
-                return;
-            }
-
-            if (keyInput !== currentDBRow.Access_Password) {
-                showGateError("Incorrect Security Authorization Code. Please Try Again.");
-                return;
-            }
+            if (!isValidEmail(emailInput)) { showGateError("Please Enter A Valid Email Address."); return; }
+            if (emailInput.toLowerCase().endsWith('@totalchb.com') && keyInput === 'Portal@2026') { grantAccess(urlPropId, emailInput, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
+            if (keyInput !== currentDBRow.Access_Password) { showGateError("Incorrect Security Authorization Code. Please Try Again."); return; }
 
             gateExpectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-            
-            btn.innerText = "Sending Code...";
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
-            btn.disabled = true;
+            btn.innerText = "Sending Code..."; btn.classList.add('opacity-75', 'cursor-not-allowed'); btn.disabled = true;
 
-            sendWebhookEvent({ 
-                action: 'send_otp', timestamp: Date.now(), email: emailInput, 
-                propertyId: urlPropId, accessKeyUsed: keyInput, otpSent: gateExpectedOTP, sessionId: currentSessionId 
-            });
+            sendWebhookEvent({ action: 'send_otp', timestamp: Date.now(), email: emailInput, propertyId: urlPropId, accessKeyUsed: keyInput, otpSent: gateExpectedOTP, sessionId: currentSessionId });
 
             setTimeout(() => {
-                // Success Animation for sending code
                 const lockIcon = document.getElementById('gateLockIcon');
                 const lockContainer = document.getElementById('gateLockIconContainer');
                 const origIconHtml = lockIcon.innerHTML;
@@ -683,33 +725,28 @@
                 btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed";
 
                 setTimeout(() => {
-                    // Transition to step 2
                     gateAuthStep = 2;
                     document.getElementById('gateStep1Container').classList.add('hidden');
                     document.getElementById('gateStep2Container').classList.remove('hidden');
                     document.getElementById('gateErrorMessage').classList.add('hidden');
                     
-                    // Revert to Indigo for Step 2
                     lockIcon.innerHTML = origIconHtml;
                     lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
                     lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
                     
                     btn.innerText = "Verify & Unlock Proposal";
                     btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
-                    btn.disabled = false;
-                    document.getElementById('gateOtpInput').focus();
+                    btn.disabled = false; document.getElementById('gateOtpInput').focus();
                 }, 1500);
             }, 500);
 
         } else if (gateAuthStep === 2) {
             const userOTP = document.getElementById('gateOtpInput').value.trim();
-            
             if (userOTP !== gateExpectedOTP) {
                 showGateError("Incorrect Verification Code. Please Try Again.");
                 sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailInput, propertyId: urlPropId, otpUsed: userOTP, status: "ERROR", reason: "Invalid Verification Code", sessionId: currentSessionId });
                 return;
             }
-
             grantAccess(urlPropId, emailInput, userOTP, 'Access Granted', false);
         }
     }
@@ -720,11 +757,10 @@
         const lockIcon = document.getElementById('gateLockIcon');
         const lockContainer = document.getElementById('gateLockIconContainer');
         
-        sessionStorage.setItem('tchb_active_property', propId); // Update mapping security
+        sessionStorage.setItem('tchb_active_property', propId);
         sessionStorage.setItem('tchb_email_' + propId, email); 
         sessionStorage.setItem('tchb_sess_' + propId, currentSessionId);
         
-        // Clean un-locked padlock SVG icon
         lockIcon.innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>';
         lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
         lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
@@ -732,15 +768,10 @@
         btn.innerText = isAdmin ? "Admin Access Granted..." : "Access Granted...";
         btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90";
 
-        sendWebhookEvent({ 
-            action: 'log_access', timestamp: Date.now(), email: email, 
-            propertyId: propId, otpUsed: otpOrKeyUsed, status: "SUCCESS", 
-            reason: reasonStr, sessionId: currentSessionId 
-        });
+        sendWebhookEvent({ action: 'log_access', timestamp: Date.now(), email: email, propertyId: propId, otpUsed: otpOrKeyUsed, status: "SUCCESS", reason: reasonStr, sessionId: currentSessionId });
 
         setTimeout(() => { 
-            document.getElementById('secureGate').classList.add('hidden');
-            unlockPage(); 
+            document.getElementById('secureGate').classList.add('hidden'); unlockPage(); 
         }, 1200);
     }
 
@@ -750,11 +781,7 @@
         document.getElementById('mainContent').classList.remove('hidden');
 
         currentSessionId = sessionStorage.getItem('tchb_sess_' + urlPropId);
-        sendWebhookEvent({
-            action: 'session_start', timestamp: Date.now(),
-            email: sessionStorage.getItem('tchb_email_' + urlPropId) || "Unknown",
-            propertyId: urlPropId, sessionId: currentSessionId
-        });
+        sendWebhookEvent({ action: 'session_start', timestamp: Date.now(), email: sessionStorage.getItem('tchb_email_' + urlPropId) || "Unknown", propertyId: urlPropId, sessionId: currentSessionId });
 
         const rawType = (currentDBRow.Deal_Type || '').toUpperCase();
         let dealTypeMap = 'wholesale';
@@ -765,8 +792,7 @@
 
         const mappedData = {
             dealType: dealTypeMap,
-            badgeText: currentDBRow.Teaser_Heading || 'Deal Proposal',
-            badgeColor: badgeStyle,
+            badgeText: currentDBRow.Teaser_Heading || 'Deal Proposal', badgeColor: badgeStyle,
             address: currentDBRow.Address, cityState: currentDBRow.City_State,
             pill1: currentDBRow.Pill_1, pill2: currentDBRow.Pill_2, pill3: currentDBRow.Pill_3,
             
@@ -793,16 +819,13 @@
             
             wsPurchasePrice: currentDBRow.WS_Purchase_Price, wsClosing: currentDBRow.WS_Est_Closing_Costs,
             wsRepair: currentDBRow.WS_Est_Repair_Budget, wsBasis: currentDBRow.WS_Total_Basis, 
-            wsArv: currentDBRow.WS_Est_ARV, wsRealtor: currentDBRow.WS_Est_Realtor_Fees, 
-            wsReturn: currentDBRow.WS_Est_Net_Return,
+            wsArv: currentDBRow.WS_Est_ARV, wsRealtor: currentDBRow.WS_Est_Realtor_Fees, wsReturn: currentDBRow.WS_Est_Net_Return,
             
-            rnPurchasePrice: currentDBRow.RN_Purchase_Price, 
-            rnCurRent: currentDBRow.RN_Total_Current_Rent, rnEstRent: currentDBRow.RN_Total_Est_Rent, 
-            rnOpEx: currentDBRow.RN_OpEx, rnNOI: currentDBRow.RN_NOI,
-            rnCapRate: currentDBRow.RN_Est_Gross_Cap_Rate, rnCoC: currentDBRow.RN_Cash_on_Cash
+            rnPurchasePrice: currentDBRow.RN_Purchase_Price, rnCurRent: currentDBRow.RN_Total_Current_Rent, rnEstRent: currentDBRow.RN_Total_Est_Rent, 
+            rnOpEx: currentDBRow.RN_OpEx, rnNOI: currentDBRow.RN_NOI, rnCapRate: currentDBRow.RN_Est_Gross_Cap_Rate, rnCoC: currentDBRow.RN_Cash_on_Cash
         };
 
-        if(currentDBRow.Status && currentDBRow.Status.toUpperCase() === 'SOLD') {
+        if(currentDBRow.Status && (currentDBRow.Status.toUpperCase() === 'SOLD' || currentDBRow.Status.toUpperCase() === 'UPCOMING')) {
             document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
         }
 
@@ -835,7 +858,6 @@
         document.getElementById('ui-kpi-2-label').innerText = data.info2Label; document.getElementById('ui-kpi-2-value').innerText = data.info2Value; document.getElementById('ui-kpi-2-desc').innerText = data.info2Desc;
         document.getElementById('ui-kpi-3-label').innerText = data.info3Label; document.getElementById('ui-kpi-3-value').innerText = data.info3Value; document.getElementById('ui-kpi-3-desc').innerText = data.info3Desc;
 
-        // Apply dynamic hue gradients universally to narrative boxes & conditionally hide empty ones
         const narrativeBoxes = [
             { t: data.box1Title, d: data.box1Desc, wr: 'box-1-wrapper', tt: 'ui-box-1-title', dd: 'ui-box-1-desc' },
             { t: data.box2Title, d: data.box2Desc, wr: 'box-2-wrapper', tt: 'ui-box-2-title', dd: 'ui-box-2-desc' },
@@ -849,447 +871,262 @@
                 document.getElementById(box.tt).innerText = box.t;
                 document.getElementById(box.dd).innerText = box.d || '';
                 wrapper.classList.remove('hidden');
-                
-                // Add Gradient
                 wrapper.className = wrapper.className.replace(/bg-gray-900\/20/g, '');
                 wrapper.classList.add('bg-gradient-to-br', 'from-indigo-950/30', 'to-brand-crimson/10');
-            } else {
-                wrapper.classList.add('hidden');
-            }
+            } else { wrapper.classList.add('hidden'); }
         });
 
         document.querySelectorAll('.hidden-module').forEach(el => el.classList.add('hidden-module'));
-        if(currentDBRow.Status && currentDBRow.Status.toUpperCase() === 'SOLD') document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
+        if(currentDBRow.Status && (currentDBRow.Status.toUpperCase() === 'SOLD' || currentDBRow.Status.toUpperCase() === 'UPCOMING')) {
+            document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
+        }
 
-        // Dynamic Offer Button & Modal Theme Styling
-        const submitOfferBtn = document.getElementById('submitOfferBtn');
-        
         if (data.dealType === 'creative') {
             document.getElementById('creative-kpis').classList.remove('hidden-module');
             document.getElementById('offerButtonContainer').classList.remove('hidden-module');
-            
-            submitOfferBtn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
-            
-            // Build Dynamic Sub2 Milestones
-            const mPI = data.marketPI || 0;
-            const sPI = data.sub2PI || 0;
-            const moCF = (mPI - sPI) > 0 ? (mPI - sPI) : 0;
-            const totalInt = clean(data.totalInterestSaved);
-            const annInt = totalInt / 30; // Approx linear interest saved
-
-            const setupMilestone = (year) => {
-                const cf = formatDollar(moCF * 12 * year);
-                const int = formatDollar(annInt * year);
-                const tot = formatDollar((moCF * 12 * year) + (annInt * year));
-                document.getElementById(`ui-sub2-y${year}-cf`).innerText = cf;
-                document.getElementById(`ui-sub2-y${year}-int`).innerText = int;
-                document.getElementById(`ui-sub2-y${year}-tot`).innerText = tot;
+            const mPI = data.marketPI || 0; const sPI = data.sub2PI || 0; const moCF = (mPI - sPI) > 0 ? (mPI - sPI) : 0; const annInt = clean(data.totalInterestSaved) / 30;
+            const setupMilestone = (y) => {
+                document.getElementById(`ui-sub2-y${y}-cf`).innerText = formatDollar(moCF * 12 * y);
+                document.getElementById(`ui-sub2-y${y}-int`).innerText = formatDollar(annInt * y);
+                document.getElementById(`ui-sub2-y${y}-tot`).innerText = formatDollar((moCF * 12 * y) + (annInt * y));
             };
-
             setupMilestone(5); setupMilestone(10); setupMilestone(15); setupMilestone(30);
             document.getElementById('creative-milestones').classList.remove('hidden-module');
-
         } else if (data.dealType === 'rental') {
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
             document.getElementById('offerButtonContainer').classList.remove('hidden-module');
-            
-            submitOfferBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
-
-            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
-            document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
-            
+            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label; document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
             const wsWrapper1 = document.getElementById('ws-kpi-1-wrapper');
-            if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') {
-                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank');
-                wsWrapper1.classList.add('cursor-pointer');
-            } else {
-                wsWrapper1.classList.remove('cursor-pointer');
-                wsWrapper1.onclick = null;
-            }
-
-            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label;
-            document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
-            document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
-            document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
-            document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
-
-            // Build Dynamic Rental Milestones (Year 1, 5, 15, 30)
-            const annRent = clean(data.rnEstRent) * 12;
-            const annOpEx = clean(data.rnOpEx) * 12;
-            const annNOI = annRent - annOpEx;
-
-            const setupRentalMilestone = (year) => {
-                const r = formatDollar(annRent * year);
-                const e = formatDollar(annOpEx * year);
-                const n = formatDollar(annNOI * year);
-                document.getElementById(`ui-rn-y${year}-rent`).innerText = r;
-                document.getElementById(`ui-rn-y${year}-opex`).innerText = e;
-                document.getElementById(`ui-rn-y${year}-noi`).innerText = n;
+            if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') { wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank'); wsWrapper1.classList.add('cursor-pointer'); } 
+            else { wsWrapper1.classList.remove('cursor-pointer'); wsWrapper1.onclick = null; }
+            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label; document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value; document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
+            document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400'); document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
+            const annRent = clean(data.rnEstRent) * 12; const annOpEx = clean(data.rnOpEx) * 12; const annNOI = annRent - annOpEx;
+            const setupRentalMilestone = (y) => {
+                document.getElementById(`ui-rn-y${y}-rent`).innerText = formatDollar(annRent * y);
+                document.getElementById(`ui-rn-y${y}-opex`).innerText = formatDollar(annOpEx * y);
+                document.getElementById(`ui-rn-y${y}-noi`).innerText = formatDollar(annNOI * y);
             };
-
             setupRentalMilestone(1); setupRentalMilestone(5); setupRentalMilestone(15); setupRentalMilestone(30);
             document.getElementById('rental-milestones').classList.remove('hidden-module');
-
         } else {
-            // Standard Wholesale
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
             document.getElementById('offerButtonContainer').classList.remove('hidden-module');
-            
-            submitOfferBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
-
-            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
-            document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
-            
+            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label; document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
             const wsWrapper1 = document.getElementById('ws-kpi-1-wrapper');
-            if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') {
-                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank');
-                wsWrapper1.classList.add('cursor-pointer');
-            } else {
-                wsWrapper1.classList.remove('cursor-pointer');
-                wsWrapper1.onclick = null;
-            }
-
-            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label;
-            document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
-            document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
-            document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
-            document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
+            if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') { wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank'); wsWrapper1.classList.add('cursor-pointer'); } 
+            else { wsWrapper1.classList.remove('cursor-pointer'); wsWrapper1.onclick = null; }
+            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label; document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value; document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
+            document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400'); document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
         }
 
         switch (data.dealType) {
-            case 'creative':
-                document.getElementById('module-creative-table').classList.remove('hidden-module');
-                document.getElementById('module-charts').classList.remove('hidden-module');
-                renderCreativeTable(data); renderLineCharts(data); break;
-            case 'wholesale':
-                document.getElementById('module-wholesale-table').classList.remove('hidden-module');
-                document.getElementById('module-doughnut-chart').classList.remove('hidden-module');
-                renderWholesaleTable(data); renderDoughnutChart(data); break;
-            case 'rental':
-                document.getElementById('module-rental-table').classList.remove('hidden-module');
-                renderRentalTable(data); break;
+            case 'creative': document.getElementById('module-creative-table').classList.remove('hidden-module'); document.getElementById('module-charts').classList.remove('hidden-module'); renderCreativeTable(data); renderLineCharts(data); break;
+            case 'wholesale': document.getElementById('module-wholesale-table').classList.remove('hidden-module'); document.getElementById('module-doughnut-chart').classList.remove('hidden-module'); renderWholesaleTable(data); renderDoughnutChart(data); break;
+            case 'rental': document.getElementById('module-rental-table').classList.remove('hidden-module'); renderRentalTable(data); break;
         }
     }
 
     // ==========================================
-    // MAKE AN OFFER LOGIC
+    // MULTI-MODAL LOGIC & ANIMATIONS
     // ==========================================
+    
+    // 1. OFFER MODAL
     function openOfferModal() {
         const modalBox = document.getElementById('offerModalBox');
         document.getElementById('offerModal').classList.remove('hidden');
-        
-        // Trigger enter animation
-        modalBox.classList.remove('animate-modal-out');
-        modalBox.classList.add('animate-modal-in');
-
+        modalBox.classList.remove('animate-modal-out'); modalBox.classList.add('animate-modal-in');
         document.getElementById('offerModalAddress').innerText = currentDBRow.Address + ", " + currentDBRow.City_State;
-        
-        // Auto-fill their logged in email
         document.getElementById('offerEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
-        
-        // Reset button text
         document.getElementById('submitOfferBtn').innerText = "Send Official Offer";
         document.getElementById('offerErrorMessage').classList.add('hidden');
     }
-
     function closeOfferModal() {
         const modalBox = document.getElementById('offerModalBox');
-        
-        // Trigger exit animation
-        modalBox.classList.remove('animate-modal-in');
-        modalBox.classList.add('animate-modal-out');
-        
-        // Wait for animation to finish before hiding container
-        setTimeout(() => {
-            document.getElementById('offerModal').classList.add('hidden');
-        }, 300);
+        modalBox.classList.remove('animate-modal-in'); modalBox.classList.add('animate-modal-out');
+        setTimeout(() => { document.getElementById('offerModal').classList.add('hidden'); }, 300);
     }
-
-    function formatPhoneInput(input) {
-        let val = input.value.replace(/\D/g, '');
-        let x = val.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-        if (!x[2]) {
-            input.value = x[1];
-        } else {
-            input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-        }
-    }
-
-    function formatCurrencyInput(input) {
-        let val = input.value.replace(/[^0-9.]/g, '');
-        let parts = val.split('.');
-        if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
-        parts = val.split('.');
-        if (parts[0]) parts[0] = parseInt(parts[0], 10).toLocaleString('en-US');
-        if (parts.length > 1) {
-            parts[1] = parts[1].substring(0, 2);
-            input.value = parts.join('.');
-        } else {
-            input.value = parts[0] || '';
-        }
-    }
-
-    function formatCurrencyBlur(input) {
-        let val = input.value.replace(/[^0-9.]/g, '');
-        if(val) {
-            let num = parseFloat(val);
-            if(!isNaN(num)) {
-                input.value = num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            }
-        }
-    }
-
     async function submitOffer() {
-        const firstName = document.getElementById('offerFirstName').value.trim();
-        const lastName = document.getElementById('offerLastName').value.trim();
-        const email = document.getElementById('offerEmail').value.trim();
-        const rawPhone = document.getElementById('offerPhone').value.trim();
-        const rawAmount = document.getElementById('offerAmount').value.trim();
-        const note = document.getElementById('offerNote').value.trim();
-        const errorMsg = document.getElementById('offerErrorMessage');
-        const btn = document.getElementById('submitOfferBtn');
+        const fn = document.getElementById('offerFirstName').value.trim(); const ln = document.getElementById('offerLastName').value.trim();
+        const email = document.getElementById('offerEmail').value.trim(); const rawPhone = document.getElementById('offerPhone').value.trim();
+        const rawAmount = document.getElementById('offerAmount').value.trim(); const note = document.getElementById('offerNote').value.trim();
+        const errorMsg = document.getElementById('offerErrorMessage'); const btn = document.getElementById('submitOfferBtn');
+        let phoneDigits = rawPhone.replace(/\D/g, ''); let amountClean = rawAmount.replace(/[^0-9.]/g, '');
 
-        // Extract pure digits/decimals for validation
-        let phoneDigits = rawPhone.replace(/\D/g, ''); 
-        let amountClean = rawAmount.replace(/[^0-9.]/g, '');
-
-        if(!firstName || !lastName || !email || !phoneDigits || !amountClean || !note) {
-            errorMsg.innerText = "First Name, Last Name, Email, Phone, Offer Amount, and Notes are strictly required.";
-            errorMsg.classList.remove('hidden');
-            return;
-        }
-
-        // Must exactly be 10 digits since the +1 is visually decoupled in the UI
-        if(phoneDigits.length !== 10) {
-            errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
-            errorMsg.classList.remove('hidden');
-            return;
-        }
+        if(!fn || !ln || !email || !phoneDigits || !amountClean || !note) { errorMsg.innerText = "All fields are required."; errorMsg.classList.remove('hidden'); return; }
+        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); return; }
         
-        // Final properly formatted payload phone
-        const formattedPhone = '+1' + phoneDigits;
+        const formattedPhone = '+1' + phoneDigits; errorMsg.classList.add('hidden');
+        btn.innerText = "Sending Secure Offer..."; btn.disabled = true; btn.classList.add('opacity-75', 'cursor-not-allowed');
 
-        errorMsg.classList.add('hidden');
-        btn.innerText = "Sending Secure Offer...";
-        btn.disabled = true;
-        btn.classList.add('opacity-75', 'cursor-not-allowed');
-
-        const payload = {
-            propertyId: urlPropId,
-            address: currentDBRow.Address,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: formattedPhone,
-            offerAmount: rawAmount, // Sends the beautifully formatted string (e.g. 20,000.00)
-            note: note,
-            source: "TCHB Investor Portal",
-            timestamp: new Date().toISOString()
-        };
+        const payload = { propertyId: urlPropId, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State, firstName: fn, lastName: ln, email: email, phone: formattedPhone, offerAmount: rawAmount, note: note, source: "TCHB Investor Portal - Offer", timestamp: new Date().toISOString() };
 
         try {
-            if (GHL_WEBHOOK_URL && GHL_WEBHOOK_URL !== "YOUR_GHL_WEBHOOK_URL_HERE") {
-                await fetch(GHL_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-            } else {
-                console.warn("GHL Webhook URL not set. Logging Mock Data:", payload);
-                await new Promise(r => setTimeout(r, 1000)); // simulate delay
-            }
-            
-            // --- SUCCESS EXIT ANIMATION SEQUENCE ---
-            btn.innerText = "Offer Submitted Successfully!";
-            btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
-            
-            // Fade form and lock inputs visually
-            const formContent = document.getElementById('offerModalFormContent');
-            formContent.style.opacity = '0.4';
-            formContent.style.pointerEvents = 'none';
-
-            // Swap icon to bounding checkmark
+            if (WH_OFFER) await fetch(WH_OFFER, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            btn.innerText = "Offer Submitted Successfully!"; btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
+            const formContent = document.getElementById('offerModalFormContent'); formContent.style.opacity = '0.4'; formContent.style.pointerEvents = 'none';
             const iconContainer = document.getElementById('offerModalIconContainer');
             iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce transition-all duration-300";
             iconContainer.innerHTML = '<svg class="w-8 h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-            
-            // Turn Title Green
-            const titleEl = document.getElementById('offerModalTitle');
-            titleEl.innerText = "Offer Received!";
-            titleEl.classList.add('text-brand-emerald');
-            
-            // Wait 2 seconds for user to see success, then trigger modal slide-out
+            const titleEl = document.getElementById('offerModalTitle'); titleEl.innerText = "Offer Received!"; titleEl.classList.add('text-brand-emerald');
             setTimeout(() => {
                 closeOfferModal();
-                
-                // Wait for exit slide animation to finish, then silently reset form for next time
                 setTimeout(() => {
                     btn.disabled = false;
-                    
-                    const rawType = (currentDBRow.Deal_Type || '').toUpperCase();
-                    const isCreative = rawType.includes('SUBJECT-TO') || rawType.includes('CREATIVE');
-                    btn.className = `w-full ${isCreative ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
-                    
-                    formContent.style.opacity = '1';
-                    formContent.style.pointerEvents = 'auto';
-                    document.getElementById('offerFirstName').value = '';
-                    document.getElementById('offerLastName').value = '';
-                    document.getElementById('offerAmount').value = '';
-                    document.getElementById('offerNote').value = '';
-                    
+                    btn.className = `w-full bg-gray-800/80 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
+                    formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
+                    document.getElementById('offerFirstName').value = ''; document.getElementById('offerLastName').value = ''; document.getElementById('offerAmount').value = ''; document.getElementById('offerNote').value = '';
                     iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4 transition-all duration-300";
                     iconContainer.innerHTML = '<svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-                    titleEl.innerText = "Submit Your Offer";
-                    titleEl.classList.remove('text-brand-emerald');
+                    titleEl.innerText = "Submit Your Offer"; titleEl.classList.remove('text-brand-emerald');
                 }, 400); 
             }, 2000);
-
-        } catch (err) {
-            errorMsg.innerText = "Error securely submitting offer. Please try again or contact us directly.";
-            errorMsg.classList.remove('hidden');
-            btn.innerText = "Send Official Offer";
-            btn.disabled = false;
-            btn.classList.remove('opacity-75', 'cursor-not-allowed');
-        }
+        } catch (err) { errorMsg.innerText = "Error securely submitting. Please contact us directly."; errorMsg.classList.remove('hidden'); btn.innerText = "Send Official Offer"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed'); }
     }
 
-    function renderCreativeTable(data) {
-        const sub2PI = parseFloat(data.sub2PI) || 0;
-        const marketPI = parseFloat(data.marketPI) || 0;
-        const escrow = parseFloat(data.escrow) || 0;
-        const sub2PITI = sub2PI + escrow;
-        const marketPITI = marketPI + escrow;
-        const cashFlow = marketPITI - sub2PITI;
+    // 2. SHOWING REQUEST MODAL
+    function openShowingModal() {
+        const modalBox = document.getElementById('showingModalBox');
+        document.getElementById('showingModal').classList.remove('hidden');
+        modalBox.classList.remove('animate-modal-out'); modalBox.classList.add('animate-modal-in');
+        document.getElementById('showingModalAddress').innerText = currentDBRow.Address + ", " + currentDBRow.City_State;
+        document.getElementById('shEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
+        document.getElementById('submitShowingBtn').innerText = "Confirm Showing Request";
+        document.getElementById('showingErrorMessage').classList.add('hidden');
+    }
+    function closeShowingModal() {
+        const modalBox = document.getElementById('showingModalBox');
+        modalBox.classList.remove('animate-modal-in'); modalBox.classList.add('animate-modal-out');
+        setTimeout(() => { document.getElementById('showingModal').classList.add('hidden'); }, 300);
+    }
+    async function submitShowingRequest() {
+        const fn = document.getElementById('shFirstName').value.trim(); const ln = document.getElementById('shLastName').value.trim();
+        const email = document.getElementById('shEmail').value.trim(); const rawPhone = document.getElementById('shPhone').value.trim();
+        const time = document.getElementById('shTime').value.trim(); const note = document.getElementById('shNote').value.trim();
+        const errorMsg = document.getElementById('showingErrorMessage'); const btn = document.getElementById('submitShowingBtn');
+        let phoneDigits = rawPhone.replace(/\D/g, ''); 
 
+        if(!fn || !ln || !email || !phoneDigits || !time) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); return; }
+        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); return; }
+        
+        const formattedPhone = '+1' + phoneDigits; errorMsg.classList.add('hidden');
+        btn.innerText = "Sending Request..."; btn.disabled = true; btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+        const payload = { propertyId: urlPropId, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State, firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: time, note: note, source: "TCHB Investor Portal - Showing", timestamp: new Date().toISOString() };
+
+        try {
+            if (WH_SHOWING) await fetch(WH_SHOWING, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            btn.innerText = "Showing Requested Successfully!"; btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
+            const formContent = document.getElementById('showingModalFormContent'); formContent.style.opacity = '0.4'; formContent.style.pointerEvents = 'none';
+            const iconContainer = document.getElementById('showingModalIconContainer');
+            iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce transition-all duration-300";
+            iconContainer.innerHTML = '<svg class="w-8 h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+            const titleEl = document.getElementById('showingModalTitle'); titleEl.innerText = "Request Received!"; titleEl.classList.add('text-brand-emerald');
+            setTimeout(() => {
+                closeShowingModal();
+                setTimeout(() => {
+                    btn.disabled = false; btn.className = `btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20`;
+                    formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
+                    document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = ''; document.getElementById('shTime').value = ''; document.getElementById('shNote').value = '';
+                    iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300";
+                    iconContainer.innerHTML = '<svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                    titleEl.innerText = "Request A Showing"; titleEl.classList.remove('text-brand-emerald');
+                }, 400); 
+            }, 2000);
+        } catch (err) { errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); btn.innerText = "Confirm Showing Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed'); }
+    }
+
+    // 3. ACCESS KEY MODAL (GATE)
+    function openAccessModal() {
+        if(currentDBRow) document.getElementById('accessModalAddress').innerText = currentDBRow.Address + ", " + currentDBRow.City_State;
+        const modalBox = document.getElementById('accessModalBox');
+        document.getElementById('accessModal').classList.remove('hidden');
+        modalBox.classList.remove('animate-modal-out'); modalBox.classList.add('animate-modal-in');
+        document.getElementById('submitAccessBtn').innerText = "Submit Access Request";
+        document.getElementById('accessErrorMessage').classList.add('hidden');
+    }
+    function closeAccessModal() {
+        const modalBox = document.getElementById('accessModalBox');
+        modalBox.classList.remove('animate-modal-in'); modalBox.classList.add('animate-modal-out');
+        setTimeout(() => { document.getElementById('accessModal').classList.add('hidden'); }, 300);
+    }
+    async function submitAccessRequest() {
+        const fn = document.getElementById('accFirstName').value.trim(); const ln = document.getElementById('accLastName').value.trim();
+        const email = document.getElementById('accEmail').value.trim(); const rawPhone = document.getElementById('accPhone').value.trim();
+        const note = document.getElementById('accNote').value.trim();
+        const errorMsg = document.getElementById('accessErrorMessage'); const btn = document.getElementById('submitAccessBtn');
+
+        let phoneDigits = rawPhone.replace(/\D/g, ''); 
+        if(!fn || !ln || !email || !phoneDigits) { errorMsg.innerText = "First Name, Last Name, Email, and Phone are required."; errorMsg.classList.remove('hidden'); return; }
+        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); return; }
+        
+        const formattedPhone = '+1' + phoneDigits; errorMsg.classList.add('hidden');
+        btn.innerText = "Sending Request..."; btn.disabled = true; btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+        const payload = { propertyId: urlPropId, address: currentDBRow ? currentDBRow.Address + ", " + currentDBRow.City_State : "Unknown", firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note, source: "TCHB Investor Portal - Access Request", timestamp: new Date().toISOString() };
+
+        try {
+            if (WH_ACCESS) await fetch(WH_ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            btn.innerText = "Request Sent Successfully!"; btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
+            const formContent = document.getElementById('accessModalFormContent'); formContent.style.opacity = '0.4'; formContent.style.pointerEvents = 'none';
+            const iconContainer = document.getElementById('accessModalIconContainer');
+            iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce transition-all duration-300";
+            iconContainer.innerHTML = '<svg class="w-8 h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+            const titleEl = document.getElementById('accessModalTitle'); titleEl.innerText = "We'll Be In Touch!"; titleEl.classList.add('text-brand-emerald');
+            setTimeout(() => {
+                closeAccessModal();
+                setTimeout(() => {
+                    btn.disabled = false; btn.className = `w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-emerald-500/20`;
+                    formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
+                    document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
+                    iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 mb-4 transition-all duration-300";
+                    iconContainer.innerHTML = '<svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
+                    titleEl.innerText = "Request Portal Access"; titleEl.classList.remove('text-brand-emerald');
+                }, 400); 
+            }, 2000);
+        } catch (err) { errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); btn.innerText = "Submit Access Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed'); }
+    }
+
+
+    function renderCreativeTable(data) {
+        const sub2PI = parseFloat(data.sub2PI) || 0; const marketPI = parseFloat(data.marketPI) || 0; const escrow = parseFloat(data.escrow) || 0;
+        const sub2PITI = sub2PI + escrow; const marketPITI = marketPI + escrow; const cashFlow = marketPITI - sub2PITI;
         document.getElementById('ui-creative-tbody').innerHTML = `
-            <tr>
-              <td class="px-6 py-4 font-semibold text-gray-200 text-center">Loan Amount (Principal)</td>
-              <td class="px-6 py-4 bg-purple-950/10 text-white font-medium text-center">${data.crSub2Principal || '$0'}</td>
-              <td class="px-6 py-4 text-center">${data.crMarketPrincipal || '$0'}</td>
-              <td class="px-6 py-4 text-center text-gray-400">—</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 font-semibold text-gray-200 text-center">Interest %</td>
-              <td class="px-6 py-4 font-bold text-brand-emerald bg-purple-950/10 text-lg text-center">${data.sub2Rate || '0%'}</td>
-              <td class="px-6 py-4 text-red-400 text-lg font-medium text-center">${data.marketRate || '0%'}</td>
-              <td class="px-6 py-4 text-center text-brand-emerald font-bold text-base">Rate Advantage</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 font-semibold text-gray-200 text-center">Maturity Date</td>
-              <td class="px-6 py-4 bg-purple-950/10 text-center">${data.crSub2Maturity || 'N/A'}</td>
-              <td class="px-6 py-4 text-center">${data.crMarketMaturity || 'N/A'}</td>
-              <td class="px-6 py-4 text-center text-brand-emerald font-semibold">Timeline Advantage</td>
-            </tr>
-            <tr class="bg-gray-950/20">
-              <td class="px-6 py-4 font-semibold text-gray-200 text-center">Principal & Interest (P&I)</td>
-              <td class="px-6 py-4 font-bold text-white bg-purple-950/10 text-center">${formatDollar(sub2PI)}</td>
-              <td class="px-6 py-4 text-center">${formatDollar(marketPI)}</td>
-              <td class="px-6 py-4 text-center text-brand-emerald font-semibold">+${formatDollar(cashFlow)} / mo Saved</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 font-semibold text-gray-200 text-center">Escrow & Taxes Per Month</td>
-              <td class="px-6 py-4 bg-purple-950/10 text-center">${formatDollar(escrow)}</td>
-              <td class="px-6 py-4 text-center">${formatDollar(escrow)}</td>
-              <td class="px-6 py-4 text-center text-gray-400">Identical ($0.00 Diff)</td>
-            </tr>
-            <tr class="bg-brand-purple/15">
-              <td class="px-6 py-4 font-bold text-white text-center">Total PITI Payment</td>
-              <td class="px-6 py-4 font-extrabold text-indigo-300 bg-purple-950/30 text-base text-center">${formatDollar(sub2PITI)}</td>
-              <td class="px-6 py-4 text-gray-300 text-center">${formatDollar(marketPITI)}</td>
-              <td class="px-6 py-4 text-center text-brand-emerald font-extrabold text-base">+${formatDollar(cashFlow)} / mo Cash Flow</td>
-            </tr>
-            <tr class="bg-brand-emerald/10">
-              <td class="px-6 py-4 font-bold text-white text-center">Interest Paid Over Life of Loan</td>
-              <td class="px-6 py-4 font-bold text-brand-emerald bg-purple-950/10 text-center">${data.crSub2TotalInterest || '$0'}</td>
-              <td class="px-6 py-4 text-red-400 text-center">${data.crMarketTotalInterest || '$0'}</td>
-              <td class="px-6 py-4 text-center text-brand-emerald font-extrabold">+${data.totalInterestSaved || '$0'} Net Savings</td>
-            </tr>
+            <tr><td class="px-6 py-4 font-semibold text-gray-200 text-center">Loan Amount (Principal)</td><td class="px-6 py-4 bg-purple-950/10 text-white font-medium text-center">${data.crSub2Principal || '$0'}</td><td class="px-6 py-4 text-center">${data.crMarketPrincipal || '$0'}</td><td class="px-6 py-4 text-center text-gray-400">—</td></tr>
+            <tr><td class="px-6 py-4 font-semibold text-gray-200 text-center">Interest %</td><td class="px-6 py-4 font-bold text-brand-emerald bg-purple-950/10 text-lg text-center">${data.sub2Rate || '0%'}</td><td class="px-6 py-4 text-red-400 text-lg font-medium text-center">${data.marketRate || '0%'}</td><td class="px-6 py-4 text-center text-brand-emerald font-bold text-base">Rate Advantage</td></tr>
+            <tr><td class="px-6 py-4 font-semibold text-gray-200 text-center">Maturity Date</td><td class="px-6 py-4 bg-purple-950/10 text-center">${data.crSub2Maturity || 'N/A'}</td><td class="px-6 py-4 text-center">${data.crMarketMaturity || 'N/A'}</td><td class="px-6 py-4 text-center text-brand-emerald font-semibold">Timeline Advantage</td></tr>
+            <tr class="bg-gray-950/20"><td class="px-6 py-4 font-semibold text-gray-200 text-center">Principal & Interest (P&I)</td><td class="px-6 py-4 font-bold text-white bg-purple-950/10 text-center">${formatDollar(sub2PI)}</td><td class="px-6 py-4 text-center">${formatDollar(marketPI)}</td><td class="px-6 py-4 text-center text-brand-emerald font-semibold">+${formatDollar(cashFlow)} / mo Saved</td></tr>
+            <tr><td class="px-6 py-4 font-semibold text-gray-200 text-center">Escrow & Taxes Per Month</td><td class="px-6 py-4 bg-purple-950/10 text-center">${formatDollar(escrow)}</td><td class="px-6 py-4 text-center">${formatDollar(escrow)}</td><td class="px-6 py-4 text-center text-gray-400">Identical ($0.00 Diff)</td></tr>
+            <tr class="bg-brand-purple/15"><td class="px-6 py-4 font-bold text-white text-center">Total PITI Payment</td><td class="px-6 py-4 font-extrabold text-indigo-300 bg-purple-950/30 text-base text-center">${formatDollar(sub2PITI)}</td><td class="px-6 py-4 text-gray-300 text-center">${formatDollar(marketPITI)}</td><td class="px-6 py-4 text-center text-brand-emerald font-extrabold text-base">+${formatDollar(cashFlow)} / mo Cash Flow</td></tr>
+            <tr class="bg-brand-emerald/10"><td class="px-6 py-4 font-bold text-white text-center">Interest Paid Over Life of Loan</td><td class="px-6 py-4 font-bold text-brand-emerald bg-purple-950/10 text-center">${data.crSub2TotalInterest || '$0'}</td><td class="px-6 py-4 text-red-400 text-center">${data.crMarketTotalInterest || '$0'}</td><td class="px-6 py-4 text-center text-brand-emerald font-extrabold">+${data.totalInterestSaved || '$0'} Net Savings</td></tr>
         `;
     }
 
     function renderWholesaleTable(data) {
         document.getElementById('ui-wholesale-tbody').innerHTML = `
-            <tr>
-                <td class="px-6 py-4 text-left pl-6 text-white font-medium">Base Purchase Price</td>
-                <td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.wsPurchasePrice || '$0'}</td>
-                <td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. ARV / Turnkey Retail Value</td>
-                <td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsArv || '$0'}</td>
-            </tr>
-            <tr>
-                <td class="px-6 py-4 text-left pl-6 text-white font-medium">Est. Rehab / Repair Budget</td>
-                <td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.wsRepair || '$0'}</td>
-                <td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. Realtor Fees</td>
-                <td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsRealtor || '$0'}</td>
-            </tr>
-            <tr>
-                <td class="px-6 py-4 text-left pl-6 text-white"></td>
-                <td class="px-6 py-4 text-right bg-gray-900/40"></td>
-                <td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. Closing Costs (1-2%)</td>
-                <td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsClosing || '$0'}</td>
-            </tr>
-            <tr class="border-t border-gray-700">
-                <td class="px-6 py-5 font-bold text-brand-crimson text-lg text-left pl-6">Total Cost Basis</td>
-                <td class="px-6 py-5 font-extrabold text-brand-crimson bg-brand-crimson/10 text-lg text-right">${data.wsBasis || '$0'}</td>
-                <td class="px-6 py-5 font-bold text-brand-emerald border-l border-gray-800 pl-6 text-left text-lg">Est. Net Return</td>
-                <td class="px-6 py-5 font-black text-brand-emerald bg-brand-emerald/10 text-xl text-right pr-6">${data.wsReturn || '$0'}</td>
-            </tr>
+            <tr><td class="px-6 py-4 text-left pl-6 text-white font-medium">Base Purchase Price</td><td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.wsPurchasePrice || '$0'}</td><td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. ARV / Turnkey Retail Value</td><td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsArv || '$0'}</td></tr>
+            <tr><td class="px-6 py-4 text-left pl-6 text-white font-medium">Est. Rehab / Repair Budget</td><td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.wsRepair || '$0'}</td><td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. Realtor Fees</td><td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsRealtor || '$0'}</td></tr>
+            <tr><td class="px-6 py-4 text-left pl-6 text-white"></td><td class="px-6 py-4 text-right bg-gray-900/40"></td><td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. Closing Costs (1-2%)</td><td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsClosing || '$0'}</td></tr>
+            <tr class="border-t border-gray-700"><td class="px-6 py-5 font-bold text-brand-crimson text-lg text-left pl-6">Total Cost Basis</td><td class="px-6 py-5 font-extrabold text-brand-crimson bg-brand-crimson/10 text-lg text-right">${data.wsBasis || '$0'}</td><td class="px-6 py-5 font-bold text-brand-emerald border-l border-gray-800 pl-6 text-left text-lg">Est. Net Return</td><td class="px-6 py-5 font-black text-brand-emerald bg-brand-emerald/10 text-xl text-right pr-6">${data.wsReturn || '$0'}</td></tr>
         `;
     }
 
     function renderRentalTable(data) {
         document.getElementById('ui-rental-tbody').innerHTML = `
-            <tr>
-                <td class="px-6 py-4 text-left pl-6 text-white font-medium">Base Purchase Price</td>
-                <td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.rnPurchasePrice || '$0'}</td>
-                <td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. ARV / Turnkey Retail Value</td>
-                <td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsArv || '$0'}</td>
-            </tr>
-            <tr>
-                <td class="px-6 py-4 text-left pl-6 text-white font-medium">Est. Rehab / Repair Budget</td>
-                <td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.wsRepair || '$0'}</td>
-                <td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Total Current Rent</td>
-                <td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.rnCurRent || '$0'}</td>
-            </tr>
-            <tr>
-                <td class="px-6 py-4 text-left pl-6 text-white"></td>
-                <td class="px-6 py-4 text-right bg-gray-900/40"></td>
-                <td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Total Estimated Rent</td>
-                <td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.rnEstRent || '$0'}</td>
-            </tr>
-            <tr class="border-t border-gray-700">
-                <td class="px-6 py-5 font-bold text-brand-crimson text-lg text-left pl-6">Total Cost Basis</td>
-                <td class="px-6 py-5 font-extrabold text-brand-crimson bg-brand-crimson/10 text-lg text-right">${data.wsBasis || '$0'}</td>
-                <td class="px-6 py-5 font-bold text-brand-emerald border-l border-gray-800 pl-6 text-left text-lg">Estimated Gross Cap Rate</td>
-                <td class="px-6 py-5 font-black text-brand-emerald bg-brand-emerald/10 text-xl text-right pr-6">${data.rnCapRate || '0%'}</td>
-            </tr>
+            <tr><td class="px-6 py-4 text-left pl-6 text-white font-medium">Base Purchase Price</td><td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.rnPurchasePrice || '$0'}</td><td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Est. ARV / Turnkey Retail Value</td><td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.wsArv || '$0'}</td></tr>
+            <tr><td class="px-6 py-4 text-left pl-6 text-white font-medium">Est. Rehab / Repair Budget</td><td class="px-6 py-4 text-right font-bold text-white bg-gray-900/40">${data.wsRepair || '$0'}</td><td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Total Current Rent</td><td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.rnCurRent || '$0'}</td></tr>
+            <tr><td class="px-6 py-4 text-left pl-6 text-white"></td><td class="px-6 py-4 text-right bg-gray-900/40"></td><td class="px-6 py-4 text-left border-l border-gray-800 pl-6 text-white font-medium">Total Estimated Rent</td><td class="px-6 py-4 text-right pr-6 font-bold text-white bg-gray-900/40">${data.rnEstRent || '$0'}</td></tr>
+            <tr class="border-t border-gray-700"><td class="px-6 py-5 font-bold text-brand-crimson text-lg text-left pl-6">Total Cost Basis</td><td class="px-6 py-5 font-extrabold text-brand-crimson bg-brand-crimson/10 text-lg text-right">${data.wsBasis || '$0'}</td><td class="px-6 py-5 font-bold text-brand-emerald border-l border-gray-800 pl-6 text-left text-lg">Estimated Gross Cap Rate</td><td class="px-6 py-5 font-black text-brand-emerald bg-brand-emerald/10 text-xl text-right pr-6">${data.rnCapRate || '0%'}</td></tr>
         `;
     }
 
     let lineChart1, lineChart2, pieChart;
-
     function renderLineCharts(data) {
         if(lineChart1) lineChart1.destroy(); if(lineChart2) lineChart2.destroy();
-        
         const ctxPayment = document.getElementById('paymentChart').getContext('2d');
-        lineChart1 = new Chart(ctxPayment, {
-            type: 'bar',
-            data: { labels: ['Proposed Deal', "Standard Market"], datasets: [
-                { label: 'P&I', data: [data.sub2PI, data.marketPI], backgroundColor: '#4f46e5' },
-                { label: 'Escrow', data: [data.escrow, data.escrow], backgroundColor: '#10b981' }
-            ]},
-            options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } }
-        });
-
-        const m1 = data.marketPI * 12; const s1 = data.sub2PI * 12;
-        const ctxInterest = document.getElementById('interestChart').getContext('2d');
-        lineChart2 = new Chart(ctxInterest, {
-            type: 'line',
-            data: { labels: ['Year 1', 'Year 10', 'Year 20', 'Year 30'], datasets: [
-                { label: "Standard Market", data: [m1, m1*7, m1*13, m1*16], borderColor: '#dc2626', fill: true, backgroundColor: 'rgba(220, 38, 38, 0.1)' },
-                { label: 'Proposed Deal', data: [s1, s1*4, s1*7, s1*9], borderColor: '#10b981', fill: true, backgroundColor: 'rgba(16, 185, 129, 0.1)' }
-            ]},
-            options: { responsive: true, maintainAspectRatio: false }
-        });
+        lineChart1 = new Chart(ctxPayment, { type: 'bar', data: { labels: ['Proposed Deal', "Standard Market"], datasets: [{ label: 'P&I', data: [data.sub2PI, data.marketPI], backgroundColor: '#4f46e5' }, { label: 'Escrow', data: [data.escrow, data.escrow], backgroundColor: '#10b981' }]}, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } } });
+        const m1 = data.marketPI * 12; const s1 = data.sub2PI * 12; const ctxInterest = document.getElementById('interestChart').getContext('2d');
+        lineChart2 = new Chart(ctxInterest, { type: 'line', data: { labels: ['Year 1', 'Year 10', 'Year 20', 'Year 30'], datasets: [{ label: "Standard Market", data: [m1, m1*7, m1*13, m1*16], borderColor: '#dc2626', fill: true, backgroundColor: 'rgba(220, 38, 38, 0.1)' }, { label: 'Proposed Deal', data: [s1, s1*4, s1*7, s1*9], borderColor: '#10b981', fill: true, backgroundColor: 'rgba(16, 185, 129, 0.1)' }]}, options: { responsive: true, maintainAspectRatio: false } });
     }
 
     function renderDoughnutChart(data) {
@@ -1298,142 +1135,20 @@
         const chartLabels = ['Purchase/Basis', 'Rehab Budget', 'Est. Realtor & Closing', 'Net Return'];
         const chartData = [clean(data.wsPurchasePrice), clean(data.wsRepair), clean(data.wsRealtor) + clean(data.wsClosing), clean(data.wsReturn)];
         const chartColors = ['#06b6d4', '#f59e0b', '#dc2626', '#10b981'];
-
-        pieChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: { labels: chartLabels, datasets: [{ data: chartData, backgroundColor: chartColors, borderWidth: 0, hoverOffset: 10 }] },
-            options: {
-                responsive: true, maintainAspectRatio: false, cutout: '65%',
-                plugins: { legend: { position: 'bottom', labels: { color: '#f3f4f6' } }, datalabels: { color: '#ffffff', font: { weight: 'bold', size: 12 }, formatter: (v) => '$' + v.toLocaleString('en-US', {maximumFractionDigits:0}) } }
-            }
-        });
+        pieChart = new Chart(ctx, { type: 'doughnut', data: { labels: chartLabels, datasets: [{ data: chartData, backgroundColor: chartColors, borderWidth: 0, hoverOffset: 10 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { color: '#f3f4f6' } }, datalabels: { color: '#ffffff', font: { weight: 'bold', size: 12 }, formatter: (v) => '$' + v.toLocaleString('en-US', {maximumFractionDigits:0}) } } } });
     }
 
-    // Background Animation Matrix
-    const canvas = document.getElementById('gridCanvas');
-    const ctx = canvas.getContext('2d');
-    let gridSize = 55; let sparks = []; let lastSpanSpawn = 0;
-    let lastInteractionTime = Date.now(); 
-    const brandColors = [{ r: 79, g: 70, b: 229 }, { r: 220, g: 38, b: 38 }, { r: 16, g: 185, b: 129 }]; // Indigo, Red, Emerald
-
-    let customMouseX = window.innerWidth / 2; let customMouseY = window.innerHeight / 2;
-    let ringX = customMouseX; let ringY = customMouseY;
-
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas);
-
-    function createSpark(x = null, y = null, isClick = false) {
-        const isHorizontal = Math.random() > 0.5;
-        let startX, startY, dirX, dirY;
-        if (isClick && x !== null && y !== null) {
-            startX = Math.round(x / gridSize) * gridSize; startY = Math.round(y / gridSize) * gridSize;
-            dirX = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; dirY = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
-        } else {
-            if (isHorizontal) {
-                startX = Math.random() < 0.5 ? 0 : canvas.width; startY = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
-                dirX = startX === 0 ? 1 : -1; dirY = 0;
-            } else {
-                startX = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize; startY = Math.random() < 0.5 ? 0 : canvas.height;
-                dirX = 0; dirY = startY === 0 ? 1 : -1;
-            }
-        }
-        const color = brandColors[Math.floor(Math.random() * brandColors.length)];
-        sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color });
-    }
-
-    document.addEventListener('mousedown', (e) => { 
-        lastInteractionTime = Date.now();
-        for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); 
-        const ring = document.getElementById('cursor-ring');
-        if(ring) {
-            ring.style.transform = `translate(-50%, -50%) scale(0.7)`;
-            setTimeout(() => ring.style.transform = `translate(-50%, -50%) scale(1)`, 150);
-        }
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        document.body.classList.add('mouse-active');
-        customMouseX = e.clientX; customMouseY = e.clientY;
-        const dot = document.getElementById('cursor-dot');
-        if(dot) { dot.style.left = `${customMouseX}px`; dot.style.top = `${customMouseY}px`; }
-        const glow = document.getElementById('mouseGlow');
-        if(glow) {
-            glow.style.setProperty('--mouse-x', `${e.clientX}px`);
-            glow.style.setProperty('--mouse-y', `${e.clientY}px`);
-            if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1';
-        }
-    });
-
-    document.addEventListener('mouseover', (e) => {
-        if (e.target.closest('.cursor-not-allowed')) {
-            document.body.classList.add('cursor-locked');
-            document.body.classList.remove('cursor-hover');
-        } else if (e.target.closest('a, button, input, textarea, [onclick], .cursor-pointer')) {
-            document.body.classList.add('cursor-hover');
-            document.body.classList.remove('cursor-locked');
-        } else {
-            document.body.classList.remove('cursor-hover', 'cursor-locked');
-        }
-    });
-
-    document.addEventListener('mouseleave', () => {
-        const glow = document.getElementById('mouseGlow');
-        if(glow) glow.style.opacity = '0';
-    });
-
-    function drawSparks() {
-        ctx.lineCap = 'round';
-        sparks.forEach(spark => {
-            const c = spark.color;
-            ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY);
-            ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress);
-            ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke();
-            spark.history.forEach((point, index) => {
-                ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY);
-                ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`;
-                ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke();
-            });
-            ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath();
-            const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress; const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress;
-            ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`;
-            ctx.fill(); ctx.shadowBlur = 0;
-        });
-    }
-
-    function animateGrid(timestamp) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = 'rgba(79, 70, 229, 0.07)'; ctx.lineWidth = 1; ctx.beginPath();
-        for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
-        for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
-        ctx.stroke();
-
-        ringX += (customMouseX - ringX) * 0.15; ringY += (customMouseY - ringY) * 0.15;
-        const ring = document.getElementById('cursor-ring');
-        if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; }
-
-        drawSparks();
-        
-        if (Date.now() - lastInteractionTime > 5000) {
-            if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; }
-        }
-
-        for (let i = sparks.length - 1; i >= 0; i--) {
-            let spark = sparks[i]; spark.progress += spark.speed; spark.life -= spark.decay;
-            if (spark.history.length > 5) spark.history.shift();
-            spark.history.push({ x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress, nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1) });
-            if (spark.life <= 0) { sparks.splice(i, 1); } 
-            else if (spark.progress >= 1) {
-                spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0;
-                if (Math.random() < 0.3 && sparks.length < 32) {
-                    let isHorizontal = spark.dirX !== 0; let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0;
-                    sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color });
-                }
-                spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize;
-            }
-        }
-        requestAnimationFrame(animateGrid);
-    }
+    // Canvas Background
+    const canvas = document.getElementById('gridCanvas'); const ctx = canvas.getContext('2d'); let gridSize = 55; let sparks = []; let lastSpanSpawn = 0; let lastInteractionTime = Date.now(); const brandColors = [{ r: 79, g: 70, b: 229 }, { r: 220, g: 38, b: 38 }, { r: 16, g: 185, b: 129 }];
+    let customMouseX = window.innerWidth / 2; let customMouseY = window.innerHeight / 2; let ringX = customMouseX; let ringY = customMouseY;
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } window.addEventListener('resize', resizeCanvas);
+    function createSpark(x = null, y = null, isClick = false) { const isHorizontal = Math.random() > 0.5; let startX, startY, dirX, dirY; if (isClick && x !== null && y !== null) { startX = Math.round(x / gridSize) * gridSize; startY = Math.round(y / gridSize) * gridSize; dirX = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; dirY = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); } else { if (isHorizontal) { startX = Math.random() < 0.5 ? 0 : canvas.width; startY = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize; dirX = startX === 0 ? 1 : -1; dirY = 0; } else { startX = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize; startY = Math.random() < 0.5 ? 0 : canvas.height; dirX = 0; dirY = startY === 0 ? 1 : -1; } } const color = brandColors[Math.floor(Math.random() * brandColors.length)]; sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color }); }
+    document.addEventListener('mousedown', (e) => { lastInteractionTime = Date.now(); for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); const ring = document.getElementById('cursor-ring'); if(ring) { ring.style.transform = `translate(-50%, -50%) scale(0.7)`; setTimeout(() => ring.style.transform = `translate(-50%, -50%) scale(1)`, 150); } });
+    document.addEventListener('mousemove', (e) => { document.body.classList.add('mouse-active'); customMouseX = e.clientX; customMouseY = e.clientY; const dot = document.getElementById('cursor-dot'); if(dot) { dot.style.left = `${customMouseX}px`; dot.style.top = `${customMouseY}px`; } const glow = document.getElementById('mouseGlow'); if(glow) { glow.style.setProperty('--mouse-x', `${e.clientX}px`); glow.style.setProperty('--mouse-y', `${e.clientY}px`); if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1'; } });
+    document.addEventListener('mouseover', (e) => { if (e.target.closest('.cursor-not-allowed')) { document.body.classList.add('cursor-locked'); document.body.classList.remove('cursor-hover'); } else if (e.target.closest('a, button, input, textarea, [onclick], .cursor-pointer')) { document.body.classList.add('cursor-hover'); document.body.classList.remove('cursor-locked'); } else { document.body.classList.remove('cursor-hover', 'cursor-locked'); } });
+    document.addEventListener('mouseleave', () => { const glow = document.getElementById('mouseGlow'); if(glow) glow.style.opacity = '0'; });
+    function drawSparks() { ctx.lineCap = 'round'; sparks.forEach(spark => { const c = spark.color; ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY); ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke(); spark.history.forEach((point, index) => { ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`; ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke(); }); ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath(); const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress; const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress; ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2); ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`; ctx.fill(); ctx.shadowBlur = 0; }); }
+    function animateGrid(timestamp) { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = 'rgba(79, 70, 229, 0.07)'; ctx.lineWidth = 1; ctx.beginPath(); for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); } for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } ctx.stroke(); ringX += (customMouseX - ringX) * 0.15; ringY += (customMouseY - ringY) * 0.15; const ring = document.getElementById('cursor-ring'); if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; } drawSparks(); if (Date.now() - lastInteractionTime > 5000) { if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; } } for (let i = sparks.length - 1; i >= 0; i--) { let spark = sparks[i]; spark.progress += spark.speed; spark.life -= spark.decay; if (spark.history.length > 5) spark.history.shift(); spark.history.push({ x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress, nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1) }); if (spark.life <= 0) { sparks.splice(i, 1); } else if (spark.progress >= 1) { spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0; if (Math.random() < 0.3 && sparks.length < 32) { let isHorizontal = spark.dirX !== 0; let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color }); } spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize; } } requestAnimationFrame(animateGrid); }
   </script>
 </body>
 </html>
