@@ -44,16 +44,16 @@
 
         #mouseGlow {
             position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
-            width: 220px; height: 220px;
-            transform: translate(calc(var(--mouse-x, 50vw) - 110px), calc(var(--mouse-y, 50vh) - 110px));
+            width: 300px; height: 300px;
+            transform: translate(calc(var(--mouse-x, 50vw) - 150px), calc(var(--mouse-y, 50vh) - 150px));
             opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
         }
         #mouseGlow::before {
             content: ""; position: absolute; inset: 0; border-radius: 50%;
-            background: radial-gradient(circle at center, transparent 15%, rgba(16, 185, 129, 0.25) 35%, rgba(79, 70, 229, 0.25) 60%, rgba(220, 38, 38, 0.25) 85%, transparent 100%);
-            filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite;
+            background: conic-gradient(from 0deg, rgba(220,38,38,0.3), rgba(79,70,229,0.3), rgba(16,185,129,0.3), rgba(220,38,38,0.3));
+            filter: blur(40px); animation: color-spin 4s linear infinite;
         }
-        @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
+        @keyframes color-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         body, a, button, input, select, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
         
@@ -67,32 +67,33 @@
         body.cursor-locked #cursor-dot { transform: translate(-50%, -50%) scale(1.2); background: #dc2626; }
 
         .animate-text-gradient {
-            background: linear-gradient(to right, #dc2626, #4f46e5, #10b981, #4f46e5, #dc2626);
-            background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
-            animation: pan-x 6s linear infinite;
+            background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5);
+            background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
+            animation: pan-x 6s ease-in-out infinite;
         }
         .animate-text-gradient-pulse {
-            background: linear-gradient(to right, #dc2626, #4f46e5, #10b981, #4f46e5, #dc2626);
-            background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
-            animation: pan-x 6s linear infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5);
+            background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
+            animation: pan-x 6s ease-in-out infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        .gradient-ring-border { position: absolute; inset: 0; border-radius: 50%; padding: 3px; background: linear-gradient(to right, #dc2626, #4f46e5, #10b981, #4f46e5, #dc2626); background-size: 300% 100%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: pan-x 6s linear infinite, custom-spin 1.5s linear infinite; }
-        .gradient-ring-glow { position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(to right, #dc2626, #4f46e5, #10b981, #4f46e5, #dc2626); background-size: 300% 100%; filter: blur(12px); animation: pan-x 6s linear infinite, pulse-glow-strong 2s ease-in-out infinite alternate; }
+        .gradient-ring-border { position: absolute; inset: 0; border-radius: 50%; padding: 3px; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: pan-x 6s ease-in-out infinite, custom-spin 1.5s linear infinite; }
+        .gradient-ring-glow { position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; filter: blur(12px); animation: pan-x 6s ease-in-out infinite, pulse-glow-strong 2s ease-in-out infinite alternate; }
+        @keyframes pan-x { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes custom-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulse-glow-strong { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 0.8; transform: scale(1.1); } }
         @keyframes icon-pulse { 0%, 100% { transform: scale(0.85); opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 15px rgba(255,255,255,0.6)); } }
         .animate-icon-pulse { animation: icon-pulse 2s ease-in-out infinite; }
 
-        .btn-mixed-hue { background: linear-gradient(to right, #dc2626, #4f46e5, #10b981, #4f46e5, #dc2626); background-size: 300% 100%; animation: pan-x 6s linear infinite; }
+        .btn-mixed-hue { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; animation: pan-x 6s ease-in-out infinite; }
         .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
         /* Custom Silver Button */
         .btn-showing { background: linear-gradient(to right, #e2e8f0, #f8fafc, #e2e8f0); background-size: 200% 100%; color: #0f172a; border: 1px solid #cbd5e1; }
         .btn-showing:hover { animation: pan-x 3s linear infinite; background: linear-gradient(to right, #94a3b8, #cbd5e1, #94a3b8); background-size: 200% 100%; border-color: transparent; box-shadow: 0 4px 15px rgba(148, 163, 184, 0.4); color: #000; }
         
-        /* Styled Date Picker Overlay */
-        .custom-datetime { color-scheme: dark; position: relative; z-index: 10; }
+        /* Styled Date/Time Pickers (Split Inputs) */
+        .custom-datetime { color-scheme: dark; }
         .custom-datetime::-webkit-calendar-picker-indicator {
             background: transparent; bottom: 0; color: transparent; cursor: pointer; height: auto; left: 0; position: absolute; right: 0; top: 0; width: auto; z-index: 10;
         }
@@ -197,31 +198,37 @@
                     </div>
                 </div>
                 
-                <!-- Enhanced Date & Custom Timezone UI -->
+                <!-- Enhanced Date, Time & Premium Custom Timezone UI -->
                 <div class="flex gap-3 text-left relative w-full">
                     <div class="flex-[3] min-w-0 relative">
                         <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date & Time</label>
-                        <div class="relative w-full overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group">
-                            <input type="datetime-local" id="shTime" class="w-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer custom-datetime text-[13px] sm:text-sm appearance-none relative z-10">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <div class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group">
+                            <!-- Split Inputs avoid infinite scroll UI in Chrome -->
+                            <div class="relative w-[55%] border-r border-white/10 h-full">
+                                <input type="date" id="shDate" class="w-full h-full bg-transparent pl-3 pr-2 py-3 text-white focus:outline-none cursor-pointer custom-datetime text-[12px] sm:text-[13px] appearance-none relative z-10 text-center">
+                            </div>
+                            <div class="relative w-[45%] h-full">
+                                <input type="time" id="shTime" class="w-full h-full bg-transparent pl-2 pr-7 py-3 text-white focus:outline-none cursor-pointer custom-datetime text-[12px] sm:text-[13px] appearance-none relative z-10 text-center">
+                            </div>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
                         </div>
                     </div>
                     <div id="tzDropdownContainer" class="relative flex-[2] min-w-0">
                         <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Time Zone</label>
-                        <div onclick="toggleTzDropdown()" class="w-full bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 rounded-lg px-3 py-3 text-left text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer text-[13px] sm:text-sm flex justify-between items-center select-none group">
+                        <div onclick="toggleTzDropdown()" class="w-full bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 rounded-lg px-3 py-3 text-left text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer text-[13px] sm:text-sm flex justify-between items-center select-none group h-[46px]">
                             <span id="shTimeZoneLabel" class="text-gray-400 truncate group-hover:text-gray-300 transition-colors">Zone</span>
                             <svg class="w-3.5 h-3.5 text-gray-500 group-hover:text-indigo-400 flex-shrink-0 ml-1 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div id="tzDropdownMenu" class="absolute z-[150] w-full mt-2 bg-[#1f2937] border border-white/10 rounded-lg shadow-2xl opacity-0 invisible transform -translate-y-2 transition-all duration-200 overflow-hidden text-left right-0">
+                        <div id="tzDropdownMenu" class="absolute z-[150] w-full mt-2 bg-[#0b0f19]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] opacity-0 invisible transform -translate-y-2 transition-all duration-200 overflow-hidden text-left right-0">
                             <div class="max-h-48 overflow-y-auto py-1 custom-scrollbar">
-                                <div onclick="selectTz('EST', 'Eastern (EST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Eastern (EST)</div>
-                                <div onclick="selectTz('CST', 'Central (CST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Central (CST)</div>
-                                <div onclick="selectTz('MST', 'Mountain (MST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Mountain (MST)</div>
-                                <div onclick="selectTz('PST', 'Pacific (PST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Pacific (PST)</div>
-                                <div onclick="selectTz('AKST', 'Alaskan (AKST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Alaskan (AKST)</div>
-                                <div onclick="selectTz('HST', 'Hawaii (HST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Hawaii (HST)</div>
+                                <div onclick="selectTz('EST', 'Eastern (EST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Eastern (EST)</div>
+                                <div onclick="selectTz('CST', 'Central (CST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Central (CST)</div>
+                                <div onclick="selectTz('MST', 'Mountain (MST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Mountain (MST)</div>
+                                <div onclick="selectTz('PST', 'Pacific (PST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Pacific (PST)</div>
+                                <div onclick="selectTz('AKST', 'Alaskan (AKST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Alaskan (AKST)</div>
+                                <div onclick="selectTz('HST', 'Hawaii (HST)')" class="px-3 py-2.5 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors truncate">Hawaii (HST)</div>
                             </div>
                         </div>
                         <input type="hidden" id="shTimeZone" value="">
@@ -685,6 +692,7 @@
             const ln = document.getElementById('shLastName').value.trim();
             const email = document.getElementById('shEmail').value.trim();
             const rawPhone = document.getElementById('shPhone').value.trim();
+            const dateInput = document.getElementById('shDate').value.trim();
             const timeInput = document.getElementById('shTime').value.trim();
             const tz = document.getElementById('shTimeZone').value;
             const note = document.getElementById('shNote').value.trim();
@@ -692,7 +700,7 @@
             const btn = document.getElementById('submitShowingBtn');
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits || !timeInput || !tz) {
+            if(!fn || !ln || !email || !phoneDigits || !dateInput || !timeInput || !tz) {
                 errorMsg.innerText = "All fields except Notes are required.";
                 errorMsg.classList.remove('hidden'); 
                 shakeElement('showingModalFormContent');
@@ -707,15 +715,14 @@
 
             let formattedDateTime = "";
             try {
-                let [datePart, timePart] = timeInput.split('T');
-                let [year, month, day] = datePart.split('-');
-                let [hourStr, minStr] = timePart.split(':');
+                let [year, month, day] = dateInput.split('-');
+                let [hourStr, minStr] = timeInput.split(':');
                 let hour = parseInt(hourStr, 10);
                 let ampm = hour >= 12 ? 'PM' : 'AM';
                 hour = hour % 12; if (hour === 0) hour = 12;
                 let hrFormatted = hour < 10 ? '0'+hour : hour;
                 formattedDateTime = `${month}/${day}/${year} ${hrFormatted}:${minStr} ${ampm} ${tz}`;
-            } catch(e) { formattedDateTime = `${timeInput} ${tz}`; }
+            } catch(e) { formattedDateTime = `${dateInput} ${timeInput} ${tz}`; }
             
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
@@ -755,7 +762,7 @@
                         btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
-                        document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shTimeZoneLabel').innerText = 'Select Zone'; document.getElementById('shTimeZoneLabel').classList.add('text-gray-400'); document.getElementById('shTimeZoneLabel').classList.remove('text-white'); document.getElementById('shNote').value = '';
+                        document.getElementById('shDate').value = ''; document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shTimeZoneLabel').innerText = 'Select Zone'; document.getElementById('shTimeZoneLabel').classList.add('text-gray-400'); document.getElementById('shTimeZoneLabel').classList.remove('text-white'); document.getElementById('shNote').value = '';
                         
                         iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
                         iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
