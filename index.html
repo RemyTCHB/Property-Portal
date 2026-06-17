@@ -121,13 +121,13 @@
                     <svg id="lockIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
                 <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Verification Required</h3>
-                <p class="text-[11px] sm:text-xs text-gray-400" id="gateAddressDisplay">Please Verify Identity & Enter Access Key</p>
+                <p class="text-[11px] sm:text-xs text-gray-400" id="gateAddressDisplay">Please Verify Identity & Enter Property Data Access Key</p>
             </div>
             
             <div id="authFormContent">
                 <div id="step1Container" class="space-y-3 sm:space-y-4">
                     <input type="email" id="emailInput" placeholder="Registered Email" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-                    <input type="password" id="accessKeyInput" placeholder="Property Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                    <input type="password" id="accessKeyInput" placeholder="Property Data Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 </div>
 
                 <div id="step2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
@@ -144,7 +144,7 @@
 
             <!-- Disclaimer -->
             <div class="mt-6 border-t border-gray-800 pt-5 text-center leading-relaxed">
-                <h4 class="text-base sm:text-lg font-bold text-white mb-4">No Access Key?!</h4>
+                <h4 class="text-base sm:text-lg font-bold text-white mb-4">No Property Data Access Key?!</h4>
                 <div class="flex flex-col gap-3">
                     <a href="tel:+18889889150" class="text-indigo-400 hover:text-white font-bold transition-all cursor-pointer bg-indigo-500/10 hover:bg-indigo-500/30 px-6 py-3 rounded-lg border border-indigo-500/20 w-full text-[13px] sm:text-sm flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -156,7 +156,7 @@
                     </div>
                     <button onclick="openAccessModal()" class="text-indigo-400 hover:text-white font-bold transition-all cursor-pointer bg-indigo-500/10 hover:bg-indigo-500/30 px-6 py-3 rounded-lg border border-indigo-500/20 w-full text-[13px] sm:text-sm flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-                        Request Access Key
+                        Request Property Data Access Key
                     </button>
                 </div>
             </div>
@@ -232,13 +232,13 @@
             
             <!-- Calendar Grid -->
             <div class="grid grid-cols-7 gap-1 text-center mb-2 px-1">
-                <div class="text-[10px] font-bold text-gray-500 uppercase">Su</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Mo</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Tu</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">We</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Th</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Fr</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Sa</div>
+                <div class="text-[10px] font-bold text-gray-500 uppercase">Su</div>
             </div>
             <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-4 px-1">
                 <!-- Days injected by JS -->
@@ -252,7 +252,7 @@
                         <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtHour">12</div>
                         <button onclick="changeHour(-1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
                     </div>
-                    <span class="text-2xl text-gray-600 font-bold pb-6">:</span>
+                    <span class="text-2xl text-gray-600 font-bold">:</span>
                     <div class="flex flex-col items-center gap-1.5">
                         <button onclick="changeMinute(15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
                         <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtMinute">00</div>
@@ -332,7 +332,7 @@
                 Investor Network <span class="animate-text-gradient">Portal</span>
             </h1>
             <p class="max-w-2xl mx-auto text-gray-400 text-sm md:text-base">
-                Use Your Email & The Access Key Provided To Gain Access To The Property Data.
+                Use Your Email & The Property Data Access Key Provided To Gain Access To The Property Data.
             </p>
         </header>
 
@@ -359,19 +359,19 @@
             </div>
             
             <div class="flex gap-4 justify-center text-[13px] items-center text-gray-400">
-                <a href="mailto:Carlos@totalchb.com" class="hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
+                <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors flex items-center gap-2 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     Carlos@totalchb.com
                 </a> 
                 <span class="text-brand-emerald text-[10px] hidden sm:inline">•</span> 
-                <a href="tel:+18889889150" class="hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
+                <a href="tel:+18889889150" class="hover:text-indigo-400 transition-colors flex items-center gap-2 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                     <span class="tracking-widest font-medium">+1&nbsp;&nbsp;(888)&nbsp;&nbsp;988-9150</span>
                 </a>
             </div>
             
             <p class="text-[13px] text-gray-500 tracking-wide mt-2">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
-            <p class="text-[11px] text-gray-600 max-w-2xl mx-auto leading-relaxed mt-1">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Portal Access Keys Is Strictly Prohibited.</p>
+            <p class="text-[11px] text-gray-600 max-w-2xl mx-auto leading-relaxed mt-1">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Property Data Access Keys Is Strictly Prohibited.</p>
         </footer>
     </div>
 
@@ -434,7 +434,10 @@
             const firstDay = new Date(dtSelectedYear, dtSelectedMonth, 1).getDay();
             const daysInMonth = new Date(dtSelectedYear, dtSelectedMonth + 1, 0).getDate();
             
-            for (let i = 0; i < firstDay; i++) { daysContainer.innerHTML += `<div></div>`; }
+            // Adjust for Monday start (0=Sunday becomes 6, 1=Monday becomes 0, etc.)
+            const emptySlots = firstDay === 0 ? 6 : firstDay - 1;
+            
+            for (let i = 0; i < emptySlots; i++) { daysContainer.innerHTML += `<div></div>`; }
             
             for (let i = 1; i <= daysInMonth; i++) {
                 const isSelected = i === dtSelectedDate;
@@ -684,7 +687,7 @@
 
             if (authStep === 1) {
                 if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
-                if (!inputVal) { errorMsg.innerText = "Please Enter Your Access Key."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
+                if (!inputVal) { errorMsg.innerText = "Please Enter Your Property Data Access Key."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 if (emailVal.toLowerCase().endsWith('@totalchb.com') && inputVal === 'Portal@2026') { grantAccess(activePropData.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
                 if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
 
@@ -924,7 +927,7 @@
 
             const payload = {
                 propertyId: activePropData ? activePropData.Property_ID : "Unknown",
-                accessKey: "Requesting Access",
+                accessKey: "Requesting Property Data Access",
                 address: activePropData ? activePropData.Address + ", " + activePropData.City_State : "Unknown",
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
                 source: "TCHB Investor Portal - Access Request", timestamp: new Date().toISOString()
