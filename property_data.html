@@ -131,12 +131,12 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <!-- REQUIRED FOR JS NO-ERROR RENDERING -->
-  <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10" style="pointer-events: none;"></canvas>
+  <!-- FIXED CANVAS: At the top level so it doesn't break -->
+  <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10 no-print" style="pointer-events: none;"></canvas>
 
   <!-- AUTHENTICATION GATE -->
-  <div id="secureGate" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm no-print transition-opacity duration-300">
-    <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="gateModalBox">
+  <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
+    <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl animate-modal-in" id="gateModalBox">
         <button onclick="window.location.href='../'" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
@@ -145,7 +145,7 @@
                 <svg id="gateLockIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
             <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Direct Link Verification</h3>
-            <p class="text-[11px] sm:text-xs text-gray-400" id="gateAddressDisplay">Please Verify Identity & Enter Property Data Access Key</p>
+            <p class="text-[11px] sm:text-xs text-gray-400" id="gateAddressDisplay">Use Your Email & The Property Data Access Key Provided To Gain Access.</p>
         </div>
         
         <div id="gateStep1Container" class="space-y-3 sm:space-y-4">
@@ -184,208 +184,208 @@
         </div>
     </div>
 
-    <!-- MAKE AN OFFER MODAL -->
-    <div id="offerModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="offerModalBox">
-            <button onclick="closeOfferModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div class="text-center mb-5 sm:mb-6">
-                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="offerModalIconContainer">
-                    <svg id="offerModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08-.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+  <!-- MAKE AN OFFER MODAL -->
+  <div id="offerModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
+    <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="offerModalBox">
+        <button onclick="closeOfferModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="text-center mb-5 sm:mb-6">
+            <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="offerModalIconContainer">
+                <svg id="offerModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08-.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="offerModalTitle">Submit Your Offer</h3>
+            <p class="text-[11px] sm:text-xs text-gray-400" id="offerModalAddress">...</p>
+        </div>
+        
+        <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="offerModalFormContent">
+            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                <input type="text" id="offerFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                <input type="text" id="offerLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+            </div>
+            <div>
+                <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+            </div>
+            <div>
+                <div class="flex gap-2">
+                    <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
+                        +1
+                    </div>
+                    <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                 </div>
-                <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="offerModalTitle">Submit Your Offer</h3>
-                <p class="text-[11px] sm:text-xs text-gray-400" id="offerModalAddress">...</p>
+            </div>
+            <div>
+                <div class="relative">
+                    <span class="absolute left-4 top-3.5 text-gray-500 font-bold">$</span>
+                    <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center text-white font-bold tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
+                </div>
+            </div>
+            <div>
+                <textarea id="offerNote" placeholder="Notes" rows="3" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none text-[13px] sm:text-sm"></textarea>
+            </div>
+        </div>
+
+        <p id="offerErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
+        <button id="submitOfferBtn" onclick="submitOffer()" class="w-full btn-mixed-hue text-white font-semibold py-3.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm tracking-wide">
+            Send Official Offer
+        </button>
+    </div>
+  </div>
+
+  <!-- REQUEST SHOWING MODAL -->
+  <div id="showingModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+    <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="showingModalBox">
+        <button onclick="closeShowingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="text-center mb-5 sm:mb-6">
+            <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
+                <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
+            <p class="text-[11px] sm:text-xs text-gray-400" id="showingModalAddress">...</p>
+        </div>
+        
+        <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
+            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+            </div>
+            <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+            <div>
+                <div class="flex gap-2">
+                    <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
+                        +1
+                    </div>
+                    <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                </div>
             </div>
             
-            <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="offerModalFormContent">
-                <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                    <input type="text" id="offerFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                    <input type="text" id="offerLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                </div>
-                <div>
-                    <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                </div>
-                <div>
-                    <div class="flex gap-2">
-                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
-                            +1
-                        </div>
-                        <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+            <!-- CUSTOM PREMIUM DATE, TIME & TIMEZONE UI -->
+            <div class="relative w-full text-left">
+                <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date, Time & Zone</label>
+                <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
+                    <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
-                </div>
-                <div>
-                    <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-gray-500 font-bold">$</span>
-                        <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center text-white font-bold tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
-                    </div>
-                </div>
-                <div>
-                    <textarea id="offerNote" placeholder="Notes" rows="3" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none text-[13px] sm:text-sm"></textarea>
                 </div>
             </div>
 
-            <p id="offerErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
-            <button id="submitOfferBtn" onclick="submitOffer()" class="w-full btn-mixed-hue text-white font-semibold py-3.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm tracking-wide">
-                Send Official Offer
+            <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none text-[13px] sm:text-sm"></textarea></div>
+        </div>
+
+        <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
+        <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
+            Confirm Showing Request
+        </button>
+    </div>
+  </div>
+
+  <!-- CUSTOM DATE/TIME/ZONE PICKER MODAL -->
+  <div id="customDtModal" class="fixed inset-0 z-[160] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+    <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-sm p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="customDtModalBox">
+        <button onclick="closeCustomDateTimePicker()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-4 text-center border-b border-white/10 pb-3">Select Date, Time & Zone</h3>
+        
+        <div class="flex justify-between items-center mb-4 px-2">
+            <button onclick="changeMonth(-1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+            <div id="dtMonthYear" class="text-white font-bold text-sm tracking-wide">June 2026</div>
+            <button onclick="changeMonth(1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+        </div>
+        
+        <div class="grid grid-cols-7 gap-1 text-center mb-2 px-1">
+            <div class="text-[10px] font-bold text-gray-500 uppercase">Mo</div>
+            <div class="text-[10px] font-bold text-gray-500 uppercase">Tu</div>
+            <div class="text-[10px] font-bold text-gray-500 uppercase">We</div>
+            <div class="text-[10px] font-bold text-gray-500 uppercase">Th</div>
+            <div class="text-[10px] font-bold text-gray-500 uppercase">Fr</div>
+            <div class="text-[10px] font-bold text-gray-500 uppercase">Sa</div>
+            <div class="text-[10px] font-bold text-gray-500 uppercase">Su</div>
+        </div>
+        <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-4 px-1"></div>
+
+        <div class="border-t border-white/10 pt-4 pb-1">
+            <div class="flex items-center justify-center gap-4">
+                <div class="flex flex-col items-center gap-1.5">
+                    <button onclick="changeHour(1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
+                    <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtHour">12</div>
+                    <button onclick="changeHour(-1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
+                </div>
+                <div class="flex flex-col justify-center h-full">
+                    <span class="text-2xl text-gray-600 font-bold">:</span>
+                </div>
+                <div class="flex flex-col items-center gap-1.5">
+                    <button onclick="changeMinute(15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
+                    <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtMinute">00</div>
+                    <button onclick="changeMinute(-15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
+                </div>
+                <div class="flex flex-col gap-1.5 ml-2">
+                    <button onclick="setAmPm('AM')" id="dtAmBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-[10px] tracking-wider transition-colors cursor-pointer">AM</button>
+                    <button onclick="setAmPm('PM')" id="dtPmBtn" class="px-3 py-1.5 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PM</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-white/10 pt-4 pb-2 mt-4">
+            <div class="grid grid-cols-3 gap-2">
+                <button onclick="setModalTz('EST')" id="tzBtn-EST" class="px-2 py-2 rounded-lg bg-indigo-600 shadow-md shadow-indigo-500/20 text-white font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors cursor-pointer">EST</button>
+                <button onclick="setModalTz('CST')" id="tzBtn-CST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">CST</button>
+                <button onclick="setModalTz('MST')" id="tzBtn-MST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">MST</button>
+                <button onclick="setModalTz('PST')" id="tzBtn-PST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PST</button>
+                <button onclick="setModalTz('AKST')" id="tzBtn-AKST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">AKST</button>
+                <button onclick="setModalTz('HST')" id="tzBtn-HST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">HST</button>
+            </div>
+        </div>
+
+        <button onclick="confirmDateTime()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl transition-colors mt-5 text-[12px] sm:text-[13px] shadow-[0_0_15px_rgba(79,70,229,0.3)] cursor-pointer tracking-wide uppercase">
+            Confirm Selection
+        </button>
+    </div>
+  </div>
+
+  <!-- REQUEST ACCESS KEY MODAL -->
+  <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+    <div class="bg-[#0f0f1f] border border-indigo-500/20 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
+        <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="text-center mb-5 sm:mb-6">
+            <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
+                <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+            </div>
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
+            <p class="text-[11px] sm:text-xs text-gray-400" id="accessModalAddress">...</p>
+        </div>
+        
+        <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
+            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+            </div>
+            <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+            <div>
+                <div class="flex gap-2">
+                    <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
+                        +1
+                    </div>
+                    <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                </div>
+            </div>
+            <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+            
+            <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
+            <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
+                Submit Access Request
             </button>
         </div>
     </div>
-
-    <!-- REQUEST SHOWING MODAL -->
-    <div id="showingModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="showingModalBox">
-            <button onclick="closeShowingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div class="text-center mb-5 sm:mb-6">
-                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
-                    <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
-                <p class="text-[11px] sm:text-xs text-gray-400" id="showingModalAddress">...</p>
-            </div>
-            
-            <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
-                <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                    <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                    <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                </div>
-                <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
-                <div>
-                    <div class="flex gap-2">
-                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
-                            +1
-                        </div>
-                        <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
-                    </div>
-                </div>
-                
-                <!-- CUSTOM PREMIUM DATE, TIME & TIMEZONE UI -->
-                <div class="relative w-full text-left">
-                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date, Time & Zone</label>
-                    <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
-                        <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none text-[13px] sm:text-sm"></textarea></div>
-            </div>
-
-            <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
-            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
-                Confirm Showing Request
-            </button>
-        </div>
-    </div>
-
-    <!-- CUSTOM DATE/TIME/ZONE PICKER MODAL -->
-    <div id="customDtModal" class="fixed inset-0 z-[160] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-sm p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="customDtModalBox">
-            <button onclick="closeCustomDateTimePicker()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <h3 class="text-base sm:text-lg font-bold text-white mb-4 text-center border-b border-white/10 pb-3">Select Date, Time & Zone</h3>
-            
-            <div class="flex justify-between items-center mb-4 px-2">
-                <button onclick="changeMonth(-1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
-                <div id="dtMonthYear" class="text-white font-bold text-sm tracking-wide">June 2026</div>
-                <button onclick="changeMonth(1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
-            </div>
-            
-            <div class="grid grid-cols-7 gap-1 text-center mb-2 px-1">
-                <div class="text-[10px] font-bold text-gray-500 uppercase">Mo</div>
-                <div class="text-[10px] font-bold text-gray-500 uppercase">Tu</div>
-                <div class="text-[10px] font-bold text-gray-500 uppercase">We</div>
-                <div class="text-[10px] font-bold text-gray-500 uppercase">Th</div>
-                <div class="text-[10px] font-bold text-gray-500 uppercase">Fr</div>
-                <div class="text-[10px] font-bold text-gray-500 uppercase">Sa</div>
-                <div class="text-[10px] font-bold text-gray-500 uppercase">Su</div>
-            </div>
-            <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-4 px-1"></div>
-
-            <div class="border-t border-white/10 pt-4 pb-1">
-                <div class="flex items-center justify-center gap-4">
-                    <div class="flex flex-col items-center gap-1.5">
-                        <button onclick="changeHour(1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
-                        <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtHour">12</div>
-                        <button onclick="changeHour(-1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
-                    </div>
-                    <div class="flex flex-col justify-center h-full">
-                        <span class="text-2xl text-gray-600 font-bold">:</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-1.5">
-                        <button onclick="changeMinute(15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
-                        <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtMinute">00</div>
-                        <button onclick="changeMinute(-15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
-                    </div>
-                    <div class="flex flex-col gap-1.5 ml-2">
-                        <button onclick="setAmPm('AM')" id="dtAmBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-[10px] tracking-wider transition-colors cursor-pointer">AM</button>
-                        <button onclick="setAmPm('PM')" id="dtPmBtn" class="px-3 py-1.5 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PM</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-white/10 pt-4 pb-2 mt-4">
-                <div class="grid grid-cols-3 gap-2">
-                    <button onclick="setModalTz('EST')" id="tzBtn-EST" class="px-2 py-2 rounded-lg bg-indigo-600 shadow-md shadow-indigo-500/20 text-white font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors cursor-pointer">EST</button>
-                    <button onclick="setModalTz('CST')" id="tzBtn-CST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">CST</button>
-                    <button onclick="setModalTz('MST')" id="tzBtn-MST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">MST</button>
-                    <button onclick="setModalTz('PST')" id="tzBtn-PST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PST</button>
-                    <button onclick="setModalTz('AKST')" id="tzBtn-AKST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">AKST</button>
-                    <button onclick="setModalTz('HST')" id="tzBtn-HST" class="px-2 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">HST</button>
-                </div>
-            </div>
-
-            <button onclick="confirmDateTime()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl transition-colors mt-5 text-[12px] sm:text-[13px] shadow-[0_0_15px_rgba(79,70,229,0.3)] cursor-pointer tracking-wide uppercase">
-                Confirm Selection
-            </button>
-        </div>
-    </div>
-
-    <!-- REQUEST ACCESS KEY MODAL -->
-    <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-indigo-500/20 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
-            <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div class="text-center mb-5 sm:mb-6">
-                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
-                    <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-                </div>
-                <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
-                <p class="text-[11px] sm:text-xs text-gray-400" id="accessModalAddress">...</p>
-            </div>
-            
-            <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
-                <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                    <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                    <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                </div>
-                <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
-                <div>
-                    <div class="flex gap-2">
-                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
-                            +1
-                        </div>
-                        <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
-                    </div>
-                </div>
-                <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
-                
-                <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
-                <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
-                    Submit Access Request
-                </button>
-            </div>
-        </div>
-    </div>
+  </div>
 
   <div id="fullPageLoader" class="fixed inset-0 z-[110] bg-[#0b0f19] flex flex-col items-center justify-center">
       <div class="relative w-24 h-24 mb-8 flex items-center justify-center">
@@ -558,7 +558,7 @@
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
             <h4 id="ui-box-1-title" class="text-base font-extrabold text-white">...</h4>
-            <p id="ui-box-1-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
+            <p id="ui-box-1-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">... </p>
           </div>
         </div>
         <div id="box-2-wrapper" class="hidden p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
@@ -882,7 +882,7 @@
     });
 
     window.onload = async function() {
-        resizeCanvas(); 
+        resizeCanvas();
         
         const urlParams = new URLSearchParams(window.location.search);
         urlPropId = urlParams.get('id');
@@ -904,7 +904,7 @@
                 return;
             }
             
-            // Only start canvas animation if properly loaded
+            // Only start canvas animation if properly loaded and contexts exist
             if (canvas && ctx) requestAnimationFrame(animateGrid);
             
             checkGate();
@@ -920,11 +920,6 @@
         } else {
             document.getElementById('fullPageLoader').classList.add('hidden');
             document.getElementById('secureGate').classList.remove('hidden');
-            
-            if(currentDBRow) {
-                document.getElementById('gateAddressDisplay').innerText = `Property: ${currentDBRow.Address}, ${currentDBRow.City_State}`;
-                document.getElementById('gateEmailInput').value = sessionStorage.getItem('tchb_email_' + urlPropId) || '';
-            }
         }
     }
 
