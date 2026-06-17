@@ -56,7 +56,7 @@
     @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); } 20%, 40%, 60%, 80% { transform: translateX(6px); } }
     .shake-element { animation: shake 0.4s ease-in-out; }
 
-    /* Restored Premium Radial Glow */
+    /* Empty Center Ripple Halo mapped to 3 main colors */
     #mouseGlow {
         position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
         width: 220px; height: 220px;
@@ -65,7 +65,7 @@
     }
     #mouseGlow::before {
         content: ""; position: absolute; inset: 0; border-radius: 50%;
-        background: radial-gradient(circle at center, transparent 15%, rgba(220, 38, 38, 0.25) 35%, rgba(79, 70, 229, 0.25) 60%, rgba(16, 185, 129, 0.25) 85%, transparent 100%);
+        background: radial-gradient(circle at center, transparent 15%, rgba(220, 38, 38, 0.35) 35%, rgba(79, 70, 229, 0.35) 60%, rgba(16, 185, 129, 0.35) 85%, transparent 100%);
         filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite;
     }
     @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
@@ -316,7 +316,9 @@
                         <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtHour">12</div>
                         <button onclick="changeHour(-1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
                     </div>
-                    <span class="text-2xl text-gray-600 font-bold flex items-center justify-center" style="transform: translateY(-8px);">:</span>
+                    <div class="flex flex-col justify-center h-full">
+                        <span class="text-2xl text-gray-600 font-bold">:</span>
+                    </div>
                     <div class="flex flex-col items-center gap-1.5">
                         <button onclick="changeMinute(15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
                         <div class="w-12 h-10 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-lg font-bold text-white shadow-inner" id="dtMinute">00</div>
@@ -424,8 +426,8 @@
         </div>
       </header>
 
-      <div class="mt-6 flex justify-center text-center">
-        <div class="inline-flex flex-wrap justify-center items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-indigo-950/60 to-gray-900/60 text-gray-200 border border-white/10 shadow-[0_4px_20px_rgba(79,70,229,0.15)]">
+      <div class="mt-6 flex justify-center text-center overflow-x-auto pb-2 custom-scrollbar">
+        <div class="inline-flex flex-wrap justify-center items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-indigo-950/60 to-gray-900/60 text-gray-200 border border-white/10 shadow-[0_4px_20px_rgba(79,70,229,0.15)] whitespace-nowrap">
           <span id="ui-pill-price" class="text-white font-black">...</span>
           <span class="text-gray-500">|</span>
           <span id="ui-pill-detail-1">...</span>
@@ -513,9 +515,9 @@
             <div><h3 class="text-lg font-bold text-white">Subject-To / Creative Deal Architecture</h3><p class="text-xs text-gray-400">Comparing Sub2/Creative against standard market debt.</p></div>
             <button onclick="window.print()" class="no-print bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-center text-sm text-gray-300">
-                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase"><tr><th class="px-6 py-4 text-center">Metric / Dimension</th><th class="px-6 py-4 text-purple-400 bg-purple-950/20 font-bold text-center">🔥 Proposed Deal</th><th class="px-6 py-4 text-center">Standard Market</th><th class="px-6 py-4 text-brand-emerald text-center">Net Advantage</th></tr></thead>
+            <div class="overflow-x-auto custom-scrollbar pb-2">
+                <table class="w-full min-w-[600px] text-center text-sm text-gray-300">
+                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase"><tr><th class="px-6 py-4 text-center whitespace-nowrap">Metric / Dimension</th><th class="px-6 py-4 text-purple-400 bg-purple-950/20 font-bold text-center whitespace-nowrap">🔥 Proposed Deal</th><th class="px-6 py-4 text-center whitespace-nowrap">Standard Market</th><th class="px-6 py-4 text-brand-emerald text-center whitespace-nowrap">Net Advantage</th></tr></thead>
                     <tbody id="ui-creative-tbody" class="divide-y divide-gray-800"></tbody>
                 </table>
             </div>
@@ -527,9 +529,9 @@
             <div><h3 class="text-lg font-bold text-white" id="ws-table-title">Wholesale / Off-Market Breakdown</h3><p class="text-xs text-gray-400">Direct spread analysis and expected ROI metrics.</p></div>
             <button onclick="window.print()" class="no-print bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-gray-300">
-                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead>
+            <div class="overflow-x-auto custom-scrollbar pb-2">
+                <table class="w-full min-w-[600px] text-sm text-gray-300">
+                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6 whitespace-nowrap">Acquisition Info & Costs</th><th class="px-6 py-4 text-right whitespace-nowrap">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6 whitespace-nowrap">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6 whitespace-nowrap">Amount</th></tr></thead>
                     <tbody id="ui-wholesale-tbody" class="divide-y divide-gray-800 text-center"></tbody>
                 </table>
             </div>
@@ -541,9 +543,9 @@
             <div><h3 class="text-lg font-bold text-white">Turnkey / Rental Portfolio Operations</h3><p class="text-xs text-gray-400">Operational analysis of total expected rent and yields.</p></div>
             <button onclick="window.print()" class="no-print bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-gray-300">
-                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead>
+            <div class="overflow-x-auto custom-scrollbar pb-2">
+                <table class="w-full min-w-[600px] text-sm text-gray-300">
+                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6 whitespace-nowrap">Acquisition Info & Costs</th><th class="px-6 py-4 text-right whitespace-nowrap">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6 whitespace-nowrap">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6 whitespace-nowrap">Amount</th></tr></thead>
                     <tbody id="ui-rental-tbody" class="divide-y divide-gray-800 text-center"></tbody>
                 </table>
             </div>
@@ -802,6 +804,7 @@
         const firstDay = new Date(dtSelectedYear, dtSelectedMonth, 1).getDay();
         const daysInMonth = new Date(dtSelectedYear, dtSelectedMonth + 1, 0).getDate();
         
+        // Adjust for Monday start
         const emptySlots = firstDay === 0 ? 6 : firstDay - 1;
         
         for (let i = 0; i < emptySlots; i++) { daysContainer.innerHTML += `<div></div>`; }
@@ -879,8 +882,8 @@
     });
 
     window.onload = async function() {
-        resizeCanvas(); requestAnimationFrame(animateGrid);
-
+        resizeCanvas(); 
+        
         const urlParams = new URLSearchParams(window.location.search);
         urlPropId = urlParams.get('id');
 
@@ -900,6 +903,10 @@
                 document.getElementById('fullPageLoader').innerHTML = '<p class="text-red-400 font-bold">Error: Property Not Found In Database.</p>';
                 return;
             }
+            
+            // Only start canvas animation if properly loaded
+            if (canvas && ctx) requestAnimationFrame(animateGrid);
+            
             checkGate();
         } catch(err) {
             document.getElementById('fullPageLoader').innerHTML = `<p class="text-red-400 font-bold">Connection Error: ${err.message}</p>`;
@@ -930,6 +937,11 @@
         void modalBox.offsetWidth;
         modalBox.classList.add('shake-element');
         setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
+    }
+
+    function isValidEmail(email) {
+        if (!email) return false;
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase().trim());
     }
 
     async function handleGateAuthStep() {
