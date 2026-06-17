@@ -93,9 +93,11 @@
         .btn-showing { background: linear-gradient(to right, #e2e8f0, #f8fafc, #e2e8f0); background-size: 200% 100%; color: #0f172a; border: 1px solid #cbd5e1; }
         .btn-showing:hover { animation: pan-x 3s linear infinite; background: linear-gradient(to right, #94a3b8, #cbd5e1, #94a3b8); background-size: 200% 100%; border-color: transparent; box-shadow: 0 4px 15px rgba(148, 163, 184, 0.4); color: #000; }
         
-        .custom-datetime { color-scheme: dark; }
-        .custom-datetime::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; transition: 0.2s; }
-        .custom-datetime::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+        /* Styled Date Picker Overlay */
+        .custom-datetime { color-scheme: dark; position: relative; z-index: 10; }
+        .custom-datetime::-webkit-calendar-picker-indicator {
+            background: transparent; bottom: 0; color: transparent; cursor: pointer; height: auto; left: 0; position: absolute; right: 0; top: 0; width: auto; z-index: 10;
+        }
 
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -148,11 +150,21 @@
 
             <!-- Disclaimer -->
             <div class="mt-6 border-t border-gray-800 pt-5 text-center leading-relaxed">
-                <h4 class="text-base sm:text-lg font-bold text-white mb-2">No Access Key?!</h4>
-                <p class="text-xs text-gray-400 mb-3">Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or</p>
-                <button onclick="openAccessModal()" class="text-indigo-400 hover:text-white font-bold transition-all cursor-pointer bg-indigo-500/10 hover:bg-indigo-500/30 px-6 py-2.5 rounded-lg border border-indigo-500/20 w-full sm:w-auto text-sm">
-                    Request Access Key
-                </button>
+                <h4 class="text-base sm:text-lg font-bold text-white mb-4">No Access Key?!</h4>
+                <div class="flex flex-col gap-3">
+                    <a href="tel:+18889889150" class="text-indigo-400 hover:text-white font-bold transition-all cursor-pointer bg-indigo-500/10 hover:bg-indigo-500/30 px-6 py-3 rounded-lg border border-indigo-500/20 w-full text-[13px] sm:text-sm flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        Call Us Here: +1 (888) 988-9150
+                    </a>
+                    <div class="relative flex items-center justify-center my-1">
+                        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-800/60"></div></div>
+                        <span class="relative bg-[#0f0f1f] px-3 text-[10px] sm:text-xs font-bold text-gray-500 tracking-widest uppercase">OR</span>
+                    </div>
+                    <button onclick="openAccessModal()" class="text-indigo-400 hover:text-white font-bold transition-all cursor-pointer bg-indigo-500/10 hover:bg-indigo-500/30 px-6 py-3 rounded-lg border border-indigo-500/20 w-full text-[13px] sm:text-sm flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                        Request Access Key
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -179,16 +191,24 @@
                 <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                 <div>
                     <div class="flex gap-2">
-                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-14 flex-shrink-0 shadow-inner text-[13px] sm:text-sm">+1</div>
-                        <input type="tel" id="shPhone" placeholder="US Phone (555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
+                            +1
+                        </div>
+                        <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
                 
                 <!-- Enhanced Date & Custom Timezone UI -->
                 <div class="flex gap-3 text-left relative w-full">
-                    <div class="flex-[3] min-w-0">
+                    <div class="flex-[3] min-w-0 relative">
                         <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date & Time</label>
-                        <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer custom-datetime text-[13px] sm:text-sm text-center">
+                        <div class="relative w-full overflow-hidden rounded-lg bg-[#18182d] border border-white/10 focus-within:border-indigo-500/50 transition-all">
+                            <input type="datetime-local" id="shTime" class="w-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer custom-datetime text-[13px] sm:text-sm appearance-none relative z-10">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 z-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                        </div>
                     </div>
                     <div id="tzDropdownContainer" class="relative flex-[2] min-w-0">
                         <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Time Zone</label>
@@ -242,8 +262,11 @@
                 <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                 <div>
                     <div class="flex gap-2">
-                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-14 flex-shrink-0 shadow-inner text-[13px] sm:text-sm">+1</div>
-                        <input type="tel" id="accPhone" placeholder="US Phone (555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
+                            +1
+                        </div>
+                        <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
                 <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
@@ -284,24 +307,28 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertyGrid">
         </div>
 
-        <footer class="mt-24 text-center border-t border-white/10 pt-8 pb-12 flex flex-col items-center gap-2">
-            <div class="flex items-center justify-center gap-2 mb-2">
-                <img class="w-6 h-6 opacity-50" src="icon.svg" alt="TCHB Icon" onerror="this.style.display='none'">
-                <span class="font-bold text-gray-400 text-xs">TOTAL CASH HOME BUYERS</span> <span class="text-gray-500 text-xs">•</span> <span class="text-gray-500 text-xs">Investor Network Portal</span>
+        <footer class="mt-20 text-center border-t border-white/10 pt-8 pb-6 flex flex-col items-center gap-4 relative z-20">
+            <div class="flex items-center justify-center gap-3 text-sm">
+                <img class="w-5 h-5 opacity-70 grayscale" src="icon.svg" alt="TCHB Icon" onerror="this.style.display='none'">
+                <span class="font-bold text-gray-300 tracking-wide">TOTAL CASH HOME BUYERS</span> 
+                <span class="text-gray-600 text-xs">•</span> 
+                <span class="text-gray-400">Investor Network Portal</span>
             </div>
-            <div class="flex gap-4 justify-center text-xs mt-1 mb-4 text-gray-400">
-                <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            
+            <div class="flex gap-4 justify-center text-[13px] items-center text-gray-400">
+                <a href="mailto:Carlos@totalchb.com" class="hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     Carlos@totalchb.com
                 </a> 
                 <span class="text-gray-700 hidden sm:inline">|</span> 
-                <a href="tel:+18889889150" class="hover:text-indigo-400 transition-colors flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                <a href="tel:+18889889150" class="hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                     +1 (888) 988-9150
                 </a>
             </div>
-            <p class="text-xs text-gray-500">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
-            <p class="text-[10px] text-gray-600 mt-2 max-w-md mx-auto">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Portal Access Keys Is Strictly Prohibited.</p>
+            
+            <p class="text-[13px] text-gray-500 tracking-wide mt-2">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
+            <p class="text-[11px] text-gray-600 max-w-2xl mx-auto leading-relaxed mt-1">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Portal Access Keys Is Strictly Prohibited.</p>
         </footer>
     </div>
 
@@ -317,6 +344,10 @@
         let authStep = 1;
         let expectedOTP = null;
         let currentSessionTrackingId = null;
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
 
         function formatPhoneInput(input) {
             let val = input.value.replace(/\D/g, '');
@@ -549,7 +580,8 @@
             const errorMsg = document.getElementById('errorMessage');
 
             if (authStep === 1) {
-                if (!isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
+                if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
+                if (!inputVal) { errorMsg.innerText = "Please Enter Your Access Key."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 if (emailVal.toLowerCase().endsWith('@totalchb.com') && inputVal === 'Portal@2026') { grantAccess(activePropData.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
                 if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
 
