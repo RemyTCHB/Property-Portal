@@ -6,11 +6,13 @@
     <title>TCHB Investor Network Portal</title>
     <link rel="icon" type="image/svg+xml" href="icon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
                     colors: {
                         brand: {
                             dark: '#0b0f19', card: 'rgba(17, 24, 39, 0.75)',
@@ -35,6 +37,9 @@
         @keyframes modal-exit { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(20px) scale(0.95); } }
         .animate-modal-in { animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-modal-out { animation: modal-exit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .flip-out { transform: translateX(30px); opacity: 0; }
+        .flip-inner { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
         #mouseGlow {
             position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
@@ -81,8 +86,11 @@
         @keyframes icon-pulse { 0%, 100% { transform: scale(0.85); opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 15px rgba(255,255,255,0.6)); } }
         .animate-icon-pulse { animation: icon-pulse 2s ease-in-out infinite; }
 
-        .btn-showing { background: #cbd5e1; color: #000; border: 1px solid #94a3b8; }
-        .btn-showing:hover { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 6s linear infinite; color: #fff; border-color: transparent; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+        .btn-mixed-hue { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 6s linear infinite; }
+        .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+
+        .btn-showing { background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; }
+        .btn-showing:hover { background: linear-gradient(to right, #94a3b8, #cbd5e1, #e2e8f0, #cbd5e1, #94a3b8); background-size: 300% 100%; animation: pan-x 4s linear infinite; color: #000000; border-color: transparent; box-shadow: 0 4px 15px rgba(148, 163, 184, 0.4); }
         
         .custom-datetime::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
 
@@ -90,8 +98,6 @@
         .property-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%); opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; }
         .property-card:hover::before { opacity: 1; }
         .property-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 70, 229, 0.15); border-color: rgba(79, 70, 229, 0.3); }
-        .locked-card { opacity: 0.65; filter: grayscale(40%); pointer-events: none; }
-        .locked-card .lock-overlay { position: absolute; inset: 0; background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(2px); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body class="bg-brand-dark min-h-screen font-sans antialiased relative">
@@ -103,22 +109,22 @@
     <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10" style="pointer-events: none;"></canvas>
 
     <!-- AUTHENTICATION GATE MODAL -->
-    <div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity duration-300">
+    <div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm transition-opacity duration-300">
         <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="modalBox">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="text-center mb-6">
                 <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="lockIconContainer">
                     <svg id="lockIcon" class="w-8 h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-1">Verification Required</h3>
-                <p class="text-xs text-gray-400" id="gateAddressDisplay">Please Verify Identity & Enter Access Key</p>
+                <h3 class="text-xl font-bold text-white mb-1">Restricted Access</h3>
+                <p class="text-xs text-gray-400" id="gateAddressDisplay">...</p>
             </div>
             
             <div id="step1Container" class="space-y-4">
                 <input type="email" id="emailInput" placeholder="Registered Email" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-                <input type="password" id="accessKeyInput" placeholder="Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                <input type="password" id="accessKeyInput" placeholder="Property Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
             </div>
 
             <div id="step2Container" class="space-y-4 hidden mt-2">
@@ -127,11 +133,12 @@
                 <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
             </div>
 
-            <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Security Authorization Code.</p>
+            <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Code.</p>
             <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20">
                 Send Verification Code
             </button>
 
+            <!-- Disclaimer -->
             <p class="text-xs text-gray-400 mt-6 border-t border-gray-800 pt-4 text-center">
                 No Access Key? Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or <button onclick="openAccessModal()" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors cursor-pointer">Request Access Key</button>
             </p>
@@ -185,7 +192,7 @@
             </div>
 
             <p id="showingErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10">
+            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20">
                 Confirm Showing Request
             </button>
         </div>
@@ -251,6 +258,8 @@
             <p class="font-mono text-sm tracking-widest uppercase animate-text-gradient-pulse">Syncing Live Database...</p>
         </div>
 
+        <div id="errorMessage" class="hidden text-center py-16 text-brand-crimson font-bold bg-brand-crimson/10 rounded-xl border border-brand-crimson/20"></div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertyGrid">
         </div>
 
@@ -278,7 +287,6 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwUPnhj0leETYDP86FpvOOtsyF1Oqa8GgcBm-spsX9xcLvQE2F4LDnjR7IUUsbpw7uQ/exec";
         const LOGGING_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw5XeS-cpbP8vBrdCM32ZR5cK3kxf66TpdVC8NyWNK4HbYqxh8eWFqN0U0xss8zuWZq/exec";
-        
         const WH_SHOWING = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/xCSSiq7ZVGm49TD73LxN";
         const WH_ACCESS = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/UBTyFub9sRp1SBCCLZLt";
 
@@ -326,9 +334,7 @@
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                
                 document.getElementById('loadingIndicator').style.display = 'none';
-
                 if (data.error) {
                     document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400 font-bold">Error Connecting To Database.</div>`;
                     return;
@@ -339,6 +345,31 @@
                 document.getElementById('loadingIndicator').style.display = 'none';
                 document.getElementById('propertyGrid').innerHTML = `<div class="col-span-full text-center text-red-400 font-bold">Failed To Load Property Data.</div>`;
             }
+        }
+
+        function shakeCard(card) {
+            if(!card) return;
+            card.classList.add('shake-element');
+            setTimeout(() => card.classList.remove('shake-element'), 400);
+        }
+
+        function handleViewDataClick(btn, propId) {
+            const span = btn.querySelector('.flip-inner');
+            if(span) span.classList.add('flip-out');
+            setTimeout(() => {
+                openModal(propId);
+                setTimeout(() => { if(span) span.classList.remove('flip-out'); }, 400);
+            }, 250);
+        }
+
+        function handleShowingClick(btn) {
+            const span = btn.querySelector('.flip-inner');
+            if(span) span.classList.add('flip-out');
+            const card = btn.closest('.property-card');
+            setTimeout(() => {
+                openShowingModal(card);
+                setTimeout(() => { if(span) span.classList.remove('flip-out'); }, 400);
+            }, 250);
         }
 
         function renderCards() {
@@ -355,41 +386,39 @@
                 const deal = getDealTheme(prop.Deal_Type);
                 const isLocked = status.locked;
                 
-                const cardStateClass = `transition-all duration-500 hover:-translate-y-1 ${isLocked ? 'opacity-60 grayscale-[40%] cursor-not-allowed' : ''}`;
+                const cardStateClass = `transition-all duration-500 hover:-translate-y-1`;
                 const dynamicHoverHalo = `onmouseover="this.style.boxShadow='0 20px 40px ${deal.halo}'" onmouseout="this.style.boxShadow='none'"`;
                 
-                // Original View Data Button
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed" : `bg-white/5 text-white border border-white/10 shadow-lg ${deal.btnHover} cursor-pointer`;
-                const btnText = isLocked ? "Locked" : `View Property Data <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
-                const clickHandler = isLocked ? "" : `onclick="openModal('${prop.Property_ID}')"`;
+                const btnText = isLocked ? "Locked" : `View Property Data <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
 
                 let lockOverlay = '';
                 if (isLocked) {
                     const icon = prop.Status === 'UPCOMING' ? '<svg class="w-10 h-10 mb-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' : '<svg class="w-10 h-10 mb-3 text-brand-crimson" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
                     const color = prop.Status === 'UPCOMING' ? 'text-slate-300' : 'text-brand-crimson';
                     lockOverlay = `
-                        <div class="absolute inset-0 bg-[#0b0f19]/70 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center rounded-2xl pointer-events-auto">
+                        <div class="absolute inset-0 bg-[#0b0f19]/70 backdrop-blur-[3px] z-10 flex flex-col items-center justify-center rounded-2xl cursor-not-allowed" onclick="shakeCard(this.parentElement)">
                             ${icon}
                             <span class="font-extrabold uppercase tracking-widest text-lg ${color}">${prop.Status}</span>
-                            <span class="text-xs text-gray-300 mt-2 text-center px-4 font-medium">Data Secured In Archive</span>
+                            <span class="text-xs text-gray-300 mt-2 text-center px-4 font-medium">${prop.Status === 'UPCOMING' ? 'Data Is Being Constructed' : 'Data Secured In Archive'}</span>
                         </div>
                     `;
                 }
 
                 const cardHTML = `
-                    <div class="relative bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo} data-propid="${prop.Property_ID}" data-address="${prop.Address}, ${prop.City_State}" data-accesskey="${prop.Access_Password}">
+                    <div class="relative bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo} data-prop-id="${prop.Property_ID}" data-address="${prop.Address}, ${prop.City_State}" data-access-key="${prop.Access_Password}">
                         ${lockOverlay}
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${deal.class}">${deal.label}</span>
-                            <span class="flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border ${status.bg} ${status.text} ${status.border} ${status.pulse || ''}">
+                        <div class="flex justify-between items-start mb-4 relative z-20">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${deal.class} bg-[#0b0f19]/80 backdrop-blur-md">${deal.label}</span>
+                            <span class="flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border ${status.bg} ${status.text} ${status.border} ${status.pulse || ''} bg-[#0b0f19]/80 backdrop-blur-md">
                                 ${status.dot} ${status.label}
                             </span>
                         </div>
-                        <div class="mb-6 flex-grow">
-                            <h3 class="text-xl font-bold text-white mb-1 truncate">${prop.Address}</h3>
-                            <p class="text-sm text-gray-400 font-mono">${prop.City_State}</p>
+                        <div class="mb-6 flex-grow relative z-0">
+                            <h3 class="text-xl font-bold text-white mb-1 truncate ${isLocked ? 'blur-[6px] opacity-40 select-none' : ''}">${prop.Address}</h3>
+                            <p class="text-sm text-gray-400 font-mono ${isLocked ? 'blur-[4px] opacity-40 select-none' : ''}">${prop.City_State}</p>
                         </div>
-                        <div class="space-y-3 mb-6">
+                        <div class="space-y-3 mb-6 relative z-0">
                             ${[prop.Portal_Feature_1, prop.Portal_Feature_2, prop.Portal_Feature_3].filter(f => f).map(feature => `
                                 <div class="flex items-center gap-3">
                                     <div class="w-1.5 h-1.5 rounded-full ${deal.bullet}"></div>
@@ -398,18 +427,20 @@
                             `).join('')}
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-3 mt-auto">
-                            <button ${clickHandler} class="group w-full rounded-xl font-semibold transition-all duration-300 text-sm flex justify-center items-center py-3 overflow-hidden relative ${btnStateClass}">
-                                <span class="flex items-center gap-2 transition-all duration-300 group-active:translate-x-8 group-active:opacity-0 whitespace-nowrap">
+                        <div class="grid ${isLocked ? 'grid-cols-1' : 'grid-cols-2'} gap-3 mt-auto relative z-0">
+                            <button ${!isLocked ? `onclick="handleViewDataClick(this, '${prop.Property_ID}')"` : ''} class="w-full rounded-xl font-semibold transition-all duration-300 flex justify-center items-center py-3 overflow-hidden text-xs sm:text-sm ${btnStateClass}">
+                                <span class="flip-inner flex items-center gap-2 whitespace-nowrap">
                                     ${btnText}
                                 </span>
                             </button>
-                            <button onclick="openShowingModal(this.closest('.property-card'))" class="group w-full btn-showing rounded-xl font-semibold transition-all duration-300 flex justify-center items-center py-3 overflow-hidden relative text-sm ${isLocked ? 'hidden' : ''}">
-                                <span class="flex items-center gap-2 transition-all duration-300 group-active:translate-x-8 group-active:opacity-0 whitespace-nowrap">
+                            ${!isLocked ? `
+                            <button onclick="handleShowingClick(this)" class="btn-showing w-full rounded-xl font-semibold transition-all duration-300 flex justify-center items-center py-3 overflow-hidden text-xs sm:text-sm">
+                                <span class="flip-inner flex items-center gap-2 whitespace-nowrap">
                                     Request Showing
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </span>
                             </button>
+                            ` : ''}
                         </div>
                     </div>
                 `;
@@ -552,8 +583,8 @@
         let activeShowingAddress = null;
 
         function openShowingModal(cardElement) {
-            activeShowingPropId = cardElement.dataset.propid;
-            activeShowingAccessKey = cardElement.dataset.accesskey;
+            activeShowingPropId = cardElement.dataset.propId;
+            activeShowingAccessKey = cardElement.dataset.accessKey;
             activeShowingAddress = cardElement.dataset.address;
 
             document.getElementById('showingModalAddress').innerText = activeShowingAddress;
@@ -593,17 +624,19 @@
                 errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
                 errorMsg.classList.remove('hidden'); return;
             }
-            
-            // Format Datetime for payload (MM/DD/YYYY HH:mm AM/PM TimeZone)
-            let formattedDateTime = "";
-            let [datePart, timePart] = timeInput.split('T');
-            let [year, month, day] = datePart.split('-');
-            let [hourStr, minStr] = timePart.split(':');
-            let hour = parseInt(hourStr, 10);
-            let ampm = hour >= 12 ? 'PM' : 'AM';
-            hour = hour % 12; if (hour === 0) hour = 12;
-            formattedDateTime = `${month}/${day}/${year} ${hour}:${minStr} ${ampm} ${tz}`;
 
+            // Convert to clean MM/DD/YYYY HH:mm AM/PM format
+            let formattedDateTime = "";
+            try {
+                let [datePart, timePart] = timeInput.split('T');
+                let [year, month, day] = datePart.split('-');
+                let [hourStr, minStr] = timePart.split(':');
+                let hour = parseInt(hourStr, 10);
+                let ampm = hour >= 12 ? 'PM' : 'AM';
+                hour = hour % 12; if (hour === 0) hour = 12;
+                formattedDateTime = `${month}/${day}/${year} ${hour}:${minStr} ${ampm} ${tz}`;
+            } catch(e) { formattedDateTime = `${timeInput} ${tz}`; }
+            
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
             btn.innerText = "Sending Request...";
@@ -617,8 +650,9 @@
             };
 
             try {
-                const WH_SHOWING = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/xCSSiq7ZVGm49TD73LxN";
-                await fetch(WH_SHOWING, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (WH_SHOWING) {
+                    await fetch(WH_SHOWING, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                }
                 
                 btn.innerText = "Showing Requested Successfully!";
                 btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
@@ -638,7 +672,7 @@
                     closeShowingModal();
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
+                        btn.className = `btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
                         document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shNote').value = '';
@@ -709,15 +743,14 @@
 
             const payload = {
                 propertyId: activePropData ? activePropData.Property_ID : "Unknown",
-                accessKey: "Requesting Access", // Placeholder since they don't have it
+                accessKey: "Requesting Access",
                 address: activePropData ? activePropData.Address + ", " + activePropData.City_State : "Unknown",
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
                 source: "TCHB Investor Portal - Access Request", timestamp: new Date().toISOString()
             };
 
             try {
-                const WH_ACCESS = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/UBTyFub9sRp1SBCCLZLt";
-                await fetch(WH_ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (WH_ACCESS) { await fetch(WH_ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); }
                 
                 btn.innerText = "Request Sent Successfully!";
                 btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
@@ -739,9 +772,7 @@
                         btn.disabled = false;
                         btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
-                        document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = '';
-                        document.getElementById('accNote').value = '';
-                        
+                        document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
                         iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300";
                         iconContainer.innerHTML = '<svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
                         titleEl.innerText = "Request Portal Access";
@@ -756,136 +787,21 @@
             }
         }
 
-        const canvas = document.getElementById('gridCanvas');
-        const ctx = canvas.getContext('2d');
-        let gridSize = 55; let sparks = []; let lastSpanSpawn = 0;
-        let lastInteractionTime = Date.now(); 
-        const brandColors = [{ r: 79, g: 70, b: 229 }, { r: 220, g: 38, b: 38 }, { r: 16, g: 185, b: 129 }];
+        // ==========================================
+        // CANVAS MATRIX BACKGROUND
+        // ==========================================
+        const canvas = document.getElementById('gridCanvas'); const ctx = canvas.getContext('2d'); let gridSize = 55; let sparks = []; let lastSpanSpawn = 0; let lastInteractionTime = Date.now(); const brandColors = [{ r: 79, g: 70, b: 229 }, { r: 220, g: 38, b: 38 }, { r: 16, g: 185, b: 129 }];
+        let customMouseX = window.innerWidth / 2; let customMouseY = window.innerHeight / 2; let ringX = customMouseX; let ringY = customMouseY;
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        function createSpark(x = null, y = null, isClick = false) { const isHorizontal = Math.random() > 0.5; let startX, startY, dirX, dirY; if (isClick && x !== null && y !== null) { startX = Math.round(x / gridSize) * gridSize; startY = Math.round(y / gridSize) * gridSize; dirX = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; dirY = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); } else { if (isHorizontal) { startX = Math.random() < 0.5 ? 0 : canvas.width; startY = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize; dirX = startX === 0 ? 1 : -1; dirY = 0; } else { startX = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize; startY = Math.random() < 0.5 ? 0 : canvas.height; dirX = 0; dirY = startY === 0 ? 1 : -1; } } const color = brandColors[Math.floor(Math.random() * brandColors.length)]; sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color }); }
+        document.addEventListener('mousedown', (e) => { lastInteractionTime = Date.now(); for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); const ring = document.getElementById('cursor-ring'); if(ring) { ring.style.transform = `translate(-50%, -50%) scale(0.7)`; setTimeout(() => ring.style.transform = `translate(-50%, -50%) scale(1)`, 150); } });
+        document.addEventListener('mousemove', (e) => { document.body.classList.add('mouse-active'); customMouseX = e.clientX; customMouseY = e.clientY; const dot = document.getElementById('cursor-dot'); if(dot) { dot.style.left = `${customMouseX}px`; dot.style.top = `${customMouseY}px`; } const glow = document.getElementById('mouseGlow'); if(glow) { glow.style.setProperty('--mouse-x', `${e.clientX}px`); glow.style.setProperty('--mouse-y', `${e.clientY}px`); if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1'; } });
+        document.addEventListener('mouseover', (e) => { if (e.target.closest('.cursor-not-allowed')) { document.body.classList.add('cursor-locked'); document.body.classList.remove('cursor-hover'); } else if (e.target.closest('a, button, input, select, textarea, [onclick], .cursor-pointer')) { document.body.classList.add('cursor-hover'); document.body.classList.remove('cursor-locked'); } else { document.body.classList.remove('cursor-hover', 'cursor-locked'); } });
+        document.addEventListener('mouseleave', () => { const glow = document.getElementById('mouseGlow'); if(glow) glow.style.opacity = '0'; });
+        function drawSparks() { ctx.lineCap = 'round'; sparks.forEach(spark => { const c = spark.color; ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY); ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke(); spark.history.forEach((point, index) => { ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`; ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke(); }); ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath(); const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress; const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress; ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2); ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`; ctx.fill(); ctx.shadowBlur = 0; }); }
+        function animateGrid(timestamp) { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = 'rgba(79, 70, 229, 0.07)'; ctx.lineWidth = 1; ctx.beginPath(); for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); } for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } ctx.stroke(); ringX += (customMouseX - ringX) * 0.15; ringY += (customMouseY - ringY) * 0.15; const ring = document.getElementById('cursor-ring'); if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; } drawSparks(); if (Date.now() - lastInteractionTime > 5000) { if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; } } for (let i = sparks.length - 1; i >= 0; i--) { let spark = sparks[i]; spark.progress += spark.speed; spark.life -= spark.decay; if (spark.history.length > 5) spark.history.shift(); spark.history.push({ x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress, nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1) }); if (spark.life <= 0) { sparks.splice(i, 1); } else if (spark.progress >= 1) { spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0; if (Math.random() < 0.3 && sparks.length < 32) { let isHorizontal = spark.dirX !== 0; let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color }); } spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize; } } requestAnimationFrame(animateGrid); }
 
-        let customMouseX = window.innerWidth / 2; let customMouseY = window.innerHeight / 2;
-        let ringX = customMouseX; let ringY = customMouseY;
-
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        function createSpark(x = null, y = null, isClick = false) {
-            const isHorizontal = Math.random() > 0.5;
-            let startX, startY, dirX, dirY;
-            if (isClick && x !== null && y !== null) {
-                startX = Math.round(x / gridSize) * gridSize; startY = Math.round(y / gridSize) * gridSize;
-                dirX = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; dirY = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
-            } else {
-                if (isHorizontal) {
-                    startX = Math.random() < 0.5 ? 0 : canvas.width; startY = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
-                    dirX = startX === 0 ? 1 : -1; dirY = 0;
-                } else {
-                    startX = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize; startY = Math.random() < 0.5 ? 0 : canvas.height;
-                    dirX = 0; dirY = startY === 0 ? 1 : -1;
-                }
-            }
-            const color = brandColors[Math.floor(Math.random() * brandColors.length)];
-            sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color });
-        }
-
-        document.addEventListener('mousedown', (e) => { 
-            lastInteractionTime = Date.now();
-            for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); 
-            const ring = document.getElementById('cursor-ring');
-            if(ring) {
-                ring.style.transform = `translate(-50%, -50%) scale(0.7)`;
-                setTimeout(() => ring.style.transform = `translate(-50%, -50%) scale(1)`, 150);
-            }
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            document.body.classList.add('mouse-active');
-            customMouseX = e.clientX; customMouseY = e.clientY;
-            const dot = document.getElementById('cursor-dot');
-            if(dot) { dot.style.left = `${customMouseX}px`; dot.style.top = `${customMouseY}px`; }
-            const glow = document.getElementById('mouseGlow');
-            if(glow) {
-                glow.style.setProperty('--mouse-x', `${e.clientX}px`);
-                glow.style.setProperty('--mouse-y', `${e.clientY}px`);
-                if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1';
-            }
-        });
-
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('.cursor-not-allowed')) {
-                document.body.classList.add('cursor-locked');
-                document.body.classList.remove('cursor-hover');
-            } else if (e.target.closest('a, button, input, select, textarea, [onclick], .cursor-pointer')) {
-                document.body.classList.add('cursor-hover');
-                document.body.classList.remove('cursor-locked');
-            } else {
-                document.body.classList.remove('cursor-hover', 'cursor-locked');
-            }
-        });
-
-        document.addEventListener('mouseleave', () => {
-            const glow = document.getElementById('mouseGlow');
-            if(glow) glow.style.opacity = '0';
-        });
-
-        function drawSparks() {
-            ctx.lineCap = 'round';
-            sparks.forEach(spark => {
-                const c = spark.color;
-                ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY);
-                ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress);
-                ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke();
-                spark.history.forEach((point, index) => {
-                    ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY);
-                    ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`;
-                    ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke();
-                });
-                ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath();
-                const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress; const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress;
-                ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`;
-                ctx.fill(); ctx.shadowBlur = 0;
-            });
-        }
-
-        function animateGrid(timestamp) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(79, 70, 229, 0.07)'; ctx.lineWidth = 1; ctx.beginPath();
-            for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
-            for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
-            ctx.stroke();
-
-            ringX += (customMouseX - ringX) * 0.15; ringY += (customMouseY - ringY) * 0.15;
-            const ring = document.getElementById('cursor-ring');
-            if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; }
-
-            drawSparks();
-            
-            if (Date.now() - lastInteractionTime > 5000) {
-                if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; }
-            }
-
-            for (let i = sparks.length - 1; i >= 0; i--) {
-                let spark = sparks[i]; spark.progress += spark.speed; spark.life -= spark.decay;
-                if (spark.history.length > 5) spark.history.shift();
-                spark.history.push({ x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress, nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1) });
-                if (spark.life <= 0) { sparks.splice(i, 1); } 
-                else if (spark.progress >= 1) {
-                    spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0;
-                    if (Math.random() < 0.3 && sparks.length < 32) {
-                        let isHorizontal = spark.dirX !== 0; let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0;
-                        sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color });
-                    }
-                    spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize;
-                }
-            }
-            requestAnimationFrame(animateGrid);
-        }
-
-        window.onload = function() {
-            loadProperties();
-            requestAnimationFrame(animateGrid);
-        };
+        window.onload = function() { loadProperties(); requestAnimationFrame(animateGrid); };
     </script>
 </body>
 </html>
