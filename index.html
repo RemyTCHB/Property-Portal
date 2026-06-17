@@ -93,7 +93,15 @@
         .btn-showing { background: #e2e8f0; color: #000000; border: 1px solid #cbd5e1; }
         .btn-showing:hover { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 4s linear infinite; color: #ffffff; border-color: transparent; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
         
-        .custom-datetime::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
+        /* Ensure Datetime picker fits dark theme natively */
+        .custom-datetime { color-scheme: dark; }
+        .custom-datetime::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; transition: 0.2s; }
+        .custom-datetime::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+        /* Custom Scrollbar for Dropdown */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
 
         .property-card { position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .property-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%); opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; }
@@ -139,10 +147,10 @@
             </button>
 
             <!-- Disclaimer -->
-            <p class="text-xs text-gray-400 mt-6 border-t border-gray-800 pt-4 text-center leading-relaxed">
-                No Access Key?! Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or<br>
-                <button onclick="openAccessModal()" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors cursor-pointer mt-1">Request Access Key</button>
-            </p>
+            <div class="text-xs text-gray-400 mt-6 border-t border-gray-800 pt-4 text-center leading-relaxed flex flex-col items-center">
+                <span class="mb-1">No Access Key?! Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or</span>
+                <button onclick="openAccessModal()" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors cursor-pointer text-sm">Request Access Key</button>
+            </div>
         </div>
     </div>
 
@@ -173,24 +181,35 @@
                         <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                
+                <!-- Enhanced Date & Custom Timezone UI -->
+                <div class="grid grid-cols-2 gap-4 text-left relative">
                     <div>
                         <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold pl-1">Date & Time</label>
                         <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer custom-datetime text-sm">
                     </div>
-                    <div>
+                    <div id="tzDropdownContainer" class="relative">
                         <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold pl-1">Time Zone</label>
-                        <select id="shTimeZone" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-2 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer text-sm">
-                            <option value="" disabled selected>Select Zone</option>
-                            <option value="EST">Eastern (EST/EDT)</option>
-                            <option value="CST">Central (CST/CDT)</option>
-                            <option value="MST">Mountain (MST/MDT)</option>
-                            <option value="PST">Pacific (PST/PDT)</option>
-                            <option value="AKST">Alaskan (AKST)</option>
-                            <option value="HST">Hawaii (HST)</option>
-                        </select>
+                        <!-- Custom Select trigger -->
+                        <div onclick="toggleTzDropdown()" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-3 text-left text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer text-sm flex justify-between items-center select-none">
+                            <span id="shTimeZoneLabel" class="text-gray-400 truncate">Select Zone</span>
+                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <!-- Custom Select Menu -->
+                        <div id="tzDropdownMenu" class="absolute z-[150] w-full mt-2 bg-[#1f2937] border border-white/10 rounded-lg shadow-2xl opacity-0 invisible transform -translate-y-2 transition-all duration-200 overflow-hidden text-left">
+                            <div class="max-h-48 overflow-y-auto py-1 custom-scrollbar">
+                                <div onclick="selectTz('EST', 'Eastern (EST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Eastern (EST)</div>
+                                <div onclick="selectTz('CST', 'Central (CST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Central (CST)</div>
+                                <div onclick="selectTz('MST', 'Mountain (MST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Mountain (MST)</div>
+                                <div onclick="selectTz('PST', 'Pacific (PST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Pacific (PST)</div>
+                                <div onclick="selectTz('AKST', 'Alaskan (AKST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Alaskan (AKST)</div>
+                                <div onclick="selectTz('HST', 'Hawaii (HST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Hawaii (HST)</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="shTimeZone" value="">
                     </div>
                 </div>
+
                 <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
             </div>
 
@@ -307,6 +326,40 @@
             else input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         }
 
+        // Custom Dropdown Logic
+        function toggleTzDropdown() {
+            const menu = document.getElementById('tzDropdownMenu');
+            if(menu.classList.contains('opacity-0')) {
+                menu.classList.remove('opacity-0', 'invisible', '-translate-y-2');
+                menu.classList.add('opacity-100', 'visible', 'translate-y-0');
+            } else {
+                closeTzDropdown();
+            }
+        }
+
+        function closeTzDropdown() {
+            const menu = document.getElementById('tzDropdownMenu');
+            if(menu) {
+                menu.classList.add('opacity-0', 'invisible', '-translate-y-2');
+                menu.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            }
+        }
+
+        function selectTz(val, label) {
+            document.getElementById('shTimeZone').value = val;
+            const labelEl = document.getElementById('shTimeZoneLabel');
+            labelEl.innerText = label;
+            labelEl.classList.remove('text-gray-400');
+            labelEl.classList.add('text-white');
+            closeTzDropdown();
+        }
+
+        // Click outside to close custom timezone dropdown
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('tzDropdownContainer');
+            if(container && !container.contains(e.target)) closeTzDropdown();
+        });
+
         function sendWebhookEvent(payload) {
             if (!LOGGING_WEBHOOK_URL) return;
             fetch(LOGGING_WEBHOOK_URL, {
@@ -386,19 +439,19 @@
 
                 let lockOverlay = '';
                 if (isLocked) {
-                    const icon = prop.Status === 'UPCOMING' ? '<svg class="w-12 h-12 mb-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' : '<svg class="w-12 h-12 mb-3 text-brand-crimson" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
+                    const icon = prop.Status === 'UPCOMING' ? '<svg class="w-12 h-12 mb-3 text-slate-300 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' : '<svg class="w-12 h-12 mb-3 text-brand-crimson drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
                     const color = prop.Status === 'UPCOMING' ? 'text-slate-300' : 'text-brand-crimson';
                     lockOverlay = `
-                        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none mt-12">
+                        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none mt-8">
                             ${icon}
                             <span class="font-extrabold uppercase tracking-widest text-xl ${color} drop-shadow-md">${prop.Status}</span>
-                            <span class="text-xs text-white mt-2 font-bold px-4 py-1.5 rounded bg-black/60 backdrop-blur-md shadow-lg">${prop.Status === 'UPCOMING' ? 'Data Is Being Constructed' : 'Data Secured In Archive'}</span>
+                            <span class="text-xs text-gray-200 mt-2 font-bold px-4 py-1 drop-shadow-md text-center tracking-wide">${prop.Status === 'UPCOMING' ? 'Data Is Being Constructed' : 'Data Secured In Archive'}</span>
                         </div>
                     `;
                 }
 
                 const cardHTML = `
-                    <div class="property-card bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo}>
+                    <div class="property-card bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo} data-prop-id="${prop.Property_ID}" data-address="${prop.Address}, ${prop.City_State}" data-access-key="${prop.Access_Password}">
                         ${lockOverlay}
                         <div class="flex justify-between items-start mb-4 relative z-20">
                             <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${deal.class} bg-[#0b0f19]/80 backdrop-blur-md">${deal.label}</span>
@@ -670,10 +723,10 @@
                     closeShowingModal();
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.className = `btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20`;
+                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
-                        document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shNote').value = '';
+                        document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shTimeZoneLabel').innerText = 'Select Zone'; document.getElementById('shTimeZoneLabel').classList.add('text-gray-400'); document.getElementById('shTimeZoneLabel').classList.remove('text-white'); document.getElementById('shNote').value = '';
                         
                         iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300";
                         iconContainer.innerHTML = '<svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
