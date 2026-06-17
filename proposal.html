@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TCHB Investor Network Portal - Proposal</title>
+  <title>TCHB Investor Network Portal - Property Data</title>
   
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,6 +28,7 @@
   
   <style>
     body { background-color: #0b0f19; color: #f3f4f6; overflow-x: hidden; }
+    
     .gradient-border { position: relative; }
     .gradient-border::before {
       content: ""; position: absolute; inset: 0; border-radius: 0.75rem; padding: 1.5px;
@@ -35,6 +36,7 @@
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
     }
+    
     tbody tr { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
     tbody tr:hover { background-color: rgba(79, 70, 229, 0.12) !important; }
     tbody tr:hover td { color: #ffffff !important; }
@@ -46,7 +48,7 @@
     #mouseGlow::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at center, transparent 15%, rgba(16, 185, 129, 0.25) 35%, rgba(79, 70, 229, 0.25) 60%, rgba(220, 38, 38, 0.25) 85%, transparent 100%); filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite; }
     @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
     
-    body, a, button, input, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
+    body, a, button, input, textarea, select, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
     
     #cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; pointer-events: none; z-index: 999999; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, background-color 0.2s; opacity: 0; }
     #cursor-ring { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1.5px solid rgba(79, 70, 229, 0.6); border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; opacity: 0; }
@@ -67,11 +69,15 @@
     @keyframes pulse-glow-strong { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 0.8; transform: scale(1.1); } }
     @keyframes icon-pulse { 0%, 100% { transform: scale(0.85); opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 15px rgba(255,255,255,0.6)); } }
     .animate-icon-pulse { animation: icon-pulse 2s ease-in-out infinite; }
+    
     .animate-text-gradient-pulse { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s linear infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     @keyframes text-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
     .btn-mixed-hue { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 6s linear infinite; }
     .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+
+    .btn-silver-hue { background: linear-gradient(to right, #475569, #94a3b8, #cbd5e1, #94a3b8, #475569); background-size: 300% 100%; animation: pan-x 6s linear infinite; color: #ffffff; }
+    .btn-silver-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(148, 163, 184, 0.3); }
 
     @keyframes modal-enter { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes modal-exit { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(20px) scale(0.95); } }
@@ -109,7 +115,7 @@
                 <svg id="gateLockIcon" class="w-8 h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-white mb-1">Direct Link Verification</h3>
-            <p class="text-xs text-gray-400">Please Enter Credentials To Unlock This Proposal</p>
+            <p class="text-xs text-gray-400">Please Enter Credentials To Unlock This Property Data</p>
         </div>
         
         <div id="gateStep1Container" class="space-y-4">
@@ -124,7 +130,7 @@
         </div>
 
         <p id="gateErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Security Authorization Code.</p>
-        <button id="gateAuthButton" onclick="handleGateAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer">
+        <button id="gateAuthButton" onclick="handleGateAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20">
             Send Verification Code
         </button>
 
@@ -133,134 +139,145 @@
             No Access Key? Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or <button onclick="openAccessModal()" class="text-emerald-400 hover:text-emerald-300 font-bold transition-colors cursor-pointer">Request Access Key</button>
         </p>
     </div>
-  </div>
 
-  <!-- MAKE AN OFFER MODAL -->
-  <div id="offerModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
-    <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="offerModalBox">
-        <button onclick="closeOfferModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div class="text-center mb-6">
-            <div class="mx-auto w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4 transition-all duration-300" id="offerModalIconContainer">
-                <svg id="offerModalIcon" class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <!-- MAKE AN OFFER MODAL -->
+    <div id="offerModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
+        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="offerModalBox">
+            <button onclick="closeOfferModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-6">
+                <div class="mx-auto w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4 transition-all duration-300" id="offerModalIconContainer">
+                    <svg id="offerModalIcon" class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="offerModalTitle">Submit Your Offer</h3>
+                <p class="text-xs text-gray-400" id="offerModalAddress">...</p>
             </div>
-            <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="offerModalTitle">Submit Your Offer</h3>
-            <p class="text-xs text-gray-400" id="offerModalAddress">...</p>
-        </div>
-        
-        <div class="space-y-4 text-center transition-opacity duration-300" id="offerModalFormContent">
-            <div class="grid grid-cols-2 gap-4">
-                <input type="text" id="offerFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
-                <input type="text" id="offerLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
-            </div>
-            <div>
-                <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
-            </div>
-            <div>
-                <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
-                <div class="flex gap-2">
-                    <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
-                    <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+            
+            <div class="space-y-4 text-center transition-opacity duration-300" id="offerModalFormContent">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="offerFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                    <input type="text" id="offerLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                </div>
+                <div>
+                    <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
+                    <div class="flex gap-2">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
+                        <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-gray-500 font-bold">$</span>
+                        <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center text-white font-bold tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
+                    </div>
+                </div>
+                <div>
+                    <textarea id="offerNote" placeholder="Notes" rows="3" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
                 </div>
             </div>
-            <div>
-                <div class="relative">
-                    <span class="absolute left-4 top-3.5 text-gray-500 font-bold">$</span>
-                    <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center text-white font-bold tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
-                </div>
-            </div>
-            <div>
-                <textarea id="offerNote" placeholder="Notes" rows="3" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
-            </div>
-        </div>
 
-        <p id="offerErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-        <button id="submitOfferBtn" onclick="submitOffer()" class="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10">
-            Send Official Offer
-        </button>
+            <p id="offerErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+            <button id="submitOfferBtn" onclick="submitOffer()" class="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10">
+                Send Official Offer
+            </button>
+        </div>
     </div>
-  </div>
 
-  <!-- REQUEST SHOWING MODAL (PROPOSAL SPECIFIC) -->
-  <div id="showingModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-      <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="showingModalBox">
-          <button onclick="closeShowingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          </button>
-          <div class="text-center mb-6">
-              <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300" id="showingModalIconContainer">
-                  <svg id="showingModalIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
-              <p class="text-xs text-gray-400" id="showingModalAddress">...</p>
-          </div>
-          
-          <div class="space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
-              <div class="grid grid-cols-2 gap-4">
-                  <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
-                  <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
-              </div>
-              <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text"></div>
-              <div>
-                  <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
-                  <div class="flex gap-2">
-                      <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
-                      <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
-                  </div>
-              </div>
-              <div>
-                  <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">Requested Date & Time</label>
-                  <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer">
-              </div>
-              <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
-          </div>
+    <!-- REQUEST SHOWING MODAL (PROPOSAL SPECIFIC) -->
+    <div id="showingModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="showingModalBox">
+            <button onclick="closeShowingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-6">
+                <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300" id="showingModalIconContainer">
+                    <svg id="showingModalIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
+                <p class="text-xs text-gray-400" id="showingModalAddress">...</p>
+            </div>
+            
+            <div class="space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                    <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                </div>
+                <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text"></div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
+                    <div class="flex gap-2">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
+                        <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">Date & Time</label>
+                        <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">Time Zone</label>
+                        <select id="shTimeZone" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-2 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer">
+                            <option value="" disabled selected>Select Zone</option>
+                            <option value="EST">Eastern (EST/EDT)</option>
+                            <option value="CST">Central (CST/CDT)</option>
+                            <option value="MST">Mountain (MST/MDT)</option>
+                            <option value="PST">Pacific (PST/PDT)</option>
+                            <option value="AKST">Alaskan (AKST)</option>
+                            <option value="HST">Hawaii (HST)</option>
+                        </select>
+                    </div>
+                </div>
+                <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+            </div>
 
-          <p id="showingErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-          <button id="submitShowingBtn" onclick="submitShowingRequest()" class="btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20">
-              Confirm Showing Request
-          </button>
-      </div>
-  </div>
+            <p id="showingErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10">
+                Confirm Showing Request
+            </button>
+        </div>
+    </div>
 
-  <!-- REQUEST ACCESS KEY MODAL (FOR GATE) -->
-  <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-      <div class="bg-[#0f0f1f] border border-emerald-500/20 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
-          <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          </button>
-          <div class="text-center mb-6">
-              <div class="mx-auto w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 mb-4 transition-all duration-300" id="accessModalIconContainer">
-                  <svg id="accessModalIcon" class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
-              <p class="text-xs text-gray-400" id="accessModalAddress">...</p>
-          </div>
-          
-          <div class="space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
-              <div class="grid grid-cols-2 gap-4">
-                  <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text">
-                  <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text">
-              </div>
-              <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text"></div>
-              <div>
-                  <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
-                  <div class="flex gap-2">
-                      <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
-                      <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-emerald-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
-                  </div>
-              </div>
-              <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all cursor-text resize-none"></textarea></div>
-          </div>
+    <!-- REQUEST ACCESS KEY MODAL (FOR GATE) -->
+    <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+        <div class="bg-[#0f0f1f] border border-emerald-500/20 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
+            <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-6">
+                <div class="mx-auto w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 mb-4 transition-all duration-300" id="accessModalIconContainer">
+                    <svg id="accessModalIcon" class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
+                <p class="text-xs text-gray-400" id="accessModalAddress">...</p>
+            </div>
+            
+            <div class="space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text">
+                    <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text">
+                </div>
+                <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-emerald-500/50 transition-all cursor-text"></div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
+                    <div class="flex gap-2">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
+                        <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-emerald-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+                    </div>
+                </div>
+                <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all cursor-text resize-none"></textarea></div>
+            </div>
 
-          <p id="accessErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-          <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-emerald-500/20">
-              Submit Access Request
-          </button>
-      </div>
-  </div>
-
-  <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10 no-print" style="pointer-events: none;"></canvas>
+            <p id="accessErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+            <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-emerald-500/20">
+                Submit Access Request
+            </button>
+        </div>
+    </div>
 
   <div id="fullPageLoader" class="fixed inset-0 z-[110] bg-[#0b0f19] flex flex-col items-center justify-center">
       <div class="relative w-24 h-24 mb-8 flex items-center justify-center">
@@ -268,7 +285,7 @@
           <div class="gradient-ring-border z-10"></div>
           <img src="icon.svg" alt="Loading" class="w-10 h-10 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
       </div>
-      <p class="font-bold uppercase tracking-widest animate-text-gradient-pulse" id="loaderText">Constructing Proposal...</p>
+      <p class="font-bold uppercase tracking-widest animate-text-gradient-pulse" id="loaderText">Constructing Property Data...</p>
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10 hidden" id="mainContent">
@@ -285,13 +302,13 @@
           </a>
         </div>
         <div class="flex flex-col sm:flex-row justify-center gap-3 no-print hidden-module" id="offerButtonContainer">
+           <button onclick="openShowingModal()" class="btn-silver-hue text-white font-bold py-3 px-6 rounded-xl transition-all hover:-translate-y-1 flex items-center gap-2 cursor-pointer shadow-lg border border-white/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              <span class="drop-shadow-md whitespace-nowrap">Request Showing</span>
+           </button>
            <button id="makeOfferBtn" onclick="openOfferModal()" class="btn-mixed-hue text-white font-bold py-3 px-6 rounded-xl transition-all hover:-translate-y-1 flex items-center gap-2 cursor-pointer shadow-lg border border-white/20">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               <span class="drop-shadow-md whitespace-nowrap">Make An Offer</span>
-           </button>
-           <button onclick="openShowingModal()" class="bg-gray-800/80 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:-translate-y-1 flex items-center gap-2 cursor-pointer shadow-lg border border-white/10">
-              <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-              <span class="drop-shadow-md whitespace-nowrap">Request Showing</span>
            </button>
         </div>
         <div class="flex flex-col items-center md:items-end text-center md:text-right">
@@ -390,7 +407,12 @@
             <div><h3 class="text-lg font-bold text-white">Subject-To / Creative Deal Architecture</h3><p class="text-xs text-gray-400">Comparing Sub2/Creative against standard market debt.</p></div>
             <button onclick="window.print()" class="no-print bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
-            <div class="overflow-x-auto"><table class="w-full text-center text-sm text-gray-300"><thead class="bg-gray-950/60 text-xs text-gray-400 uppercase"><tr><th class="px-6 py-4 text-center">Metric / Dimension</th><th class="px-6 py-4 text-purple-400 bg-purple-950/20 font-bold text-center">🔥 Proposed Deal</th><th class="px-6 py-4 text-center">Standard Market</th><th class="px-6 py-4 text-brand-emerald text-center">Net Advantage</th></tr></thead><tbody id="ui-creative-tbody" class="divide-y divide-gray-800"></tbody></table></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-center text-sm text-gray-300">
+                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase"><tr><th class="px-6 py-4 text-center">Metric / Dimension</th><th class="px-6 py-4 text-purple-400 bg-purple-950/20 font-bold text-center">🔥 Proposed Deal</th><th class="px-6 py-4 text-center">Standard Market</th><th class="px-6 py-4 text-brand-emerald text-center">Net Advantage</th></tr></thead>
+                    <tbody id="ui-creative-tbody" class="divide-y divide-gray-800"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- WHOLESALE TABLE -->
@@ -399,7 +421,12 @@
             <div><h3 class="text-lg font-bold text-white" id="ws-table-title">Wholesale / Off-Market Breakdown</h3><p class="text-xs text-gray-400">Direct spread analysis and expected ROI metrics.</p></div>
             <button onclick="window.print()" class="no-print bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
-            <div class="overflow-x-auto"><table class="w-full text-sm text-gray-300"><thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead><tbody id="ui-wholesale-tbody" class="divide-y divide-gray-800 text-center"></tbody></table></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-gray-300">
+                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead>
+                    <tbody id="ui-wholesale-tbody" class="divide-y divide-gray-800 text-center"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- RENTAL TABLE -->
@@ -408,7 +435,12 @@
             <div><h3 class="text-lg font-bold text-white">Turnkey / Rental Portfolio Operations</h3><p class="text-xs text-gray-400">Operational analysis of total expected rent and yields.</p></div>
             <button onclick="window.print()" class="no-print bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
-            <div class="overflow-x-auto"><table class="w-full text-sm text-gray-300"><thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead><tbody id="ui-rental-tbody" class="divide-y divide-gray-800 text-center"></tbody></table></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-gray-300">
+                    <thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead>
+                    <tbody id="ui-rental-tbody" class="divide-y divide-gray-800 text-center"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -734,7 +766,7 @@
                     lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
                     lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
                     
-                    btn.innerText = "Verify & Unlock Proposal";
+                    btn.innerText = "Verify & Unlock Property Data";
                     btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
                     btn.disabled = false; document.getElementById('gateOtpInput').focus();
                 }, 1500);
@@ -792,7 +824,7 @@
 
         const mappedData = {
             dealType: dealTypeMap,
-            badgeText: currentDBRow.Teaser_Heading || 'Deal Proposal', badgeColor: badgeStyle,
+            badgeText: currentDBRow.Teaser_Heading || 'Property Data', badgeColor: badgeStyle,
             address: currentDBRow.Address, cityState: currentDBRow.City_State,
             pill1: currentDBRow.Pill_1, pill2: currentDBRow.Pill_2, pill3: currentDBRow.Pill_3,
             
@@ -825,7 +857,7 @@
             rnOpEx: currentDBRow.RN_OpEx, rnNOI: currentDBRow.RN_NOI, rnCapRate: currentDBRow.RN_Est_Gross_Cap_Rate, rnCoC: currentDBRow.RN_Cash_on_Cash
         };
 
-        if(currentDBRow.Status && (currentDBRow.Status.toUpperCase() === 'SOLD' || currentDBRow.Status.toUpperCase() === 'UPCOMING')) {
+        if(currentDBRow.Status && (currentDBRow.Status.toUpperCase() === 'SOLD' || currentDBRow.Status.toUpperCase() === 'UPCOMING' || currentDBRow.Status.toUpperCase() === 'CLOSED')) {
             document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
         }
 
@@ -877,7 +909,7 @@
         });
 
         document.querySelectorAll('.hidden-module').forEach(el => el.classList.add('hidden-module'));
-        if(currentDBRow.Status && (currentDBRow.Status.toUpperCase() === 'SOLD' || currentDBRow.Status.toUpperCase() === 'UPCOMING')) {
+        if(currentDBRow.Status && (currentDBRow.Status.toUpperCase() === 'SOLD' || currentDBRow.Status.toUpperCase() === 'UPCOMING' || currentDBRow.Status.toUpperCase() === 'CLOSED')) {
             document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
         }
 
@@ -973,7 +1005,7 @@
                 closeOfferModal();
                 setTimeout(() => {
                     btn.disabled = false;
-                    btn.className = `w-full bg-gray-800/80 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
+                    btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                     document.getElementById('offerFirstName').value = ''; document.getElementById('offerLastName').value = ''; document.getElementById('offerAmount').value = ''; document.getElementById('offerNote').value = '';
                     iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4 transition-all duration-300";
@@ -1002,17 +1034,17 @@
     async function submitShowingRequest() {
         const fn = document.getElementById('shFirstName').value.trim(); const ln = document.getElementById('shLastName').value.trim();
         const email = document.getElementById('shEmail').value.trim(); const rawPhone = document.getElementById('shPhone').value.trim();
-        const time = document.getElementById('shTime').value.trim(); const note = document.getElementById('shNote').value.trim();
+        const time = document.getElementById('shTime').value.trim(); const tz = document.getElementById('shTimeZone').value; const note = document.getElementById('shNote').value.trim();
         const errorMsg = document.getElementById('showingErrorMessage'); const btn = document.getElementById('submitShowingBtn');
         let phoneDigits = rawPhone.replace(/\D/g, ''); 
 
-        if(!fn || !ln || !email || !phoneDigits || !time) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); return; }
+        if(!fn || !ln || !email || !phoneDigits || !time || !tz) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); return; }
         if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); return; }
         
         const formattedPhone = '+1' + phoneDigits; errorMsg.classList.add('hidden');
         btn.innerText = "Sending Request..."; btn.disabled = true; btn.classList.add('opacity-75', 'cursor-not-allowed');
 
-        const payload = { propertyId: urlPropId, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State, firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: time, note: note, source: "TCHB Investor Portal - Showing", timestamp: new Date().toISOString() };
+        const payload = { propertyId: urlPropId, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State, firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: `${time} ${tz}`, note: note, source: "TCHB Investor Portal - Showing", timestamp: new Date().toISOString() };
 
         try {
             if (WH_SHOWING) await fetch(WH_SHOWING, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -1025,9 +1057,9 @@
             setTimeout(() => {
                 closeShowingModal();
                 setTimeout(() => {
-                    btn.disabled = false; btn.className = `btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20`;
+                    btn.disabled = false; btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
-                    document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = ''; document.getElementById('shTime').value = ''; document.getElementById('shNote').value = '';
+                    document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = ''; document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shNote').value = '';
                     iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300";
                     iconContainer.innerHTML = '<svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
                     titleEl.innerText = "Request A Showing"; titleEl.classList.remove('text-brand-emerald');
@@ -1145,7 +1177,7 @@
     function createSpark(x = null, y = null, isClick = false) { const isHorizontal = Math.random() > 0.5; let startX, startY, dirX, dirY; if (isClick && x !== null && y !== null) { startX = Math.round(x / gridSize) * gridSize; startY = Math.round(y / gridSize) * gridSize; dirX = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; dirY = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); } else { if (isHorizontal) { startX = Math.random() < 0.5 ? 0 : canvas.width; startY = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize; dirX = startX === 0 ? 1 : -1; dirY = 0; } else { startX = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize; startY = Math.random() < 0.5 ? 0 : canvas.height; dirX = 0; dirY = startY === 0 ? 1 : -1; } } const color = brandColors[Math.floor(Math.random() * brandColors.length)]; sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color }); }
     document.addEventListener('mousedown', (e) => { lastInteractionTime = Date.now(); for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); const ring = document.getElementById('cursor-ring'); if(ring) { ring.style.transform = `translate(-50%, -50%) scale(0.7)`; setTimeout(() => ring.style.transform = `translate(-50%, -50%) scale(1)`, 150); } });
     document.addEventListener('mousemove', (e) => { document.body.classList.add('mouse-active'); customMouseX = e.clientX; customMouseY = e.clientY; const dot = document.getElementById('cursor-dot'); if(dot) { dot.style.left = `${customMouseX}px`; dot.style.top = `${customMouseY}px`; } const glow = document.getElementById('mouseGlow'); if(glow) { glow.style.setProperty('--mouse-x', `${e.clientX}px`); glow.style.setProperty('--mouse-y', `${e.clientY}px`); if (glow.style.opacity === '0' || glow.style.opacity === '') glow.style.opacity = '1'; } });
-    document.addEventListener('mouseover', (e) => { if (e.target.closest('.cursor-not-allowed')) { document.body.classList.add('cursor-locked'); document.body.classList.remove('cursor-hover'); } else if (e.target.closest('a, button, input, textarea, [onclick], .cursor-pointer')) { document.body.classList.add('cursor-hover'); document.body.classList.remove('cursor-locked'); } else { document.body.classList.remove('cursor-hover', 'cursor-locked'); } });
+    document.addEventListener('mouseover', (e) => { if (e.target.closest('.cursor-not-allowed')) { document.body.classList.add('cursor-locked'); document.body.classList.remove('cursor-hover'); } else if (e.target.closest('a, button, input, textarea, select, [onclick], .cursor-pointer')) { document.body.classList.add('cursor-hover'); document.body.classList.remove('cursor-locked'); } else { document.body.classList.remove('cursor-hover', 'cursor-locked'); } });
     document.addEventListener('mouseleave', () => { const glow = document.getElementById('mouseGlow'); if(glow) glow.style.opacity = '0'; });
     function drawSparks() { ctx.lineCap = 'round'; sparks.forEach(spark => { const c = spark.color; ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY); ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke(); spark.history.forEach((point, index) => { ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`; ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke(); }); ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath(); const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress; const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress; ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2); ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`; ctx.fill(); ctx.shadowBlur = 0; }); }
     function animateGrid(timestamp) { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = 'rgba(79, 70, 229, 0.07)'; ctx.lineWidth = 1; ctx.beginPath(); for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); } for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } ctx.stroke(); ringX += (customMouseX - ringX) * 0.15; ringY += (customMouseY - ringY) * 0.15; const ring = document.getElementById('cursor-ring'); if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; } drawSparks(); if (Date.now() - lastInteractionTime > 5000) { if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; } } for (let i = sparks.length - 1; i >= 0; i--) { let spark = sparks[i]; spark.progress += spark.speed; spark.life -= spark.decay; if (spark.history.length > 5) spark.history.shift(); spark.history.push({ x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress, nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1) }); if (spark.life <= 0) { sparks.splice(i, 1); } else if (spark.progress >= 1) { spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0; if (Math.random() < 0.3 && sparks.length < 32) { let isHorizontal = spark.dirX !== 0; let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color }); } spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize; } } requestAnimationFrame(animateGrid); }
