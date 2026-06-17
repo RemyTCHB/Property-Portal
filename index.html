@@ -38,7 +38,6 @@
         .animate-modal-in { animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-modal-out { animation: modal-exit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        /* Custom Page Flip Animation */
         .flip-out { transform: translateX(30px); opacity: 0; }
         .flip-inner { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
@@ -66,18 +65,9 @@
         body.cursor-locked #cursor-ring { width: 44px; height: 44px; background-color: rgba(220, 38, 38, 0.1); border-color: rgba(220, 38, 38, 0.8); border-style: dashed; }
         body.cursor-locked #cursor-dot { transform: translate(-50%, -50%) scale(1.2); background: #dc2626; }
 
-        .animate-text-gradient {
-            background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5);
-            background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
-            animation: pan-x 6s linear infinite;
-        }
+        .animate-text-gradient { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s linear infinite; }
+        .animate-text-gradient-pulse { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s linear infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pan-x { 0% { background-position: 100% center; } 100% { background-position: 0% center; } }
-
-        .animate-text-gradient-pulse {
-            background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5);
-            background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;
-            animation: pan-x 6s linear infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
         @keyframes text-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
         .gradient-ring-border { position: absolute; inset: 0; border-radius: 50%; padding: 3px; background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: pan-x 6s linear infinite, custom-spin 1.5s linear infinite; }
@@ -89,16 +79,13 @@
 
         .btn-mixed-hue { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 6s linear infinite; }
         .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+        .btn-silver-hue { background: linear-gradient(to right, #475569, #94a3b8, #cbd5e1, #94a3b8, #475569); background-size: 300% 100%; animation: pan-x 6s linear infinite; color: #ffffff; }
+        .btn-silver-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(148, 163, 184, 0.3); }
 
-        .btn-showing { background: #e2e8f0; color: #000000; border: 1px solid #cbd5e1; }
-        .btn-showing:hover { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 4s linear infinite; color: #ffffff; border-color: transparent; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
-        
-        /* Ensure Datetime picker fits dark theme natively */
         .custom-datetime { color-scheme: dark; }
         .custom-datetime::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; transition: 0.2s; }
         .custom-datetime::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
-        /* Custom Scrollbar for Dropdown */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
@@ -118,103 +105,100 @@
 
     <!-- AUTHENTICATION GATE MODAL -->
     <div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="modalBox">
+        <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="modalBox">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="text-center mb-6">
-                <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="lockIconContainer">
-                    <svg id="lockIcon" class="w-8 h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="lockIconContainer">
+                    <svg id="lockIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-1">Verification Required</h3>
-                <p class="text-xs text-gray-400" id="gateAddressDisplay">Please Verify Identity & Enter Access Key</p>
+                <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Verification Required</h3>
+                <p class="text-[11px] sm:text-xs text-gray-400" id="gateAddressDisplay">Please Verify Identity & Enter Access Key</p>
             </div>
             
-            <div id="step1Container" class="space-y-4">
-                <input type="email" id="emailInput" placeholder="Registered Email" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-                <input type="password" id="accessKeyInput" placeholder="Property Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+            <div id="step1Container" class="space-y-3 sm:space-y-4">
+                <input type="email" id="emailInput" placeholder="Registered Email" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                <input type="password" id="accessKeyInput" placeholder="Property Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white text-[13px] sm:text-sm tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
             </div>
 
-            <div id="step2Container" class="space-y-4 hidden mt-2">
+            <div id="step2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
                 <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
-                <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-xl focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white tracking-[0.5em] font-mono text-lg sm:text-xl focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
             </div>
 
             <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Code.</p>
-            <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20">
+            <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-sm">
                 Send Verification Code
             </button>
 
             <!-- Disclaimer -->
-            <div class="text-xs text-gray-400 mt-6 border-t border-gray-800 pt-4 text-center leading-relaxed flex flex-col items-center">
-                <span class="mb-1">No Access Key?! Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or</span>
-                <button onclick="openAccessModal()" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors cursor-pointer text-sm">Request Access Key</button>
+            <div class="text-[11px] sm:text-xs text-gray-400 mt-6 border-t border-gray-800 pt-4 text-center leading-relaxed">
+                No Access Key?! Call Us Here <a href="tel:+18889889150" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors whitespace-nowrap cursor-pointer">+1 (888) 988-9150</a> or<br>
+                <button onclick="openAccessModal()" class="text-indigo-400 hover:text-indigo-300 font-bold transition-colors cursor-pointer text-sm mt-1.5">Request Access Key</button>
             </div>
         </div>
     </div>
 
     <!-- REQUEST SHOWING MODAL -->
     <div id="showingModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="showingModalBox">
+        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="showingModalBox">
             <button onclick="closeShowingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <div class="text-center mb-6">
-                <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300" id="showingModalIconContainer">
-                    <svg id="showingModalIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <div class="text-center mb-5 sm:mb-6">
+                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
+                    <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
-                <p class="text-xs text-gray-400" id="showingModalAddress">...</p>
+                <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
+                <p class="text-[11px] sm:text-xs text-gray-400" id="showingModalAddress">...</p>
             </div>
             
-            <div class="space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
-                    <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+            <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                    <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                    <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                 </div>
-                <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text"></div>
+                <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
+                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1 font-bold">US Phone Number</label>
                     <div class="flex gap-2">
-                        <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
-                        <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-2 sm:px-4 py-2.5 sm:py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-12 sm:w-16 flex-shrink-0 shadow-inner text-[13px] sm:text-sm">+1</div>
+                        <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
                 
-                <!-- Enhanced Date & Custom Timezone UI -->
-                <div class="grid grid-cols-2 gap-4 text-left relative">
-                    <div>
-                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold pl-1">Date & Time</label>
-                        <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer custom-datetime text-sm">
+                <div class="grid grid-cols-5 gap-3 text-left relative">
+                    <div class="col-span-3">
+                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1 font-bold pl-1">Date & Time</label>
+                        <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-2 sm:px-3 py-2.5 sm:py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer custom-datetime text-[13px] sm:text-sm">
                     </div>
-                    <div id="tzDropdownContainer" class="relative">
-                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold pl-1">Time Zone</label>
-                        <!-- Custom Select trigger -->
-                        <div onclick="toggleTzDropdown()" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-3 text-left text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer text-sm flex justify-between items-center select-none">
-                            <span id="shTimeZoneLabel" class="text-gray-400 truncate">Select Zone</span>
-                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <div id="tzDropdownContainer" class="relative col-span-2">
+                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1 font-bold pl-1">Time Zone</label>
+                        <div onclick="toggleTzDropdown()" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-2 sm:px-3 py-2.5 sm:py-3 text-left text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer text-[13px] sm:text-sm flex justify-between items-center select-none">
+                            <span id="shTimeZoneLabel" class="text-gray-400 truncate">Zone</span>
+                            <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <!-- Custom Select Menu -->
-                        <div id="tzDropdownMenu" class="absolute z-[150] w-full mt-2 bg-[#1f2937] border border-white/10 rounded-lg shadow-2xl opacity-0 invisible transform -translate-y-2 transition-all duration-200 overflow-hidden text-left">
+                        <div id="tzDropdownMenu" class="absolute z-[150] w-full mt-2 bg-[#1f2937] border border-white/10 rounded-lg shadow-2xl opacity-0 invisible transform -translate-y-2 transition-all duration-200 overflow-hidden text-left right-0">
                             <div class="max-h-48 overflow-y-auto py-1 custom-scrollbar">
-                                <div onclick="selectTz('EST', 'Eastern (EST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Eastern (EST)</div>
-                                <div onclick="selectTz('CST', 'Central (CST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Central (CST)</div>
-                                <div onclick="selectTz('MST', 'Mountain (MST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Mountain (MST)</div>
-                                <div onclick="selectTz('PST', 'Pacific (PST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Pacific (PST)</div>
-                                <div onclick="selectTz('AKST', 'Alaskan (AKST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Alaskan (AKST)</div>
-                                <div onclick="selectTz('HST', 'Hawaii (HST)')" class="px-4 py-2.5 text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Hawaii (HST)</div>
+                                <div onclick="selectTz('EST', 'Eastern (EST)')" class="px-3 sm:px-4 py-2 text-[13px] sm:text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Eastern (EST)</div>
+                                <div onclick="selectTz('CST', 'Central (CST)')" class="px-3 sm:px-4 py-2 text-[13px] sm:text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Central (CST)</div>
+                                <div onclick="selectTz('MST', 'Mountain (MST)')" class="px-3 sm:px-4 py-2 text-[13px] sm:text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Mountain (MST)</div>
+                                <div onclick="selectTz('PST', 'Pacific (PST)')" class="px-3 sm:px-4 py-2 text-[13px] sm:text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Pacific (PST)</div>
+                                <div onclick="selectTz('AKST', 'Alaskan (AKST)')" class="px-3 sm:px-4 py-2 text-[13px] sm:text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Alaskan (AKST)</div>
+                                <div onclick="selectTz('HST', 'Hawaii (HST)')" class="px-3 sm:px-4 py-2 text-[13px] sm:text-sm text-gray-300 hover:bg-indigo-600 hover:text-white cursor-pointer transition-colors truncate">Hawaii (HST)</div>
                             </div>
                         </div>
                         <input type="hidden" id="shTimeZone" value="">
                     </div>
                 </div>
 
-                <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+                <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
             </div>
 
-            <p id="showingErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10">
+            <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-sm">
                 Confirm Showing Request
             </button>
         </div>
@@ -222,36 +206,36 @@
 
     <!-- REQUEST ACCESS KEY MODAL -->
     <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
-        <div class="bg-[#0f0f1f] border border-indigo-500/20 rounded-2xl w-full max-w-md p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
+        <div class="bg-[#0f0f1f] border border-indigo-500/20 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="accessModalBox">
             <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <div class="text-center mb-6">
-                <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300" id="accessModalIconContainer">
-                    <svg id="accessModalIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+            <div class="text-center mb-5 sm:mb-6">
+                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
+                    <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
-                <p class="text-xs text-gray-400" id="accessModalAddress">...</p>
+                <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
+                <p class="text-[11px] sm:text-xs text-gray-400" id="accessModalAddress">...</p>
             </div>
             
-            <div class="space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
-                    <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+            <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                    <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                    <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                 </div>
-                <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text"></div>
+                <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
+                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1 font-bold">US Phone Number</label>
                     <div class="flex gap-2">
-                        <div class="bg-[#111827] border border-white/10 rounded-lg px-4 py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-16 flex-shrink-0 shadow-inner">+1</div>
-                        <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-2 sm:px-4 py-2.5 sm:py-3 text-gray-500 font-bold flex items-center justify-center pointer-events-none w-12 sm:w-16 flex-shrink-0 shadow-inner text-[13px] sm:text-sm">+1</div>
+                        <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
-                <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+                <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-3 py-2.5 sm:py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
             </div>
 
-            <p id="accessErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-            <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20">
+            <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
+            <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-sm">
                 Submit Access Request
             </button>
         </div>
@@ -326,7 +310,6 @@
             else input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         }
 
-        // Custom Dropdown Logic
         function toggleTzDropdown() {
             const menu = document.getElementById('tzDropdownMenu');
             if(menu.classList.contains('opacity-0')) {
@@ -354,7 +337,6 @@
             closeTzDropdown();
         }
 
-        // Click outside to close custom timezone dropdown
         document.addEventListener('click', (e) => {
             const container = document.getElementById('tzDropdownContainer');
             if(container && !container.contains(e.target)) closeTzDropdown();
@@ -403,8 +385,20 @@
             }
         }
 
+        function shakeElement(id) {
+            const el = document.getElementById(id);
+            if(el) {
+                el.classList.remove('shake-element');
+                void el.offsetWidth; // reflow
+                el.classList.add('shake-element');
+                setTimeout(() => el.classList.remove('shake-element'), 400);
+            }
+        }
+
         function shakeCard(card) {
             if(!card) return;
+            card.classList.remove('shake-element');
+            void card.offsetWidth;
             card.classList.add('shake-element');
             setTimeout(() => card.classList.remove('shake-element'), 400);
         }
@@ -445,49 +439,49 @@
                         <div class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none mt-8">
                             ${icon}
                             <span class="font-extrabold uppercase tracking-widest text-xl ${color} drop-shadow-md">${prop.Status}</span>
-                            <span class="text-xs text-gray-200 mt-2 font-bold px-4 py-1 drop-shadow-md text-center tracking-wide">${prop.Status === 'UPCOMING' ? 'Data Is Being Constructed' : 'Data Secured In Archive'}</span>
+                            <span class="text-[11px] sm:text-xs text-gray-200 mt-2 font-bold px-4 py-1 drop-shadow-md text-center tracking-wide">${prop.Status === 'UPCOMING' ? 'Data Is Being Constructed' : 'Data Secured In Archive'}</span>
                         </div>
                     `;
                 }
 
                 const cardHTML = `
-                    <div class="property-card bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo} data-prop-id="${prop.Property_ID}" data-address="${prop.Address}, ${prop.City_State}" data-access-key="${prop.Access_Password}">
+                    <div class="property-card bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-5 sm:p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo} data-prop-id="${prop.Property_ID}" data-address="${prop.Address}, ${prop.City_State}" data-access-key="${prop.Access_Password}">
                         ${lockOverlay}
                         <div class="flex justify-between items-start mb-4 relative z-20">
                             <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${deal.class} bg-[#0b0f19]/80 backdrop-blur-md">${deal.label}</span>
-                            <span class="flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border ${status.bg} ${status.text} ${status.border} ${status.pulse || ''} bg-[#0b0f19]/80 backdrop-blur-md">
+                            <span class="flex items-center text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full border ${status.bg} ${status.text} ${status.border} ${status.pulse || ''} bg-[#0b0f19]/80 backdrop-blur-md">
                                 ${status.dot} ${status.label}
                             </span>
                         </div>
                         <div class="mb-6 flex-grow relative z-0">
-                            <h3 class="text-xl font-bold text-white mb-1 truncate ${isLocked ? 'blur-[6px] opacity-40 select-none' : ''}">${prop.Address}</h3>
-                            <p class="text-sm text-gray-400 font-mono ${isLocked ? 'blur-[4px] opacity-40 select-none' : ''}">${prop.City_State}</p>
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-1 truncate ${isLocked ? 'blur-[6px] opacity-40 select-none' : ''}">${prop.Address}</h3>
+                            <p class="text-[13px] sm:text-sm text-gray-400 font-mono ${isLocked ? 'blur-[4px] opacity-40 select-none' : ''}">${prop.City_State}</p>
                         </div>
                         <div class="space-y-3 mb-6 relative z-0 ${isLocked ? 'blur-[4px] opacity-40 select-none' : ''}">
                             ${[prop.Portal_Feature_1, prop.Portal_Feature_2, prop.Portal_Feature_3].filter(f => f).map(feature => `
                                 <div class="flex items-center gap-3">
                                     <div class="w-1.5 h-1.5 rounded-full ${deal.bullet}"></div>
-                                    <span class="text-sm text-gray-300 font-medium">${feature}</span>
+                                    <span class="text-[13px] sm:text-sm text-gray-300 font-medium">${feature}</span>
                                 </div>
                             `).join('')}
                         </div>
                         
                         ${isLocked ? `
-                            <button class="w-full mt-auto py-3 px-4 rounded-xl font-semibold bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed text-sm pointer-events-none relative z-20">
+                            <button class="w-full mt-auto py-2.5 sm:py-3 px-4 rounded-xl font-semibold bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed text-xs sm:text-sm pointer-events-none relative z-20">
                                 Locked
                             </button>
                         ` : `
-                            <div class="grid grid-cols-2 gap-3 mt-auto relative z-20">
-                                <button onclick="handleBtnAnim(this, () => openModal('${prop.Property_ID}'))" class="group w-full rounded-xl font-semibold transition-all duration-300 text-xs sm:text-[13px] flex justify-center items-center py-3 overflow-hidden ${btnStateClass}">
+                            <div class="grid grid-cols-2 gap-2 sm:gap-3 mt-auto relative z-20">
+                                <button onclick="handleBtnAnim(this, () => openModal('${prop.Property_ID}'))" class="group w-full rounded-xl font-semibold transition-all duration-300 text-[11px] sm:text-sm flex justify-center items-center py-2.5 sm:py-3 overflow-hidden ${btnStateClass}">
                                     <span class="flip-inner flex items-center gap-1.5 whitespace-nowrap">
                                         View Property Data 
-                                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                     </span>
                                 </button>
-                                <button onclick="handleBtnAnim(this, () => openShowingModal('${prop.Property_ID}'))" class="btn-showing group w-full rounded-xl font-bold transition-all duration-300 flex justify-center items-center py-3 overflow-hidden text-xs sm:text-[13px] cursor-pointer">
+                                <button onclick="handleBtnAnim(this, () => openShowingModal('${prop.Property_ID}'))" class="btn-showing group w-full rounded-xl font-bold transition-all duration-300 flex justify-center items-center py-2.5 sm:py-3 overflow-hidden text-[11px] sm:text-sm cursor-pointer">
                                     <span class="flip-inner flex items-center gap-1.5 whitespace-nowrap">
                                         Request Showing
-                                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     </span>
                                 </button>
                             </div>
@@ -526,7 +520,7 @@
             
             const btn = document.getElementById('authButton');
             btn.innerText = "Send Verification Code";
-            btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20";
+            btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-sm";
             btn.removeAttribute('disabled');
             
             document.getElementById('emailInput').focus();
@@ -539,30 +533,22 @@
             setTimeout(() => { document.getElementById('authModal').classList.add('hidden'); activePropertyId = null; }, 300);
         }
 
-        function showError(msg) {
-            const errorElement = document.getElementById('errorMessage');
-            const modalBox = document.getElementById('modalBox');
-            errorElement.innerText = msg;
-            errorElement.classList.remove('hidden');
-            modalBox.classList.add('shake-element');
-            setTimeout(() => { modalBox.classList.remove('shake-element'); }, 400);
-        }
-
         async function handleAuthStep() {
             if (!activePropData) return;
 
             const emailVal = document.getElementById('emailInput').value.trim();
             const inputVal = document.getElementById('accessKeyInput').value.trim();
             const btn = document.getElementById('authButton');
+            const errorMsg = document.getElementById('errorMessage');
 
             if (authStep === 1) {
-                if (!isValidEmail(emailVal)) { showError("Please Enter A Valid Email Address."); return; }
+                if (!isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
                 if (emailVal.toLowerCase().endsWith('@totalchb.com') && inputVal === 'Portal@2026') { grantAccess(activePropData.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
-                if (inputVal !== activePropData.Access_Password) { showError("Incorrect Security Authorization Code."); return; }
+                if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
 
                 expectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                 btn.innerText = "Sending Code...";
-                btn.className = "w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-75 cursor-not-allowed";
+                btn.className = "w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-75 cursor-not-allowed text-sm";
                 btn.disabled = true;
 
                 sendWebhookEvent({ action: 'send_otp', timestamp: Date.now(), email: emailVal, propertyId: activePropData.Property_ID, accessKeyUsed: inputVal, otpSent: expectedOTP, sessionId: currentSessionTrackingId });
@@ -573,21 +559,21 @@
                     const origIconHtml = lockIcon.innerHTML;
 
                     lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
-                    lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
-                    lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+                    lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald transition-all duration-300 scale-110";
+                    lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
                     
                     btn.innerText = "Code Sent Successfully!";
-                    btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed";
+                    btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed text-sm";
 
                     setTimeout(() => {
                         authStep = 2;
-                        document.getElementById('step1Container').classList.add('hidden'); document.getElementById('step2Container').classList.remove('hidden'); document.getElementById('errorMessage').classList.add('hidden');
+                        document.getElementById('step1Container').classList.add('hidden'); document.getElementById('step2Container').classList.remove('hidden'); errorMsg.classList.add('hidden');
                         
-                        lockIcon.innerHTML = origIconHtml; lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
-                        lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
+                        lockIcon.innerHTML = origIconHtml; lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300";
+                        lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
                         
                         btn.innerText = "Verify & Unlock Property Data";
-                        btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+                        btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer text-sm";
                         btn.removeAttribute('disabled'); document.getElementById('otpInput').focus();
                     }, 1500);
                 }, 500);
@@ -595,7 +581,9 @@
             } else if (authStep === 2) {
                 const userOTP = document.getElementById('otpInput').value.trim();
                 if (userOTP !== expectedOTP) {
-                    showError("Incorrect Verification Code.");
+                    errorMsg.innerText = "Incorrect Verification Code.";
+                    errorMsg.classList.remove('hidden');
+                    shakeElement('modalBox');
                     sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailVal, propertyId: activePropData.Property_ID, otpUsed: userOTP, status: "ERROR", reason: "Invalid OTP", sessionId: currentSessionTrackingId });
                     return;
                 }
@@ -614,11 +602,11 @@
             sessionStorage.setItem('tchb_sess_' + propId, currentSessionTrackingId);
             
             lockIcon.innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>';
-            lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
-            lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+            lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald transition-all duration-300 scale-110";
+            lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
             btn.innerText = isAdmin ? "Admin Access Granted..." : "Access Granted...";
-            btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90";
+            btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90 text-sm";
 
             sendWebhookEvent({ action: 'log_access', timestamp: Date.now(), email: email, propertyId: propId, otpUsed: otpOrKeyUsed, status: "SUCCESS", reason: reasonStr, sessionId: currentSessionTrackingId });
 
@@ -669,11 +657,15 @@
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
             if(!fn || !ln || !email || !phoneDigits || !timeInput || !tz) {
                 errorMsg.innerText = "All fields except Notes are required.";
-                errorMsg.classList.remove('hidden'); return;
+                errorMsg.classList.remove('hidden'); 
+                shakeElement('showingModalBox');
+                return;
             }
             if(phoneDigits.length !== 10) {
                 errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
-                errorMsg.classList.remove('hidden'); return;
+                errorMsg.classList.remove('hidden'); 
+                shakeElement('showingModalBox');
+                return;
             }
 
             let formattedDateTime = "";
@@ -706,14 +698,14 @@
                 }
                 
                 btn.innerText = "Showing Requested Successfully!";
-                btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
+                btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm";
                 
                 const formContent = document.getElementById('showingModalFormContent');
                 formContent.style.opacity = '0.4'; formContent.style.pointerEvents = 'none';
 
                 const iconContainer = document.getElementById('showingModalIconContainer');
-                iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce transition-all duration-300";
-                iconContainer.innerHTML = '<svg class="w-8 h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-3 sm:mb-4 animate-bounce transition-all duration-300";
+                iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
                 
                 const titleEl = document.getElementById('showingModalTitle');
                 titleEl.innerText = "Request Received!";
@@ -723,13 +715,13 @@
                     closeShowingModal();
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
+                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-sm`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
                         document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shTimeZoneLabel').innerText = 'Select Zone'; document.getElementById('shTimeZoneLabel').classList.add('text-gray-400'); document.getElementById('shTimeZoneLabel').classList.remove('text-white'); document.getElementById('shNote').value = '';
                         
-                        iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300";
-                        iconContainer.innerHTML = '<svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
+                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
                         titleEl.innerText = "Request A Showing";
                         titleEl.classList.remove('text-brand-emerald');
                     }, 400); 
@@ -737,6 +729,7 @@
             } catch (err) {
                 errorMsg.innerText = "Error submitting request. Please try again.";
                 errorMsg.classList.remove('hidden');
+                shakeElement('showingModalBox');
                 btn.innerText = "Confirm Showing Request";
                 btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
             }
@@ -758,7 +751,7 @@
                 
                 const btn = document.getElementById('submitAccessBtn');
                 btn.innerText = "Submit Access Request";
-                btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20";
+                btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-sm";
                 
                 document.getElementById('accessErrorMessage').classList.add('hidden');
             }, 300);
@@ -783,11 +776,15 @@
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
             if(!fn || !ln || !email || !phoneDigits) {
                 errorMsg.innerText = "First Name, Last Name, Email, and Phone are required.";
-                errorMsg.classList.remove('hidden'); return;
+                errorMsg.classList.remove('hidden'); 
+                shakeElement('accessModalBox');
+                return;
             }
             if(phoneDigits.length !== 10) {
                 errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
-                errorMsg.classList.remove('hidden'); return;
+                errorMsg.classList.remove('hidden'); 
+                shakeElement('accessModalBox');
+                return;
             }
             
             const formattedPhone = '+1' + phoneDigits;
@@ -810,14 +807,14 @@
                 }
                 
                 btn.innerText = "Request Sent Successfully!";
-                btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
+                btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm";
                 
                 const formContent = document.getElementById('accessModalFormContent');
                 formContent.style.opacity = '0.4'; formContent.style.pointerEvents = 'none';
 
                 const iconContainer = document.getElementById('accessModalIconContainer');
-                iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce transition-all duration-300";
-                iconContainer.innerHTML = '<svg class="w-8 h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-3 sm:mb-4 animate-bounce transition-all duration-300";
+                iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
                 
                 const titleEl = document.getElementById('accessModalTitle');
                 titleEl.innerText = "We'll Be In Touch!";
@@ -827,14 +824,14 @@
                     closeAccessModal();
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20`;
+                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-sm`;
                         
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = '';
                         document.getElementById('accNote').value = '';
                         
-                        iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300";
-                        iconContainer.innerHTML = '<svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
+                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
+                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
                         titleEl.innerText = "Request Portal Access";
                         titleEl.classList.remove('text-brand-emerald');
                     }, 400); 
@@ -842,6 +839,7 @@
             } catch (err) {
                 errorMsg.innerText = "Error submitting request. Please contact us directly.";
                 errorMsg.classList.remove('hidden');
+                shakeElement('accessModalBox');
                 btn.innerText = "Submit Access Request";
                 btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
             }
