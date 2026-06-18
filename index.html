@@ -194,7 +194,7 @@
             </button>
             <div class="text-center mb-5 sm:mb-6">
                 <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
-                    <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
                 <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
                 <p class="text-[11px] sm:text-xs text-gray-400" id="showingModalAddress">...</p>
@@ -306,7 +306,7 @@
             </button>
             <div class="text-center mb-5 sm:mb-6">
                 <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
-                    <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                    <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
                 </div>
                 <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
                 <p class="text-[11px] sm:text-xs text-gray-400" id="accessModalAddress">...</p>
@@ -680,6 +680,15 @@
 
             currentSessionTrackingId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2,7);
             
+            // Explicitly Reset UI icons back to base Gold state
+            const lockIcon = document.getElementById('lockIcon');
+            const lockContainer = document.getElementById('lockIconContainer');
+            lockContainer.classList.remove('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
+            lockContainer.classList.add('bg-brand-gold/10', 'border-brand-gold/20');
+            lockIcon.classList.remove('text-brand-emerald', 'scale-110');
+            lockIcon.classList.add('text-brand-gold');
+            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
+
             const modalBox = document.getElementById('modalBox');
             document.getElementById('authModal').classList.remove('hidden');
             modalBox.classList.remove('animate-modal-out');
@@ -707,6 +716,15 @@
             document.getElementById('authButton').innerText = 'Send Verification Code';
             document.getElementById('errorMessage').classList.add('hidden');
             document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+
+            // Reset icon explicitly back to Gold state
+            const lockIcon = document.getElementById('lockIcon');
+            const lockContainer = document.getElementById('lockIconContainer');
+            lockContainer.classList.remove('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
+            lockContainer.classList.add('bg-brand-gold/10', 'border-brand-gold/20');
+            lockIcon.classList.remove('text-brand-emerald', 'scale-110');
+            lockIcon.classList.add('text-brand-gold');
+            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
         }
 
         function closeModal() {
@@ -725,10 +743,10 @@
             const errorMsg = document.getElementById('errorMessage');
 
             if (authStep === 1) {
-                if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
-                if (!inputVal) { errorMsg.innerText = "Please Enter Your Property Data Access Key."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
+                if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
+                if (!inputVal) { errorMsg.innerText = "Please Enter Your Property Data Access Key."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 if (emailVal.toLowerCase().endsWith('@totalchb.com') && inputVal === 'Portal@2026') { grantAccess(activePropData.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
-                if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
+                if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
 
                 expectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                 btn.innerText = "Sending Code...";
@@ -740,12 +758,14 @@
                 setTimeout(() => {
                     const lockIcon = document.getElementById('lockIcon');
                     const lockContainer = document.getElementById('lockIconContainer');
-                    const origIconHtml = lockIcon.innerHTML;
 
+                    // Seamless transition to Green Checkmark
+                    lockIcon.classList.remove('text-brand-gold');
+                    lockIcon.classList.add('text-brand-emerald', 'scale-110');
+                    lockContainer.classList.remove('bg-brand-gold/10', 'border-brand-gold/20');
+                    lockContainer.classList.add('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
                     lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
-                    lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald transition-all duration-300 scale-110";
-                    lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
-                    
+
                     btn.innerText = "Code Sent Successfully!";
                     btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed text-[13px] sm:text-sm";
 
@@ -753,8 +773,10 @@
                         authStep = 2;
                         document.getElementById('step1Container').classList.add('hidden'); document.getElementById('step2Container').classList.remove('hidden'); errorMsg.classList.add('hidden');
                         
-                        lockIcon.innerHTML = origIconHtml; lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-gold transition-all duration-300";
-                        lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4";
+                        // Stop bouncing, preserve Green state, swap back to Lock symbol ready for OTP
+                        lockIcon.classList.remove('scale-110');
+                        lockContainer.classList.remove('animate-bounce');
+                        lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
                         
                         btn.innerText = "Verify & Unlock Property Data";
                         btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm";
@@ -768,7 +790,7 @@
                 if (userOTP !== expectedOTP) {
                     errorMsg.innerText = "Incorrect Verification Code.";
                     errorMsg.classList.remove('hidden');
-                    shakeElement('modalBox');
+                    shakeElement('authFormContent');
                     sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailVal, propertyId: activePropData.Property_ID, otpUsed: userOTP, status: "ERROR", reason: "Invalid OTP", sessionId: currentSessionTrackingId });
                     return;
                 }
@@ -786,9 +808,12 @@
             sessionStorage.setItem('tchb_email_' + propId, email); 
             sessionStorage.setItem('tchb_sess_' + propId, currentSessionTrackingId);
             
+            // Ensure green state and unlocked icon
+            lockIcon.classList.remove('text-brand-gold');
+            lockIcon.classList.add('text-brand-emerald', 'scale-110');
+            lockContainer.classList.remove('bg-brand-gold/10', 'border-brand-gold/20');
+            lockContainer.classList.add('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
             lockIcon.innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>';
-            lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald transition-all duration-300 scale-110";
-            lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
             btn.innerText = isAdmin ? "Admin Access Granted..." : "Access Granted...";
             btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90 text-[13px] sm:text-sm";
@@ -835,8 +860,8 @@
             const prop = globalProperties.find(p => p.Property_ID === activeShowingPropId);
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
-            if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
+            if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
+            if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
 
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
@@ -860,8 +885,14 @@
                 formContent.style.opacity = '0.4'; formContent.style.pointerEvents = 'none';
 
                 const iconContainer = document.getElementById('showingModalIconContainer');
-                iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-3 sm:mb-4 animate-bounce transition-all duration-300";
-                iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                const icon = document.getElementById('showingModalIcon');
+
+                // Seamlessly toggle to Emerald
+                iconContainer.classList.remove('bg-brand-gold/10', 'border-brand-gold/20');
+                iconContainer.classList.add('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
+                icon.classList.remove('text-brand-gold');
+                icon.classList.add('text-brand-emerald');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
                 
                 const titleEl = document.getElementById('showingModalTitle');
                 titleEl.innerText = "Request Received!"; titleEl.classList.add('text-brand-emerald');
@@ -875,13 +906,17 @@
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
                         document.getElementById('shDateTimeDisplay').value = ''; document.getElementById('shNote').value = '';
                         
-                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300";
-                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                        // Reset perfectly to Gold while hidden
+                        iconContainer.classList.remove('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
+                        iconContainer.classList.add('bg-brand-gold/10', 'border-brand-gold/20');
+                        icon.classList.remove('text-brand-emerald');
+                        icon.classList.add('text-brand-gold');
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>';
                         titleEl.innerText = "Request A Showing"; titleEl.classList.remove('text-brand-emerald');
                     }, 400); 
                 }, 2000);
             } catch (err) {
-                errorMsg.innerText = "Error submitting request. Please try again."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox');
+                errorMsg.innerText = "Error submitting request. Please try again."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent');
                 btn.innerText = "Confirm Showing Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
             }
         }
@@ -921,8 +956,8 @@
             const btn = document.getElementById('submitAccessBtn');
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits) { errorMsg.innerText = "First Name, Last Name, Email, and Phone are required."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox'); return; }
-            if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox'); return; }
+            if(!fn || !ln || !email || !phoneDigits) { errorMsg.innerText = "First Name, Last Name, Email, and Phone are required."; errorMsg.classList.remove('hidden'); shakeElement('accessModalFormContent'); return; }
+            if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('accessModalFormContent'); return; }
             
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
@@ -945,8 +980,14 @@
                 formContent.style.opacity = '0.4'; formContent.style.pointerEvents = 'none';
 
                 const iconContainer = document.getElementById('accessModalIconContainer');
-                iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-3 sm:mb-4 animate-bounce transition-all duration-300";
-                iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                const icon = document.getElementById('accessModalIcon');
+
+                // Seamlessly toggle to Emerald
+                iconContainer.classList.remove('bg-brand-gold/10', 'border-brand-gold/20');
+                iconContainer.classList.add('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
+                icon.classList.remove('text-brand-gold');
+                icon.classList.add('text-brand-emerald');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
                 
                 const titleEl = document.getElementById('accessModalTitle');
                 titleEl.innerText = "We'll Be In Touch!"; titleEl.classList.add('text-brand-emerald');
@@ -960,13 +1001,17 @@
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
                         
-                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300";
-                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
+                        // Reset perfectly to Gold while hidden
+                        iconContainer.classList.remove('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
+                        iconContainer.classList.add('bg-brand-gold/10', 'border-brand-gold/20');
+                        icon.classList.remove('text-brand-emerald');
+                        icon.classList.add('text-brand-gold');
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>';
                         titleEl.innerText = "Request Portal Access"; titleEl.classList.remove('text-brand-emerald');
                     }, 400); 
                 }, 2000);
             } catch (err) {
-                errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox');
+                errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('accessModalFormContent');
                 btn.innerText = "Submit Access Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
             }
         }
