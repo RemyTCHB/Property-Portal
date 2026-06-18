@@ -1105,7 +1105,7 @@
         });
 
         // ONLY trigger webhook if the exact property OTP was used (Skips Admin Bypass)
-        if (typeof currentDBRow !== 'undefined' && currentDBRow && otpOrKeyUsed === currentDBRow.Access_Password) {
+        if (typeof currentDBRow !== 'undefined' && currentDBRow && String(otpOrKeyUsed).trim() === String(currentDBRow.Access_Password).trim()) {
             try {
                 fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
                     method: 'POST',
