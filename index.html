@@ -113,6 +113,12 @@
         /* Hide numeric steppers for OTP inputs */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+        /* Disable custom cursor on mobile/touch devices */
+        @media (pointer: coarse), (max-width: 768px) {
+            body, a, button, input, select, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: auto !important; }
+            #cursor-dot, #cursor-ring, #mouseGlow { display: none !important; }
+        }
     </style>
 </head>
 <body class="bg-brand-dark min-h-screen font-sans antialiased relative">
