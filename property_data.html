@@ -1104,10 +1104,8 @@
             reason: reasonStr, sessionId: currentSessionId 
         });
 
-       // Compare typed password vs Google Sheet password (fully lowercased and stripped of spaces)
-        // If it's a real investor, they match -> Webhook fires.
-        // If it's an Admin Bypass, it won't match the sheet -> Webhook skips!
-        if (typeof currentDBRow !== 'undefined' && currentDBRow && currentDBRow.Access_Password && String(otpOrKeyUsed).trim().toLowerCase() === String(currentDBRow.Access_Password).trim().toLowerCase()) {
+       // Holy Grail Fix: Ignore the password entirely, just check the reason string/admin flag
+        if (typeof isAdmin !== 'undefined' ? !isAdmin : !String(reasonStr).toLowerCase().includes('admin')) {
             try {
                 fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
                     method: 'POST',
