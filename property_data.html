@@ -155,7 +155,7 @@
             
             <div id="gateFormContent">
                 <div id="gateStep1Container" class="space-y-3 sm:space-y-4">
-                    <input type="email" id="gateEmailInput" placeholder="Email Address" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                    <input type="email" id="gateEmailInput" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                     <input type="password" id="gateAccessKeyInput" placeholder="Property Data Access Key" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest placeholder:tracking-normal focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 </div>
 
@@ -224,7 +224,7 @@
                       <input type="text" id="accFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                       <input type="text" id="accLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                   </div>
-                  <div><input type="email" id="accEmail" placeholder="Email Address" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+                  <div><input type="email" id="accEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                   <div>
                       <div class="flex gap-2">
                           <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
@@ -266,7 +266,7 @@
                       <input type="text" id="shFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                       <input type="text" id="shLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                   </div>
-                  <div><input type="email" id="shEmail" placeholder="Email Address" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+                  <div><input type="email" id="shEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                   <div>
                       <div class="flex gap-2">
                           <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
@@ -382,7 +382,7 @@
                     <input type="text" id="ofLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                 </div>
                 <div>
-                    <input type="email" id="offerEmail" placeholder="Email Address" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                    <input type="email" id="offerEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
                 </div>
                 
                 <div>
@@ -929,7 +929,7 @@
 
     window.addEventListener('pagehide', () => {
         if (currentSessionId) {
-            const emailStored = sessionStorage.getItem('tchb_email_' + urlPropId) || "Unknown";
+            const emailStored = localStorage.getItem('tchb_email_' + urlPropId) || "Unknown";
             navigator.sendBeacon(getU(_a2), JSON.stringify({
                 action: 'session_end', sessionId: currentSessionId, timestamp: Date.now(),
                 email: emailStored, propertyId: urlPropId
@@ -956,7 +956,6 @@
             
             if (data.error) throw new Error(data.error);
             
-            // Fixed: Robust matching prevents infinite loading string/number mismatches
             currentDBRow = data.properties.find(p => String(p.Property_ID).trim() === String(urlPropId).trim());
 
             if (!currentDBRow) {
@@ -970,9 +969,13 @@
     };
 
     function checkGate() {
-        const currentAllowed = sessionStorage.getItem('tchb_active_property');
-        // Secure loose string comparison enforces strictly locking out mismatched URL ?ids while avoiding loading failures
+        // Fallback checks both sessionStorage (current tab) and localStorage (cross-tab)
+        const currentAllowed = sessionStorage.getItem('tchb_active_property') || localStorage.getItem('tchb_active_property');
+        
         if (currentAllowed && urlPropId && String(currentAllowed).trim() === String(urlPropId).trim()) {
+            // Re-sync them perfectly to guarantee stable state
+            sessionStorage.setItem('tchb_active_property', urlPropId);
+            localStorage.setItem('tchb_active_property', urlPropId);
             unlockPage();
         } else {
             document.getElementById('fullPageLoader').classList.add('hidden');
@@ -1063,10 +1066,15 @@
         const lockIcon = document.getElementById('gateLockIcon');
         const lockContainer = document.getElementById('gateLockIconContainer');
         
-        sessionStorage.setItem('tchb_active_property', propId); // Update mapping security
+        sessionStorage.setItem('tchb_active_property', propId); 
+        localStorage.setItem('tchb_active_property', propId); // Cross-tab security
+        
         sessionStorage.setItem('tchb_email_' + propId, email); 
+        localStorage.setItem('tchb_email_' + propId, email); 
+        
         sessionStorage.setItem('tchb_sess_' + propId, currentSessionId);
         
+        // Clean un-locked padlock SVG icon
         lockIcon.innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>';
         lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald transition-all duration-300 scale-110";
         lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
@@ -1091,10 +1099,10 @@
         document.getElementById('fullPageLoader').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
 
-        currentSessionId = sessionStorage.getItem('tchb_sess_' + urlPropId);
+        currentSessionId = sessionStorage.getItem('tchb_sess_' + urlPropId) || 'sess_' + Date.now();
         sendWebhookEvent({
             action: 'session_start', timestamp: Date.now(),
-            email: sessionStorage.getItem('tchb_email_' + urlPropId) || "Unknown",
+            email: localStorage.getItem('tchb_email_' + urlPropId) || "Unknown",
             propertyId: urlPropId, sessionId: currentSessionId
         });
 
@@ -1436,7 +1444,7 @@
         modalBox.classList.remove('animate-modal-out');
         modalBox.classList.add('animate-modal-in');
         
-        document.getElementById('shEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
+        document.getElementById('shEmail').value = localStorage.getItem('tchb_email_' + urlPropId) || "";
         document.getElementById('submitShowingBtn').innerText = "Confirm Showing Request";
         document.getElementById('showingErrorMessage').classList.add('hidden');
     }
@@ -1522,7 +1530,7 @@
         modalBox.classList.remove('animate-modal-out');
         modalBox.classList.add('animate-modal-in');
 
-        document.getElementById('offerEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
+        document.getElementById('offerEmail').value = localStorage.getItem('tchb_email_' + urlPropId) || "";
         document.getElementById('submitOfferBtn').innerText = "Send Official Offer";
         document.getElementById('offerErrorMessage').classList.add('hidden');
     }
