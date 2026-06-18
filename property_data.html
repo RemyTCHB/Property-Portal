@@ -39,6 +39,10 @@
     /* Allow selection strictly on inputs */
     input, textarea { -webkit-user-select: auto !important; user-select: auto !important; }
 
+    /* Hide numeric steppers for OTP inputs */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
     .gradient-border { position: relative; }
     .gradient-border::before {
       content: ""; position: absolute; inset: 0; border-radius: 0.75rem; padding: 1.5px;
@@ -155,7 +159,17 @@
 
             <div id="gateStep2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
                 <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
-                <input type="text" id="gateOtpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white tracking-[0.5em] font-mono text-lg sm:text-xl focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                
+                <!-- 6-Block OTP Input -->
+                <div class="flex justify-center gap-2 sm:gap-3" id="otpBlockContainer">
+                    <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                </div>
+
                 <button onclick="backToGateStep1()" class="text-xs text-gray-500 hover:text-white w-full text-center font-bold mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
             </div>
 
@@ -738,7 +752,7 @@
 
   </div>
 
-  <script>
+    <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwUPnhj0leETYDP86FpvOOtsyF1Oqa8GgcBm-spsX9xcLvQE2F4LDnjR7IUUsbpw7uQ/exec";
     const LOGGING_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw5XeS-cpbP8vBrdCM32ZR5cK3kxf66TpdVC8NyWNK4HbYqxh8eWFqN0U0xss8zuWZq/exec";
     
@@ -760,6 +774,26 @@
     document.addEventListener('keydown', e => {
         if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) { e.preventDefault(); return false; }
     });
+
+    // 6-Block OTP Logic
+    function setupOTPBlocks() {
+        const inputs = document.querySelectorAll('.otp-digit');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if(e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+                if(e.target.value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus();
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) inputs[index - 1].focus();
+            });
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const text = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                for (let i = 0; i < text.length; i++) inputs[i].value = text[i];
+                if (text.length > 0) inputs[Math.min(text.length, 5)].focus();
+            });
+        });
+    }
 
     function shakeElement(id) {
         const el = document.getElementById(id);
@@ -892,6 +926,7 @@
     });
 
     window.onload = async function() {
+        setupOTPBlocks();
         resizeCanvas();
         requestAnimationFrame(animateGrid);
 
@@ -948,6 +983,7 @@
         document.getElementById('gateStep1Container').classList.remove('hidden'); 
         document.getElementById('gateAuthButton').innerText = 'Send Verification Code'; 
         document.getElementById('gateErrorMessage').classList.add('hidden'); 
+        document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
         
         const li = document.getElementById('gateLockIcon'); 
         const lc = document.getElementById('gateLockIconContainer'); 
@@ -1011,12 +1047,12 @@
                     btn.innerText = "Verify & Unlock Proposal";
                     btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer text-[13px] sm:text-sm";
                     btn.disabled = false;
-                    document.getElementById('gateOtpInput').focus();
+                    document.querySelector('.otp-digit').focus();
                 }, 1500);
             }, 500);
 
         } else if (gateAuthStep === 2) {
-            const userOTP = document.getElementById('gateOtpInput').value.trim();
+            const userOTP = Array.from(document.querySelectorAll('.otp-digit')).map(i => i.value).join('').trim();
             if (userOTP !== gateExpectedOTP) {
                 showGateError("Incorrect Verification Code. Please Try Again.");
                 sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailInput, propertyId: urlPropId, otpUsed: userOTP, status: "ERROR", reason: "Invalid Verification Code", sessionId: currentSessionId });
