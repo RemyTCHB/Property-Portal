@@ -90,7 +90,7 @@
     @keyframes pan-x { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     
     .gradient-ring-border { position: absolute; inset: 0; border-radius: 50%; padding: 3px; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: pan-x 6s ease-in-out infinite, custom-spin 1.5s linear infinite; }
-    .gradient-ring-glow { position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; filter: blur(12px); animation: pan-x 6s ease-in-out infinite, pulse-glow-strong 2s ease-in-out infinite alternate; }
+    .gradient-ring-glow { position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; filter: blur(14px); -webkit-mask: radial-gradient(circle at center, transparent 35%, black 70%); mask: radial-gradient(circle at center, transparent 35%, black 70%); animation: pan-x 6s ease-in-out infinite, pulse-glow-strong 2s ease-in-out infinite alternate; }
     
     @keyframes custom-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes pulse-glow-strong { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 0.8; transform: scale(1.1); } }
@@ -413,12 +413,12 @@
   <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10 no-print" style="pointer-events: none;"></canvas>
 
   <div id="fullPageLoader" class="fixed inset-0 z-[110] bg-[#0b0f19] flex flex-col items-center justify-center">
-      <div class="relative w-24 h-24 mb-8 flex items-center justify-center">
-          <div class="gradient-ring-glow z-0"></div>
+      <div class="relative w-36 h-36 sm:w-48 sm:h-48 mb-8 flex items-center justify-center">
+          <div class="gradient-ring-glow z-0 opacity-80"></div>
           <div class="gradient-ring-border z-10"></div>
-          <img src="icon.svg" alt="Loading" class="w-10 h-10 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
+          <img src="icon.svg" alt="Loading" class="w-24 h-24 sm:w-32 sm:h-32 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
       </div>
-      <p class="font-bold uppercase tracking-widest animate-text-gradient-pulse" id="loaderText">Constructing Property Data...</p>
+      <p class="font-bold text-base sm:text-lg uppercase tracking-widest animate-text-gradient-pulse text-center px-4 mt-4" id="loaderText">Constructing Property Data...</p>
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10 hidden" id="mainContent">
