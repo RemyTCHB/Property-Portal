@@ -129,6 +129,12 @@
       .chart-container-print { height: 260px !important; page-break-inside: avoid !important; }
       #mouseGlow, #cursor-dot, #cursor-ring { display: none !important; }
     }
+
+    /* Disable custom cursor on mobile/touch devices */
+    @media (pointer: coarse), (max-width: 768px) {
+        body, a, button, input, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: auto !important; }
+        #cursor-dot, #cursor-ring, #mouseGlow { display: none !important; }
+    }
   </style>
 </head>
 <body class="font-sans antialiased relative">
