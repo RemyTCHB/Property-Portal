@@ -408,6 +408,7 @@
         const _a2 = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3NVhlUy1jcGJQOHZCcmRDTTMyWlI1Y0sza3hmNjZUcGRWQzhOeVdOSzRIYllxeGg4ZVdGcU4wVTB4c3M4enVXWnEvZXhlYw==";
         const _a3 = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci94Q1NTaXE3WlZHbTQ5VEQ3M0x4Tg==";
         const _a4 = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9VQlR5RnViOXNScDFTQkNDTFpMdA==";
+        const _login_webhook = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ==";
         
         function getU(k) { return atob(k); }
 
@@ -846,6 +847,24 @@
             btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90 text-[13px] sm:text-sm";
 
             sendWebhookEvent({ action: 'log_access', timestamp: Date.now(), email: email, propertyId: propId, otpUsed: otpOrKeyUsed, status: "SUCCESS", reason: reasonStr, sessionId: currentSessionTrackingId });
+
+            // Trigger GoHighLevel Webhook for Successful Login
+            try {
+                const activeProp = globalProperties.find(p => p.Property_ID === propId);
+                fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    keepalive: true,
+                    body: JSON.stringify({
+                        propertyId: propId,
+                        email: email, 
+                        address: activeProp ? activeProp.Address : "Unknown",
+                        sellerPhone: activeProp ? activeProp.Seller_Ph : "Unknown",
+                        source: "Investor Portal - Successful Login (Home Dashboard)",
+                        timestamp: new Date().toISOString()
+                    })
+                });
+            } catch(e) { console.error(e); }
 
             setTimeout(() => { window.location.href = `property_data.html?id=${encodeURIComponent(propId)}`; }, 1200);
         }
