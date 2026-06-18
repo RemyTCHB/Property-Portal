@@ -1350,6 +1350,7 @@
             propertyId: currentDBRow ? currentDBRow.Property_ID : "Unknown",
             accessKey: currentDBRow ? currentDBRow.Access_Password : "Unknown",
             address: currentDBRow ? currentDBRow.Address + ", " + currentDBRow.City_State : "Unknown",
+            sellerPhone: currentDBRow ? currentDBRow.Seller_Ph : "Unknown",
             firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
             source: "Investor Portal - Request Access Key (Property Data)", timestamp: new Date().toISOString()
         };
@@ -1465,6 +1466,7 @@
 
         const payload = {
             propertyId: currentDBRow.Property_ID, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State,
+            sellerPhone: currentDBRow.Seller_Ph || "Unknown",
             firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: dateTimeInput, note: note,
             source: "Investor Portal - Request Showing (Property Data)", timestamp: new Date().toISOString()
         };
@@ -1598,8 +1600,9 @@
 
         const payload = {
             propertyId: currentDBRow.Property_ID, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State,
+            sellerPhone: currentDBRow.Seller_Ph || "Unknown",
             firstName: fn, lastName: ln, email: email, phone: formattedPhone, offerAmount: rawAmount, note: note,
-            source: "Investor Portal - Make Offer (Property Data)", timestamp: new Date().toISOString()
+            source: "Investor Portal - Make An Offer (Property Data)", timestamp: new Date().toISOString()
         };
 
         try {
