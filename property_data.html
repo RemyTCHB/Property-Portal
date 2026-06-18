@@ -135,28 +135,30 @@
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="text-center mb-6">
-            <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="gateLockIconContainer">
-                <svg id="gateLockIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4 transition-all duration-300" id="gateLockIconContainer">
+                <svg id="gateLockIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
             <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Direct Link Verification</h3>
             <p class="text-[11px] sm:text-xs text-gray-400">Please Verify Identity & Enter Access Key</p>
         </div>
         
-        <div id="gateStep1Container" class="space-y-3 sm:space-y-4">
-            <input type="email" id="gateEmailInput" placeholder="Registered Email" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-            <input type="password" id="gateAccessKeyInput" placeholder="Property Data Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-        </div>
+        <div id="gateFormContent">
+            <div id="gateStep1Container" class="space-y-3 sm:space-y-4">
+                <input type="email" id="gateEmailInput" placeholder="Registered Email" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                <input type="password" id="gateAccessKeyInput" placeholder="Property Data Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+            </div>
 
-        <div id="gateStep2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
-            <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
-            <input type="text" id="gateOtpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-lg sm:text-xl focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-            <button onclick="gateAuthStep = 1; document.getElementById('gateStep2Container').classList.add('hidden'); document.getElementById('gateStep1Container').classList.remove('hidden'); document.getElementById('gateAuthButton').innerText = 'Send Verification Code'; document.getElementById('gateErrorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
-        </div>
+            <div id="gateStep2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
+                <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
+                <input type="text" id="gateOtpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white tracking-[0.5em] font-mono text-lg sm:text-xl focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                <button onclick="gateAuthStep = 1; document.getElementById('gateStep2Container').classList.add('hidden'); document.getElementById('gateStep1Container').classList.remove('hidden'); document.getElementById('gateAuthButton').innerText = 'Send Verification Code'; document.getElementById('gateErrorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center font-bold mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
+            </div>
 
-        <p id="gateErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Security Authorization Code.</p>
-        <button id="gateAuthButton" onclick="handleGateAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
-            Send Verification Code
-        </button>
+            <p id="gateErrorMessage" class="text-xs text-brand-crimson font-bold text-center hidden mt-4">Incorrect Security Authorization Code.</p>
+            <button id="gateAuthButton" onclick="handleGateAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
+                Send Verification Code
+            </button>
+        </div>
 
         <!-- Disclaimer Block -->
         <div class="mt-6 border-t border-gray-800 pt-5 text-center leading-relaxed">
@@ -186,8 +188,8 @@
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
           <div class="text-center mb-5 sm:mb-6">
-              <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
-                  <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+              <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
+                  <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
               </div>
               <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
               <p class="text-[11px] sm:text-xs text-gray-400" id="accessModalAddress">...</p>
@@ -195,23 +197,23 @@
           
           <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
               <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                  <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                  <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
               </div>
-              <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+              <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
               <div>
                   <div class="flex gap-2">
                       <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                           +1
                       </div>
-                      <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                      <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                   </div>
               </div>
-              <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+              <div><textarea id="accNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
-              <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
-              <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
+              <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
+              <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
                   Submit Access Request
               </button>
           </div>
@@ -225,8 +227,8 @@
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
           <div class="text-center mb-5 sm:mb-6">
-              <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
-                  <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
+                  <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
               </div>
               <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
               <p class="text-[11px] sm:text-xs text-gray-400" id="showingModalAddress">...</p>
@@ -234,34 +236,34 @@
           
           <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
               <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                  <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                  <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
               </div>
-              <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+              <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
               <div>
                   <div class="flex gap-2">
                       <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                           +1
                       </div>
-                      <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                      <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                   </div>
               </div>
               
               <div class="relative w-full text-left">
                   <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date, Time & Zone</label>
                   <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
-                      <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
+                      <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-center font-bold text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 pointer-events-none">
                       <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                       </div>
                   </div>
               </div>
 
-              <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+              <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
-              <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
-              <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
+              <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
+              <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
                   Confirm Showing Request
               </button>
           </div>
@@ -337,8 +339,8 @@
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="text-center mb-5 sm:mb-6">
-            <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="offerModalIconContainer">
-                <svg id="offerModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="offerModalIconContainer">
+                <svg id="offerModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
             <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="offerModalTitle">Submit Your Offer</h3>
             <p class="text-[11px] sm:text-xs text-gray-400" id="offerModalAddress">...</p>
@@ -346,11 +348,11 @@
         
         <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="offerModalFormContent">
             <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                <input type="text" id="ofFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                <input type="text" id="ofLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                <input type="text" id="ofFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                <input type="text" id="ofLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
             </div>
             <div>
-                <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
             </div>
             
             <div>
@@ -359,25 +361,25 @@
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                         +1
                     </div>
-                    <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                    <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                 </div>
             </div>
 
             <div>
                 <div class="relative">
                     <span class="absolute left-4 top-3 text-gray-500 font-bold text-[13px] sm:text-sm">$</span>
-                    <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center text-white font-bold tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
+                    <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center font-bold text-white tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
                 </div>
             </div>
 
             <div>
-                <textarea id="offerNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
+                <textarea id="offerNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
             </div>
         </div>
 
-        <p id="offerErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
+        <p id="offerErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
         
-        <button id="submitOfferBtn" onclick="submitOffer()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
+        <button id="submitOfferBtn" onclick="submitOffer()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
             Send Official Offer
         </button>
     </div>
@@ -400,9 +402,8 @@
         Alert: This Property Has Been Sold Or Closed. Data Is Preserved For Archival Purposes Only.
     </div>
 
-    <!-- Print Page 1 -->
+    <!-- Print Page 1: Header & KPIs -->
     <div class="mb-8">
-      <!-- HEADER -->
       <header class="flex flex-col md:flex-row gap-6 items-center justify-between pb-8 border-b border-gray-800">
         <!-- Left: Logo -->
         <div class="flex-1 flex justify-center md:justify-start w-full md:w-auto">
@@ -516,7 +517,7 @@
       </div>
     </div>
 
-    <!-- Print Page 2 (Tables) -->
+    <!-- Print Page 2: Tables -->
     <div class="print-page-break">
         <!-- CREATIVE/SUBJECT TO TABLE -->
         <div id="module-creative-table" class="hidden-module bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden mb-8">
@@ -546,7 +547,7 @@
         </div>
     </div>
 
-    <!-- Print Page 3 (Narratives & Visuals) -->
+    <!-- Print Page 3: Narrative Boxes & Charts -->
     <div class="print-page-break">
         <!-- NARRATIVE BOXES -->
         <div id="narrative-container" class="flex flex-col gap-4 sm:gap-6 mb-12">
@@ -614,7 +615,7 @@
         </div>
     </div>
 
-    <!-- Print Page 4 (Milestones) -->
+    <!-- Print Page 4: Milestones -->
     <div class="print-page-break">
         <!-- SUBJECT-TO WEALTH MILESTONES -->
         <div id="creative-milestones" class="mb-12 hidden-module">
@@ -972,8 +973,8 @@
                     document.getElementById('gateErrorMessage').classList.add('hidden');
                     
                     lockIcon.innerHTML = origIconHtml;
-                    lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300";
-                    lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
+                    lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-gold transition-all duration-300";
+                    lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4";
                     
                     btn.innerText = "Verify & Unlock Proposal";
                     btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer text-[13px] sm:text-sm";
@@ -1208,7 +1209,6 @@
         modalBox.classList.add('animate-modal-out');
         setTimeout(() => { 
             document.getElementById('accessModal').classList.add('hidden');
-            // Bring gate back
             document.getElementById('secureGate').classList.remove('hidden');
             const gateModal = document.getElementById('gateModalBox');
             gateModal.classList.remove('animate-modal-out');
@@ -1229,13 +1229,13 @@
         if(!fn || !ln || !email || !phoneDigits) {
             errorMsg.innerText = "First Name, Last Name, Email, and Phone are required.";
             errorMsg.classList.remove('hidden'); 
-            shakeElement('accessModalFormContent');
+            shakeElement('accessModalBox');
             return;
         }
         if(phoneDigits.length !== 10) {
             errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
             errorMsg.classList.remove('hidden'); 
-            shakeElement('accessModalFormContent');
+            shakeElement('accessModalBox');
             return;
         }
         
@@ -1272,15 +1272,15 @@
             setTimeout(() => {
                 closeAccessModal();
                 setTimeout(() => {
-                    btn.disabled = false; btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm`;
+                    btn.disabled = false; btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm`;
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto'; document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
-                    iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
-                    iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
+                    iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300";
+                    iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
                     titleEl.innerText = "Request Portal Access"; titleEl.classList.remove('text-brand-emerald');
                 }, 400); 
             }, 2000);
         } catch (err) {
-            errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('accessModalFormContent');
+            errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox');
             btn.innerText = "Submit Access Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     }
@@ -1320,8 +1320,8 @@
         const btn = document.getElementById('submitShowingBtn');
 
         let phoneDigits = rawPhone.replace(/\D/g, ''); 
-        if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
-        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
+        if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
+        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
 
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
@@ -1354,16 +1354,16 @@
             setTimeout(() => {
                 closeShowingModal();
                 setTimeout(() => {
-                    btn.disabled = false; btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
+                    btn.disabled = false; btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                     document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = ''; document.getElementById('shDateTimeDisplay').value = ''; document.getElementById('shNote').value = '';
-                    iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
-                    iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                    iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300";
+                    iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
                     titleEl.innerText = "Request A Showing"; titleEl.classList.remove('text-brand-emerald');
                 }, 400); 
             }, 2000);
         } catch (err) {
-            errorMsg.innerText = "Error submitting request. Please try again."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent');
+            errorMsg.innerText = "Error submitting request. Please try again."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox');
             btn.innerText = "Confirm Showing Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     }
@@ -1422,8 +1422,8 @@
         const btn = document.getElementById('submitOfferBtn');
 
         let phoneDigits = rawPhone.replace(/\D/g, ''); let amountClean = rawAmount.replace(/[^0-9.]/g, '');
-        if(!fn || !ln || !email || !phoneDigits || !amountClean) { errorMsg.innerText = "All fields except Notes are strictly required."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
-        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
+        if(!fn || !ln || !email || !phoneDigits || !amountClean) { errorMsg.innerText = "All fields except Notes are strictly required."; errorMsg.classList.remove('hidden'); shakeElement('offerModalBox'); return; }
+        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('offerModalBox'); return; }
         
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
@@ -1455,7 +1455,7 @@
                 closeOfferModal();
                 setTimeout(() => {
                     btn.disabled = false;
-                    btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
+                    btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
                     
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto'; 
                     document.getElementById('ofFirstName').value = ''; document.getElementById('ofLastName').value = ''; document.getElementById('offerAmount').value = ''; document.getElementById('offerNote').value = '';
@@ -1466,7 +1466,7 @@
                 }, 400); 
             }, 2000);
         } catch (err) {
-            errorMsg.innerText = "Error securely submitting offer. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent');
+            errorMsg.innerText = "Error securely submitting offer. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('offerModalBox');
             btn.innerText = "Send Official Offer"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     }
