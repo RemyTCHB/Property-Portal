@@ -851,9 +851,10 @@
            const activeProp = globalProperties.find(p => p.Property_ID === propId);
             
             // ONLY trigger webhook if the exact property OTP was used (Skips Admin Bypass)
-            const ADMIN_KEY = "Portal@2026"; // <--- TYPE YOUR ACTUAL ADMIN MASTER PASSWORD HERE
+            const ADMIN_KEY = "Portal@2026";
             
-            if (String(otpOrKeyUsed).trim() !== ADMIN_KEY) {
+            // Convert both to lowercase so it matches perfectly no matter how you type it
+            if (String(otpOrKeyUsed).trim().toLowerCase() !== ADMIN_KEY.toLowerCase()) {
                 try {
                     fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
                         method: 'POST',
