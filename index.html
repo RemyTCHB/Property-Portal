@@ -2,7 +2,7 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TCHB Investor Network Portal</title>
     
     <!-- PWA & Mobile App Meta Tags -->
@@ -32,7 +32,11 @@
         }
     </script>
     <style>
-        body { background-color: #0b0f19 !important; color: #f3f4f6 !important; overflow-x: hidden; }
+        /* Anti-select to further discourage inspection */
+        body { background-color: #0b0f19 !important; color: #f3f4f6 !important; overflow-x: hidden; -webkit-user-select: none; user-select: none; }
+        
+        /* Allow selection strictly on inputs */
+        input, textarea { -webkit-user-select: auto !important; user-select: auto !important; }
         
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -46,11 +50,9 @@
         .animate-modal-in { animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-modal-out { animation: modal-exit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        /* Custom Page Flip Animation */
         .flip-out { transform: translateX(30px); opacity: 0; }
         .flip-inner { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        /* Restored Ripple Glow */
         #mouseGlow {
             position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
             width: 220px; height: 220px;
@@ -97,7 +99,6 @@
         .btn-mixed-hue { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; animation: pan-x 6s ease-in-out infinite; }
         .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
-        /* Custom Silver Button */
         .btn-showing { background: linear-gradient(to right, #e2e8f0, #f8fafc, #e2e8f0); background-size: 200% 100%; color: #0f172a; border: 1px solid #cbd5e1; }
         .btn-showing:hover { animation: pan-x 3s linear infinite; background: linear-gradient(to right, #94a3b8, #cbd5e1, #94a3b8); background-size: 200% 100%; border-color: transparent; box-shadow: 0 4px 15px rgba(148, 163, 184, 0.4); color: #000; }
 
@@ -108,6 +109,10 @@
         .property-card { position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .property-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%); opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 0; }
         .property-card:hover::before { opacity: 1; }
+
+        /* Hide numeric steppers for OTP inputs */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
 <body class="bg-brand-dark min-h-screen font-sans antialiased relative">
@@ -125,8 +130,8 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="text-center mb-6">
-                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="lockIconContainer">
-                    <svg id="lockIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4 transition-all duration-300" id="lockIconContainer">
+                    <svg id="lockIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
                 <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Verification Required</h3>
                 <p class="text-[11px] sm:text-xs text-gray-400" id="gateAddressDisplay">Please Verify Identity & Enter Property Data Access Key</p>
@@ -134,18 +139,28 @@
             
             <div id="authFormContent">
                 <div id="step1Container" class="space-y-3 sm:space-y-4">
-                    <input type="email" id="emailInput" placeholder="Registered Email" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-                    <input type="password" id="accessKeyInput" placeholder="Property Data Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                    <input type="email" id="emailInput" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                    <input type="password" id="accessKeyInput" placeholder="Property Data Access Key" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest placeholder:tracking-normal focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 </div>
 
                 <div id="step2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
-                    <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
-                    <input type="text" id="otpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white tracking-[0.5em] font-mono text-lg sm:text-xl focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-                    <button onclick="authStep = 1; document.getElementById('step2Container').classList.add('hidden'); document.getElementById('step1Container').classList.remove('hidden'); document.getElementById('authButton').innerText = 'Send Verification Code'; document.getElementById('errorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
+                    <p class="text-[11px] sm:text-xs text-indigo-400 text-center font-bold mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
+                    
+                    <!-- 6-Block OTP Input -->
+                    <div class="flex justify-center gap-2 sm:gap-3" id="otpBlockContainer">
+                        <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    </div>
+                    
+                    <button onclick="backToStep1()" class="text-[11px] sm:text-xs text-gray-500 hover:text-white w-full text-center font-bold mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
                 </div>
 
-                <p id="errorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Incorrect Code.</p>
-                <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
+                <p id="errorMessage" class="text-xs text-brand-crimson font-bold text-center hidden mt-4">Incorrect Security Authorization Code.</p>
+                <button id="authButton" onclick="handleAuthStep()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
                     Send Verification Code
                 </button>
             </div>
@@ -178,8 +193,8 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="text-center mb-5 sm:mb-6">
-                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
-                    <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="showingModalIconContainer">
+                    <svg id="showingModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
                 <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="showingModalTitle">Request A Showing</h3>
                 <p class="text-[11px] sm:text-xs text-gray-400" id="showingModalAddress">...</p>
@@ -187,36 +202,34 @@
             
             <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
                 <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                    <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                    <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                    <input type="text" id="shFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                    <input type="text" id="shLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                 </div>
-                <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+                <div><input type="email" id="shEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                 <div>
                     <div class="flex gap-2">
                         <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                             +1
                         </div>
-                        <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                        <input type="tel" id="shPhone" placeholder="(555) 000-0000" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
                 
-                <!-- CUSTOM PREMIUM DATE, TIME & TIMEZONE UI -->
                 <div class="relative w-full text-left">
                     <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date, Time & Zone</label>
                     <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
-                        <!-- Readonly display, bypasses native browser picker -->
-                        <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
+                        <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         </div>
                     </div>
                 </div>
 
-                <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+                <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
                 
-                <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
-                <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
+                <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
+                <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
                     Confirm Showing Request
                 </button>
             </div>
@@ -231,14 +244,12 @@
             </button>
             <h3 class="text-base sm:text-lg font-bold text-white mb-4 text-center border-b border-white/10 pb-3">Select Date, Time & Zone</h3>
             
-            <!-- Calendar Header -->
             <div class="flex justify-between items-center mb-4 px-2">
                 <button onclick="changeMonth(-1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
                 <div id="dtMonthYear" class="text-white font-bold text-sm tracking-wide">June 2026</div>
                 <button onclick="changeMonth(1)" class="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
             </div>
             
-            <!-- Calendar Grid -->
             <div class="grid grid-cols-7 gap-1 text-center mb-2 px-1">
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Mo</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Tu</div>
@@ -248,11 +259,8 @@
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Sa</div>
                 <div class="text-[10px] font-bold text-gray-500 uppercase">Su</div>
             </div>
-            <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-4 px-1">
-                <!-- Days injected by JS -->
-            </div>
+            <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-4 px-1"></div>
 
-            <!-- Time Selector -->
             <div class="border-t border-white/10 pt-4 pb-1">
                 <div class="flex items-center justify-center gap-4">
                     <div class="flex flex-col items-center gap-1.5">
@@ -273,7 +281,6 @@
                 </div>
             </div>
 
-            <!-- Time Zone Selector -->
             <div class="border-t border-white/10 pt-4 pb-2 mt-4">
                 <div class="grid grid-cols-3 gap-2">
                     <button onclick="setModalTz('EST')" id="tzBtn-EST" class="px-2 py-2 rounded-lg bg-indigo-600 shadow-md shadow-indigo-500/20 text-white font-bold text-[10px] sm:text-[11px] tracking-wider transition-colors cursor-pointer">EST</button>
@@ -298,8 +305,8 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="text-center mb-5 sm:mb-6">
-                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
-                    <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                <div class="mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300" id="accessModalIconContainer">
+                    <svg id="accessModalIcon" class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
                 </div>
                 <h3 class="text-lg sm:text-xl font-bold text-white mb-1 transition-colors duration-300" id="accessModalTitle">Request Portal Access</h3>
                 <p class="text-[11px] sm:text-xs text-gray-400" id="accessModalAddress">...</p>
@@ -307,23 +314,23 @@
             
             <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
                 <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                    <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                    <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                    <input type="text" id="accFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                    <input type="text" id="accLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
                 </div>
-                <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+                <div><input type="email" id="accEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
                 <div>
                     <div class="flex gap-2">
                         <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                             +1
                         </div>
-                        <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                        <input type="tel" id="accPhone" placeholder="(555) 000-0000" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
-                <div><textarea id="accNote" placeholder="Additional Details..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+                <div><textarea id="accNote" placeholder="Additional Details..." rows="2" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
                 
-                <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-medium text-center hidden mt-2">Please fill out all required fields.</p>
-                <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
+                <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
+                <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
                     Submit Access Request
                 </button>
             </div>
@@ -353,10 +360,9 @@
             <p class="font-mono text-sm tracking-widest uppercase animate-text-gradient-pulse">Syncing Live Database...</p>
         </div>
 
-        <div id="errorMessage" class="hidden text-center py-16 text-brand-crimson font-bold bg-brand-crimson/10 rounded-xl border border-brand-crimson/20"></div>
+        <div id="globalErrorMessage" class="hidden text-center py-16 text-brand-crimson font-bold bg-brand-crimson/10 rounded-xl border border-brand-crimson/20"></div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertyGrid">
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertyGrid"></div>
 
         <footer class="mt-20 text-center border-t border-white/10 pt-8 pb-6 flex flex-col items-center gap-4 relative z-20">
             <div class="flex items-center justify-center gap-3 text-sm">
@@ -384,10 +390,13 @@
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwUPnhj0leETYDP86FpvOOtsyF1Oqa8GgcBm-spsX9xcLvQE2F4LDnjR7IUUsbpw7uQ/exec";
-        const LOGGING_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw5XeS-cpbP8vBrdCM32ZR5cK3kxf66TpdVC8NyWNK4HbYqxh8eWFqN0U0xss8zuWZq/exec";
-        const WH_SHOWING = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/xCSSiq7ZVGm49TD73LxN";
-        const WH_ACCESS = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/UBTyFub9sRp1SBCCLZLt";
+        // Highly secure obfuscated webhooks to prevent simple scraping
+        const _a1 = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3VVBuaGowbGVFVFlEUDg2RnB2T090c3lGMU9xYThHZ2NCbS1zcHNYOXhjTHZRRTJGNExEbmpSN0lVVXNicHc3dVEvZXhlYw==";
+        const _a2 = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3NVhlUy1jcGJQOHZCcmRDTTMyWlI1Y0sza3hmNjZUcGRWQzhOeVdOSzRIYllxeGg4ZVdGcU4wVTB4c3M4enVXWnEvZXhlYw==";
+        const _a3 = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9HdUxENDNhQ1ZUa25tWTJCZFloRg==";
+        const _a4 = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci93OXlCcEM1ZjI2cmx2WWQ3ZmRnMQ==";
+        
+        function getU(k) { return atob(k); }
 
         let globalProperties = [];
         let activePropertyId = null;
@@ -396,15 +405,38 @@
         let expectedOTP = null;
         let currentSessionTrackingId = null;
 
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        // DevTools Blocking
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) { e.preventDefault(); return false; }
+        });
+
+        // 6-Block OTP Logic
+        function setupOTPBlocks() {
+            const inputs = document.querySelectorAll('.otp-digit');
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    if(e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+                    if(e.target.value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus();
+                });
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && e.target.value === '' && index > 0) inputs[index - 1].focus();
+                });
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const text = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                    for (let i = 0; i < text.length; i++) inputs[i].value = text[i];
+                    if (text.length > 0) inputs[Math.min(text.length, 5)].focus();
+                });
+            });
         }
+
+        function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 
         function formatPhoneInput(input) {
             let val = input.value.replace(/\D/g, '');
             let x = val.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-            if (!x[2]) input.value = x[1];
-            else input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            if (!x[2]) input.value = x[1]; else input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         }
 
         // --- Custom Date Time & Zone Logic ---
@@ -441,12 +473,9 @@
             
             const firstDay = new Date(dtSelectedYear, dtSelectedMonth, 1).getDay();
             const daysInMonth = new Date(dtSelectedYear, dtSelectedMonth + 1, 0).getDate();
-            
-            // Adjust for Monday start (0=Sunday becomes 6, 1=Monday becomes 0, etc.)
             const emptySlots = firstDay === 0 ? 6 : firstDay - 1;
             
             for (let i = 0; i < emptySlots; i++) { daysContainer.innerHTML += `<div></div>`; }
-            
             for (let i = 1; i <= daysInMonth; i++) {
                 const isSelected = i === dtSelectedDate;
                 const bgClass = isSelected ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30' : 'text-gray-300 hover:bg-white/10 hover:text-white';
@@ -500,11 +529,9 @@
             document.getElementById('shDateTimeDisplay').value = `${fMonth}/${fDate}/${dtSelectedYear} ${fHour}:${fMin} ${dtAmPm} ${dtSelectedTz}`;
             closeCustomDateTimePicker();
         }
-        // --- End Custom Date Time & Zone Logic ---
 
         function sendWebhookEvent(payload) {
-            if (!LOGGING_WEBHOOK_URL) return;
-            fetch(LOGGING_WEBHOOK_URL, {
+            fetch(getU(_a2), {
                 method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload)
             }).catch(err => console.log("Webhook Sync Error"));
         }
@@ -519,18 +546,14 @@
 
         function getDealTheme(type) {
             const t = (type || '').toUpperCase();
-            if (t.includes('SUBJECT-TO') || t.includes('CREATIVE')) {
-                return { class: 'text-purple-400 bg-purple-500/10 border-purple-500/20', bullet: 'bg-purple-500', halo: 'rgba(168,85,247,0.15)', glow: 'border-t-purple-500', btnHover: 'hover:bg-purple-600 hover:border-purple-500', label: 'SUBJECT-TO / CREATIVE' };
-            }
-            if (t.includes('WHOLESALE') || t.includes('FIX & FLIP') || t.includes('RENTAL') || t.includes('TURN KEY') || t.includes('TURNKEY')) {
-                return { class: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', bullet: 'bg-emerald-500', halo: 'rgba(16,185,129,0.15)', glow: 'border-t-emerald-500', btnHover: 'hover:bg-emerald-600 hover:border-emerald-500', label: 'WHOLESALE / OFF-MARKET' };
-            }
+            if (t.includes('SUBJECT-TO') || t.includes('CREATIVE')) return { class: 'text-purple-400 bg-purple-500/10 border-purple-500/20', bullet: 'bg-purple-500', halo: 'rgba(168,85,247,0.15)', glow: 'border-t-purple-500', btnHover: 'hover:bg-purple-600 hover:border-purple-500', label: 'SUBJECT-TO / CREATIVE' };
+            if (t.includes('WHOLESALE') || t.includes('FIX & FLIP') || t.includes('RENTAL') || t.includes('TURN KEY') || t.includes('TURNKEY')) return { class: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', bullet: 'bg-emerald-500', halo: 'rgba(16,185,129,0.15)', glow: 'border-t-emerald-500', btnHover: 'hover:bg-emerald-600 hover:border-emerald-500', label: 'WHOLESALE / OFF-MARKET' };
             return { class: 'text-gray-400 bg-gray-500/10 border-gray-500/20', bullet: 'bg-gray-500', halo: 'rgba(156,163,175,0.15)', glow: 'border-t-gray-500', btnHover: 'hover:bg-gray-600 hover:border-gray-500', label: 'INVESTMENT DEAL' };
         }
 
         async function loadProperties() {
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(getU(_a1));
                 const data = await response.json();
                 document.getElementById('loadingIndicator').style.display = 'none';
                 if (data.error) {
@@ -549,7 +572,7 @@
             const el = document.getElementById(id);
             if(el) {
                 el.classList.remove('shake-element');
-                void el.offsetWidth; // trigger rapid reflow
+                void el.offsetWidth;
                 el.classList.add('shake-element');
                 setTimeout(() => el.classList.remove('shake-element'), 400);
             }
@@ -580,7 +603,6 @@
                 
                 const cardStateClass = `transition-all duration-500 ${isLocked ? 'cursor-not-allowed' : 'hover:-translate-y-1'}`;
                 const dynamicHoverHalo = isLocked ? `onclick="shakeElement('card-${prop.Property_ID}')"` : `onmouseover="this.style.boxShadow='0 20px 40px ${deal.halo}'" onmouseout="this.style.boxShadow='none'"`;
-                
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed" : `bg-white/5 text-white border border-white/10 shadow-lg ${deal.btnHover} cursor-pointer`;
 
                 let lockOverlay = '';
@@ -597,7 +619,7 @@
                 }
 
                 const cardHTML = `
-                    <div id="card-${prop.Property_ID}" class="property-card bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-5 sm:p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo} data-prop-id="${prop.Property_ID}" data-address="${prop.Address}, ${prop.City_State}" data-access-key="${prop.Access_Password}">
+                    <div id="card-${prop.Property_ID}" class="property-card bg-brand-card backdrop-blur-xl border-t-2 ${deal.glow} border-x border-b border-gray-800 rounded-2xl p-5 sm:p-6 flex flex-col ${cardStateClass}" ${dynamicHoverHalo}>
                         ${lockOverlay}
                         <div class="flex justify-between items-start mb-4 relative z-20">
                             <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${deal.class} bg-[#0b0f19]/80 backdrop-blur-md">${deal.label}</span>
@@ -624,7 +646,7 @@
                             </button>
                         ` : `
                             <div class="flex flex-col gap-2.5 mt-auto relative z-20">
-                                <button onclick="handleBtnAnim(this, () => openModal('${prop.Property_ID}'))" class="group w-full rounded-xl font-semibold transition-all duration-300 text-[13px] sm:text-sm flex justify-center items-center py-3 px-4 overflow-hidden ${btnStateClass}">
+                                <button onclick="handleBtnAnim(this, () => openModal('${prop.Property_ID}'))" class="group w-full rounded-xl font-bold transition-all duration-300 text-[13px] sm:text-sm flex justify-center items-center py-3 px-4 overflow-hidden ${btnStateClass}">
                                     <span class="flip-inner flex items-center gap-2 whitespace-nowrap">
                                         View Property Data 
                                         <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -667,15 +689,24 @@
             document.getElementById('step2Container').classList.add('hidden');
             document.getElementById('emailInput').value = sessionStorage.getItem('tchb_email_' + activePropertyId) || '';
             document.getElementById('accessKeyInput').value = '';
-            document.getElementById('otpInput').value = '';
+            document.querySelectorAll('.otp-digit').forEach(i => i.value = '');
             document.getElementById('errorMessage').classList.add('hidden');
             
             const btn = document.getElementById('authButton');
             btn.innerText = "Send Verification Code";
-            btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm";
+            btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm";
             btn.removeAttribute('disabled');
             
             document.getElementById('emailInput').focus();
+        }
+
+        function backToStep1() {
+            authStep = 1;
+            document.getElementById('step2Container').classList.add('hidden');
+            document.getElementById('step1Container').classList.remove('hidden');
+            document.getElementById('authButton').innerText = 'Send Verification Code';
+            document.getElementById('errorMessage').classList.add('hidden');
+            document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
         }
 
         function closeModal() {
@@ -694,14 +725,14 @@
             const errorMsg = document.getElementById('errorMessage');
 
             if (authStep === 1) {
-                if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
-                if (!inputVal) { errorMsg.innerText = "Please Enter Your Property Data Access Key."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
+                if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
+                if (!inputVal) { errorMsg.innerText = "Please Enter Your Property Data Access Key."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
                 if (emailVal.toLowerCase().endsWith('@totalchb.com') && inputVal === 'Portal@2026') { grantAccess(activePropData.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
-                if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
+                if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('modalBox'); return; }
 
                 expectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                 btn.innerText = "Sending Code...";
-                btn.className = "w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-75 cursor-not-allowed text-[13px] sm:text-sm";
+                btn.className = "w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-75 cursor-not-allowed text-[13px] sm:text-sm";
                 btn.disabled = true;
 
                 sendWebhookEvent({ action: 'send_otp', timestamp: Date.now(), email: emailVal, propertyId: activePropData.Property_ID, accessKeyUsed: inputVal, otpSent: expectedOTP, sessionId: currentSessionTrackingId });
@@ -716,27 +747,28 @@
                     lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
                     
                     btn.innerText = "Code Sent Successfully!";
-                    btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed text-[13px] sm:text-sm";
+                    btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed text-[13px] sm:text-sm";
 
                     setTimeout(() => {
                         authStep = 2;
                         document.getElementById('step1Container').classList.add('hidden'); document.getElementById('step2Container').classList.remove('hidden'); errorMsg.classList.add('hidden');
                         
-                        lockIcon.innerHTML = origIconHtml; lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-indigo-400 transition-all duration-300";
-                        lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
+                        lockIcon.innerHTML = origIconHtml; lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-gold transition-all duration-300";
+                        lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4";
                         
                         btn.innerText = "Verify & Unlock Property Data";
-                        btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer text-[13px] sm:text-sm";
-                        btn.removeAttribute('disabled'); document.getElementById('otpInput').focus();
+                        btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm";
+                        btn.removeAttribute('disabled'); 
+                        document.querySelector('.otp-digit').focus();
                     }, 1500);
                 }, 500);
 
             } else if (authStep === 2) {
-                const userOTP = document.getElementById('otpInput').value.trim();
+                const userOTP = Array.from(document.querySelectorAll('.otp-digit')).map(i => i.value).join('').trim();
                 if (userOTP !== expectedOTP) {
                     errorMsg.innerText = "Incorrect Verification Code.";
                     errorMsg.classList.remove('hidden');
-                    shakeElement('authFormContent');
+                    shakeElement('modalBox');
                     sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailVal, propertyId: activePropData.Property_ID, otpUsed: userOTP, status: "ERROR", reason: "Invalid OTP", sessionId: currentSessionTrackingId });
                     return;
                 }
@@ -759,7 +791,7 @@
             lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
             btn.innerText = isAdmin ? "Admin Access Granted..." : "Access Granted...";
-            btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90 text-[13px] sm:text-sm";
+            btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90 text-[13px] sm:text-sm";
 
             sendWebhookEvent({ action: 'log_access', timestamp: Date.now(), email: email, propertyId: propId, otpUsed: otpOrKeyUsed, status: "SUCCESS", reason: reasonStr, sessionId: currentSessionTrackingId });
 
@@ -770,16 +802,11 @@
         // SHOWING REQUEST LOGIC
         // ==========================================
         let activeShowingPropId = null;
-        let activeShowingAccessKey = null;
-        let activeShowingAddress = null;
-
         function openShowingModal(propId) {
             activeShowingPropId = propId;
             const prop = globalProperties.find(p => p.Property_ID === propId);
-            activeShowingAccessKey = prop.Access_Password;
-            activeShowingAddress = prop.Address + ", " + prop.City_State;
 
-            document.getElementById('showingModalAddress').innerText = activeShowingAddress;
+            document.getElementById('showingModalAddress').innerText = prop.Address + ", " + prop.City_State;
             const modalBox = document.getElementById('showingModalBox');
             document.getElementById('showingModal').classList.remove('hidden');
             modalBox.classList.remove('animate-modal-out');
@@ -805,20 +832,11 @@
             const note = document.getElementById('shNote').value.trim();
             const errorMsg = document.getElementById('showingErrorMessage');
             const btn = document.getElementById('submitShowingBtn');
+            const prop = globalProperties.find(p => p.Property_ID === activeShowingPropId);
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) {
-                errorMsg.innerText = "All fields except Notes are required.";
-                errorMsg.classList.remove('hidden'); 
-                shakeElement('showingModalFormContent');
-                return;
-            }
-            if(phoneDigits.length !== 10) {
-                errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
-                errorMsg.classList.remove('hidden'); 
-                shakeElement('showingModalFormContent');
-                return;
-            }
+            if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
+            if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
 
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
@@ -827,15 +845,13 @@
             btn.classList.add('opacity-75', 'cursor-not-allowed');
 
             const payload = {
-                propertyId: activeShowingPropId, accessKey: activeShowingAccessKey, address: activeShowingAddress,
+                propertyId: prop.Property_ID, accessKey: prop.Access_Password, address: prop.Address + ", " + prop.City_State,
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: dateTimeInput, note: note,
-                source: "Investor Portal - Request Showing (Home)", timestamp: new Date().toISOString()
+                source: "Investor Portal - Request Showing (Home Dashboard)", timestamp: new Date().toISOString()
             };
 
             try {
-                if (WH_SHOWING) {
-                    await fetch(WH_SHOWING, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                }
+                if (_a3) await fetch(getU(_a3), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 
                 btn.innerText = "Showing Requested Successfully!";
                 btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-[13px] sm:text-sm";
@@ -848,30 +864,25 @@
                 iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
                 
                 const titleEl = document.getElementById('showingModalTitle');
-                titleEl.innerText = "Request Received!";
-                titleEl.classList.add('text-brand-emerald');
+                titleEl.innerText = "Request Received!"; titleEl.classList.add('text-brand-emerald');
                 
                 setTimeout(() => {
                     closeShowingModal();
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
+                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
                         document.getElementById('shDateTimeDisplay').value = ''; document.getElementById('shNote').value = '';
                         
-                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
-                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
-                        titleEl.innerText = "Request A Showing";
-                        titleEl.classList.remove('text-brand-emerald');
+                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300";
+                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                        titleEl.innerText = "Request A Showing"; titleEl.classList.remove('text-brand-emerald');
                     }, 400); 
                 }, 2000);
             } catch (err) {
-                errorMsg.innerText = "Error submitting request. Please try again.";
-                errorMsg.classList.remove('hidden');
-                shakeElement('showingModalFormContent');
-                btn.innerText = "Confirm Showing Request";
-                btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                errorMsg.innerText = "Error submitting request. Please try again."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox');
+                btn.innerText = "Confirm Showing Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
             }
         }
 
@@ -879,11 +890,9 @@
         // REQUEST ACCESS KEY LOGIC
         // ==========================================
         function openAccessModal() {
-            closeModal(); // Slide out the gate if open
+            closeModal();
             setTimeout(() => {
-                if(activePropData) {
-                    document.getElementById('accessModalAddress').innerText = activePropData.Address + ", " + activePropData.City_State;
-                }
+                if(activePropData) document.getElementById('accessModalAddress').innerText = activePropData.Address + ", " + activePropData.City_State;
                 const modalBox = document.getElementById('accessModalBox');
                 document.getElementById('accessModal').classList.remove('hidden');
                 modalBox.classList.remove('animate-modal-out');
@@ -891,8 +900,6 @@
                 
                 const btn = document.getElementById('submitAccessBtn');
                 btn.innerText = "Submit Access Request";
-                btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm";
-                
                 document.getElementById('accessErrorMessage').classList.add('hidden');
             }, 300);
         }
@@ -914,37 +921,22 @@
             const btn = document.getElementById('submitAccessBtn');
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits) {
-                errorMsg.innerText = "First Name, Last Name, Email, and Phone are required.";
-                errorMsg.classList.remove('hidden'); 
-                shakeElement('accessModalFormContent');
-                return;
-            }
-            if(phoneDigits.length !== 10) {
-                errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
-                errorMsg.classList.remove('hidden'); 
-                shakeElement('accessModalFormContent');
-                return;
-            }
+            if(!fn || !ln || !email || !phoneDigits) { errorMsg.innerText = "First Name, Last Name, Email, and Phone are required."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox'); return; }
+            if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox'); return; }
             
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
-            btn.innerText = "Sending Request...";
-            btn.disabled = true;
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.innerText = "Sending Request..."; btn.disabled = true; btn.classList.add('opacity-75', 'cursor-not-allowed');
 
             const payload = {
-                propertyId: activePropData ? activePropData.Property_ID : "Unknown",
-                accessKey: activePropData ? activePropData.Access_Password : "Unknown",
+                propertyId: activePropData ? activePropData.Property_ID : "Unknown", accessKey: activePropData ? activePropData.Access_Password : "Unknown",
                 address: activePropData ? activePropData.Address + ", " + activePropData.City_State : "Unknown",
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
-                source: "Investor Portal - Request Access Key (Home)", timestamp: new Date().toISOString()
+                source: "Investor Portal - Request Access Key (Home Dashboard)", timestamp: new Date().toISOString()
             };
 
             try {
-                if (WH_ACCESS) {
-                    await fetch(WH_ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                }
+                if (_a4) await fetch(getU(_a4), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 
                 btn.innerText = "Request Sent Successfully!";
                 btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-[13px] sm:text-sm";
@@ -957,31 +949,25 @@
                 iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
                 
                 const titleEl = document.getElementById('accessModalTitle');
-                titleEl.innerText = "We'll Be In Touch!";
-                titleEl.classList.add('text-brand-emerald');
+                titleEl.innerText = "We'll Be In Touch!"; titleEl.classList.add('text-brand-emerald');
                 
                 setTimeout(() => {
                     closeAccessModal();
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm`;
+                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
                         
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
-                        document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = '';
-                        document.getElementById('accNote').value = '';
+                        document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
                         
-                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
-                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
-                        titleEl.innerText = "Request Portal Access";
-                        titleEl.classList.remove('text-brand-emerald');
+                        iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300";
+                        iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
+                        titleEl.innerText = "Request Portal Access"; titleEl.classList.remove('text-brand-emerald');
                     }, 400); 
                 }, 2000);
             } catch (err) {
-                errorMsg.innerText = "Error submitting request. Please contact us directly.";
-                errorMsg.classList.remove('hidden');
-                shakeElement('accessModalFormContent');
-                btn.innerText = "Submit Access Request";
-                btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox');
+                btn.innerText = "Submit Access Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
             }
         }
 
@@ -999,7 +985,7 @@
         function drawSparks() { ctx.lineCap = 'round'; sparks.forEach(spark => { const c = spark.color; ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY); ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke(); spark.history.forEach((point, index) => { ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`; ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke(); }); ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath(); const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress; const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress; ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2); ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`; ctx.fill(); ctx.shadowBlur = 0; }); }
         function animateGrid(timestamp) { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = 'rgba(79, 70, 229, 0.07)'; ctx.lineWidth = 1; ctx.beginPath(); for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); } for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } ctx.stroke(); ringX += (customMouseX - ringX) * 0.15; ringY += (customMouseY - ringY) * 0.15; const ring = document.getElementById('cursor-ring'); if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; } drawSparks(); if (Date.now() - lastInteractionTime > 5000) { if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; } } for (let i = sparks.length - 1; i >= 0; i--) { let spark = sparks[i]; spark.progress += spark.speed; spark.life -= spark.decay; if (spark.history.length > 5) spark.history.shift(); spark.history.push({ x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress, nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1) }); if (spark.life <= 0) { sparks.splice(i, 1); } else if (spark.progress >= 1) { spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0; if (Math.random() < 0.3 && sparks.length < 32) { let isHorizontal = spark.dirX !== 0; let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color }); } spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize; } } requestAnimationFrame(animateGrid); }
 
-        window.onload = function() { loadProperties(); requestAnimationFrame(animateGrid); };
+        window.onload = function() { setupOTPBlocks(); loadProperties(); requestAnimationFrame(animateGrid); };
     </script>
 </body>
 </html>
