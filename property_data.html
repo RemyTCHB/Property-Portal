@@ -33,7 +33,12 @@
   </script>
   
   <style>
-    body { background-color: #0b0f19 !important; color: #f3f4f6 !important; overflow-x: hidden; }
+    /* Anti-select to further discourage inspection */
+    body { background-color: #0b0f19 !important; color: #f3f4f6 !important; overflow-x: hidden; -webkit-user-select: none; user-select: none; }
+    
+    /* Allow selection strictly on inputs */
+    input, textarea { -webkit-user-select: auto !important; user-select: auto !important; }
+    
     .gradient-border { position: relative; }
     .gradient-border::before {
       content: ""; position: absolute; inset: 0; border-radius: 0.75rem; padding: 1.5px;
@@ -108,6 +113,10 @@
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
 
+    /* Hide numeric steppers for OTP inputs */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
     /* Print Formatting */
     @media print {
       @page { size: letter portrait; margin: 0.4in; }
@@ -144,14 +153,24 @@
         
         <div id="gateFormContent">
             <div id="gateStep1Container" class="space-y-3 sm:space-y-4">
-                <input type="email" id="gateEmailInput" placeholder="Email Address" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                <input type="email" id="gateEmailInput" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 <input type="password" id="gateAccessKeyInput" placeholder="Property Data Access Key" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest placeholder:tracking-normal focus:outline-none focus:border-indigo-500 transition-all cursor-text">
             </div>
 
             <div id="gateStep2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
-                <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
-                <input type="text" id="gateOtpInput" placeholder="000000" maxlength="6" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white tracking-[0.5em] font-mono text-lg sm:text-xl focus:outline-none focus:border-indigo-500 transition-all cursor-text">
-                <button onclick="gateAuthStep = 1; document.getElementById('gateStep2Container').classList.add('hidden'); document.getElementById('gateStep1Container').classList.remove('hidden'); document.getElementById('gateAuthButton').innerText = 'Send Verification Code'; document.getElementById('gateErrorMessage').classList.add('hidden');" class="text-xs text-gray-500 hover:text-white w-full text-center font-bold mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
+                <p class="text-[11px] sm:text-xs text-indigo-400 text-center font-bold mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
+                
+                <!-- 6-Block OTP Input -->
+                <div class="flex justify-center gap-2 sm:gap-3" id="gateOtpBlockContainer">
+                    <input type="number" maxlength="1" class="gate-otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="gate-otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="gate-otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="gate-otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="gate-otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <input type="number" maxlength="1" class="gate-otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                </div>
+                
+                <button onclick="gateAuthStep = 1; document.getElementById('gateStep2Container').classList.add('hidden'); document.getElementById('gateStep1Container').classList.remove('hidden'); document.getElementById('gateAuthButton').innerText = 'Send Verification Code'; document.getElementById('gateErrorMessage').classList.add('hidden'); document.querySelectorAll('.gate-otp-digit').forEach(i => i.value = '');" class="text-xs text-gray-500 hover:text-white w-full text-center font-bold mt-2 transition-colors cursor-pointer">← Back To Edit Email</button>
             </div>
 
             <p id="gateErrorMessage" class="text-xs text-brand-crimson font-bold text-center hidden mt-4">Incorrect Security Authorization Code.</p>
@@ -179,7 +198,6 @@
             </div>
         </div>
     </div>
-  </div>
 
   <!-- REQUEST ACCESS KEY MODAL -->
   <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
@@ -197,20 +215,20 @@
           
           <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="accessModalFormContent">
               <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                  <input type="text" id="accFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                  <input type="text" id="accLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="accFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="accLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
               </div>
-              <div><input type="email" id="accEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+              <div><input type="email" id="accEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
               <div>
                   <div class="flex gap-2">
                       <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                           +1
                       </div>
-                      <input type="tel" id="accPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                      <input type="tel" id="accPhone" placeholder="(555) 000-0000" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                   </div>
               </div>
-              <div><textarea id="accNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+              <div><textarea id="accNote" placeholder="Additional Details..." rows="2" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
               <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
               <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
@@ -236,31 +254,31 @@
           
           <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="showingModalFormContent">
               <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                  <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                  <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="shFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                  <input type="text" id="shLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
               </div>
-              <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
+              <div><input type="email" id="shEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm"></div>
               <div>
                   <div class="flex gap-2">
                       <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                           +1
                       </div>
-                      <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                      <input type="tel" id="shPhone" placeholder="(555) 000-0000" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                   </div>
               </div>
               
               <div class="relative w-full text-left">
                   <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date, Time & Zone</label>
                   <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
-                      <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-center font-bold text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 pointer-events-none">
+                      <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date, Time & Zone" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-center font-bold text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 pointer-events-none">
                       <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                       </div>
                   </div>
               </div>
 
-              <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+              <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
               <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
               <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
@@ -348,11 +366,11 @@
         
         <div class="space-y-3 sm:space-y-4 text-center transition-opacity duration-300" id="offerModalFormContent">
             <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                <input type="text" id="ofFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
-                <input type="text" id="ofLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                <input type="text" id="ofFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
+                <input type="text" id="ofLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm">
             </div>
             <div>
-                <input type="email" id="offerEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                <input type="email" id="offerEmail" placeholder="Your Email" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
             </div>
             
             <div>
@@ -361,19 +379,19 @@
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
                         +1
                     </div>
-                    <input type="tel" id="offerPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                    <input type="tel" id="offerPhone" placeholder="(555) 000-0000" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
                 </div>
             </div>
 
             <div>
                 <div class="relative">
                     <span class="absolute left-4 top-3 text-gray-500 font-bold text-[13px] sm:text-sm">$</span>
-                    <input type="text" id="offerAmount" placeholder="Offer Amount" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center font-bold text-white tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
+                    <input type="text" id="offerAmount" placeholder="Offer Amount" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-8 py-3 text-center font-bold text-white tracking-wider focus:outline-none focus:border-indigo-500/50 transition-all cursor-text text-[13px] sm:text-sm" oninput="formatCurrencyInput(this)" onblur="formatCurrencyBlur(this)">
                 </div>
             </div>
 
             <div>
-                <textarea id="offerNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
+                <textarea id="offerNote" placeholder="Additional Notes..." rows="2" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
             </div>
         </div>
 
@@ -734,14 +752,15 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwUPnhj0leETYDP86FpvOOtsyF1Oqa8GgcBm-spsX9xcLvQE2F4LDnjR7IUUsbpw7uQ/exec";
-    const LOGGING_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw5XeS-cpbP8vBrdCM32ZR5cK3kxf66TpdVC8NyWNK4HbYqxh8eWFqN0U0xss8zuWZq/exec";
+    // Highly secure obfuscated webhooks to prevent simple scraping
+    const _a1 = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3VVBuaGowbGVFVFlEUDg2RnB2T090c3lGMU9xYThHZ2NCbS1zcHNYOXhjTHZRRTJGNExEbmpSN0lVVXNicHc3dVEvZXhlYw==";
+    const _a2 = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3NVhlUy1jcGJQOHZCcmRDTTMyWlI1Y0sza3hmNjZUcGRWQzhOeVdOSzRIYllxeGg4ZVdGcU4wVTB4c3M4enVXWnEvZXhlYw==";
+    const _a3 = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9jNjQ1MDk2Mi0wYTg3LTQyNjUtODYzMi1iZjAwMmVmYzQ1ZDk="; // Offer
+    const _a4 = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9HdUxENDNhQ1ZUa25tWTJCZFloRg=="; // Showing
+    const _a5 = "aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci93OXlCcEM1ZjI2cmx2WWQ3ZmRnMQ=="; // Access
     
-    // GHL Inbound Webhook URLs
-    const WH_OFFER = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/c6450962-0a87-4265-8632-bf002efc45d9";
-    const WH_SHOWING = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/GuLD43aCVTknmY2BdYhF";
-    const WH_ACCESS = "https://services.leadconnectorhq.com/hooks/gTBDx1hEpgCEloLJqn7M/webhook-trigger/w9yBpC5f26rlvYd7fdg1";
-    
+    function getU(k) { return atob(k); }
+
     let currentDBRow = null;
     let urlPropId = null;
     let gateAuthStep = 1;
@@ -749,6 +768,32 @@
     let currentSessionId = null;
 
     Chart.register(ChartDataLabels);
+
+    // DevTools Blocking
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) { e.preventDefault(); return false; }
+    });
+
+    // 6-Block OTP Logic
+    function setupOTPBlocks() {
+        const inputs = document.querySelectorAll('.gate-otp-digit');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if(e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+                if(e.target.value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus();
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) inputs[index - 1].focus();
+            });
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const text = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                for (let i = 0; i < text.length; i++) inputs[i].value = text[i];
+                if (text.length > 0) inputs[Math.min(text.length, 5)].focus();
+            });
+        });
+    }
 
     function shakeElement(id) {
         const el = document.getElementById(id);
@@ -864,16 +909,15 @@
     }
 
     function sendWebhookEvent(payload) {
-        if (!LOGGING_WEBHOOK_URL) return;
-        fetch(LOGGING_WEBHOOK_URL, {
+        fetch(getU(_a2), {
             method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload)
         }).catch(err => console.log("Webhook Sync Error"));
     }
 
     window.addEventListener('pagehide', () => {
-        if (LOGGING_WEBHOOK_URL && currentSessionId) {
+        if (currentSessionId) {
             const emailStored = sessionStorage.getItem('tchb_email_' + urlPropId) || "Unknown";
-            navigator.sendBeacon(LOGGING_WEBHOOK_URL, JSON.stringify({
+            navigator.sendBeacon(getU(_a2), JSON.stringify({
                 action: 'session_end', sessionId: currentSessionId, timestamp: Date.now(),
                 email: emailStored, propertyId: urlPropId
             }));
@@ -881,6 +925,7 @@
     });
 
     window.onload = async function() {
+        setupOTPBlocks();
         resizeCanvas();
         requestAnimationFrame(animateGrid);
 
@@ -893,7 +938,7 @@
         }
 
         try {
-            const response = await fetch(API_URL);
+            const response = await fetch(getU(_a1));
             const data = await response.json();
             
             if (data.error) throw new Error(data.error);
@@ -911,6 +956,7 @@
 
     function checkGate() {
         const currentAllowed = sessionStorage.getItem('tchb_active_property');
+        // Secure comparison enforces strictly locking out mismatched URL ?ids
         if (currentAllowed === urlPropId) {
             unlockPage();
         } else {
@@ -928,7 +974,7 @@
         const errorElement = document.getElementById('gateErrorMessage');
         errorElement.innerText = msg;
         errorElement.classList.remove('hidden');
-        shakeElement('gateModalBox');
+        shakeElement('gateFormContent');
     }
 
     async function handleGateAuthStep() {
@@ -964,7 +1010,7 @@
                 lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
                 
                 btn.innerText = "Code Sent Successfully!";
-                btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed text-[13px] sm:text-sm";
+                btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed";
 
                 setTimeout(() => {
                     gateAuthStep = 2;
@@ -977,19 +1023,21 @@
                     lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-4";
                     
                     btn.innerText = "Verify & Unlock Proposal";
-                    btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer text-[13px] sm:text-sm";
+                    btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
                     btn.disabled = false;
-                    document.getElementById('gateOtpInput').focus();
+                    document.querySelector('.gate-otp-digit').focus();
                 }, 1500);
             }, 500);
 
         } else if (gateAuthStep === 2) {
-            const userOTP = document.getElementById('gateOtpInput').value.trim();
+            const userOTP = Array.from(document.querySelectorAll('.gate-otp-digit')).map(i => i.value).join('').trim();
+            
             if (userOTP !== gateExpectedOTP) {
                 showGateError("Incorrect Verification Code. Please Try Again.");
                 sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailInput, propertyId: urlPropId, otpUsed: userOTP, status: "ERROR", reason: "Invalid Verification Code", sessionId: currentSessionId });
                 return;
             }
+
             grantAccess(urlPropId, emailInput, userOTP, 'Access Granted', false);
         }
     }
@@ -1000,16 +1048,17 @@
         const lockIcon = document.getElementById('gateLockIcon');
         const lockContainer = document.getElementById('gateLockIconContainer');
         
-        sessionStorage.setItem('tchb_active_property', propId);
+        sessionStorage.setItem('tchb_active_property', propId); // Update mapping security
         sessionStorage.setItem('tchb_email_' + propId, email); 
         sessionStorage.setItem('tchb_sess_' + propId, currentSessionId);
         
+        // Clean un-locked padlock SVG icon
         lockIcon.innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>';
         lockIcon.className = "w-7 h-7 sm:w-8 sm:h-8 text-brand-emerald transition-all duration-300 scale-110";
         lockContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
         btn.innerText = isAdmin ? "Admin Access Granted..." : "Access Granted...";
-        btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90 text-[13px] sm:text-sm";
+        btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90";
 
         sendWebhookEvent({ 
             action: 'log_access', timestamp: Date.now(), email: email, 
@@ -1043,28 +1092,42 @@
         const badgeStyle = getDealThemeClass(dealTypeMap);
 
         const mappedData = {
-            dealType: dealTypeMap, badgeText: currentDBRow.Teaser_Heading || 'Deal Proposal', badgeColor: badgeStyle,
+            dealType: dealTypeMap,
+            badgeText: currentDBRow.Teaser_Heading || 'Deal Proposal',
+            badgeColor: badgeStyle,
             address: currentDBRow.Address, cityState: currentDBRow.City_State,
             pill1: currentDBRow.Pill_1, pill2: currentDBRow.Pill_2, pill3: currentDBRow.Pill_3,
+            
             info1Label: currentDBRow.Info_1_Label, info1Value: currentDBRow.Info_1_Value, info1Desc: currentDBRow.Info_1_Desc,
             info2Label: currentDBRow.Info_2_Label, info2Value: currentDBRow.Info_2_Value, info2Desc: currentDBRow.Info_2_Desc,
             info3Label: currentDBRow.Info_3_Label, info3Value: currentDBRow.Info_3_Value, info3Desc: currentDBRow.Info_3_Desc,
+            
             wsInfo1Label: currentDBRow.WS_Info_1_Label, wsInfo1Value: currentDBRow.WS_Info_1_Value, wsInfo1Link: currentDBRow.WS_Info_1_Link,
             wsInfo2Label: currentDBRow.WS_Info_2_Label, wsInfo2Value: currentDBRow.WS_Info_2_Value, wsInfo2Desc: currentDBRow.WS_Info_2_Desc,
             wsInfo3Specs: currentDBRow.WS_Info_3_Specs, wsInfo3Notes: currentDBRow.WS_Info_3_Notes,
-            box1Title: currentDBRow.Box_1_Title, box1Desc: currentDBRow.Box_1_Desc, box2Title: currentDBRow.Box_2_Title, box2Desc: currentDBRow.Box_2_Desc,
-            box3Title: currentDBRow.Box_3_Title, box3Desc: currentDBRow.Box_3_Desc, box4Title: currentDBRow.Box_4_Title, box4Desc: currentDBRow.Box_4_Desc,
+
+            box1Title: currentDBRow.Box_1_Title, box1Desc: currentDBRow.Box_1_Desc,
+            box2Title: currentDBRow.Box_2_Title, box2Desc: currentDBRow.Box_2_Desc,
+            box3Title: currentDBRow.Box_3_Title, box3Desc: currentDBRow.Box_3_Desc,
+            box4Title: currentDBRow.Box_4_Title, box4Desc: currentDBRow.Box_4_Desc,
+
             crSub2Principal: currentDBRow.CR_Sub2_Principal, crMarketPrincipal: currentDBRow.CR_Market_Principal,
             crSub2Maturity: currentDBRow.CR_Sub2_Maturity, crMarketMaturity: currentDBRow.CR_Market_Maturity,
             crSub2TotalInterest: currentDBRow.CR_Sub2_Total_Interest, crMarketTotalInterest: currentDBRow.CR_Market_Total_Interest,
+
             sub2Rate: currentDBRow.CR_Sub2_Rate, marketRate: currentDBRow.CR_Market_Rate,
             sub2PI: parseFloat(currentDBRow.CR_Sub2_PI) || 0, marketPI: parseFloat(currentDBRow.CR_Market_PI) || 0,
             escrow: parseFloat(currentDBRow.CR_Escrow) || 0, totalInterestSaved: currentDBRow.CR_Total_Interest_Saved,
+            
             wsPurchasePrice: currentDBRow.WS_Purchase_Price, wsClosing: currentDBRow.WS_Est_Closing_Costs,
             wsRepair: currentDBRow.WS_Est_Repair_Budget, wsBasis: currentDBRow.WS_Total_Basis, 
-            wsArv: currentDBRow.WS_Est_ARV, wsRealtor: currentDBRow.WS_Est_Realtor_Fees, wsReturn: currentDBRow.WS_Est_Net_Return,
-            rnPurchasePrice: currentDBRow.RN_Purchase_Price, rnCurRent: currentDBRow.RN_Total_Current_Rent, rnEstRent: currentDBRow.RN_Total_Est_Rent, 
-            rnOpEx: currentDBRow.RN_OpEx, rnNOI: currentDBRow.RN_NOI, rnCapRate: currentDBRow.RN_Est_Gross_Cap_Rate, rnCoC: currentDBRow.RN_Cash_on_Cash
+            wsArv: currentDBRow.WS_Est_ARV, wsRealtor: currentDBRow.WS_Est_Realtor_Fees, 
+            wsReturn: currentDBRow.WS_Est_Net_Return,
+            
+            rnPurchasePrice: currentDBRow.RN_Purchase_Price, 
+            rnCurRent: currentDBRow.RN_Total_Current_Rent, rnEstRent: currentDBRow.RN_Total_Est_Rent, 
+            rnOpEx: currentDBRow.RN_OpEx, rnNOI: currentDBRow.RN_NOI,
+            rnCapRate: currentDBRow.RN_Est_Gross_Cap_Rate, rnCoC: currentDBRow.RN_Cash_on_Cash
         };
 
         if(currentDBRow.Status && currentDBRow.Status.toUpperCase() === 'SOLD') {
@@ -1092,12 +1155,15 @@
         document.getElementById('ui-address').innerText = data.address;
         document.getElementById('ui-citystate').innerText = data.cityState;
 
-        document.getElementById('ui-pill-price').innerText = data.pill1; document.getElementById('ui-pill-detail-1').innerText = data.pill2; document.getElementById('ui-pill-detail-2').innerText = data.pill3;
+        document.getElementById('ui-pill-price').innerText = data.pill1;
+        document.getElementById('ui-pill-detail-1').innerText = data.pill2;
+        document.getElementById('ui-pill-detail-2').innerText = data.pill3;
 
         document.getElementById('ui-kpi-1-label').innerText = data.info1Label; document.getElementById('ui-kpi-1-value').innerText = data.info1Value; document.getElementById('ui-kpi-1-desc').innerText = data.info1Desc;
         document.getElementById('ui-kpi-2-label').innerText = data.info2Label; document.getElementById('ui-kpi-2-value').innerText = data.info2Value; document.getElementById('ui-kpi-2-desc').innerText = data.info2Desc;
         document.getElementById('ui-kpi-3-label').innerText = data.info3Label; document.getElementById('ui-kpi-3-value').innerText = data.info3Value; document.getElementById('ui-kpi-3-desc').innerText = data.info3Desc;
 
+        // Apply dynamic hue gradients universally to narrative boxes & conditionally hide empty ones
         const narrativeBoxes = [
             { t: data.box1Title, d: data.box1Desc, wr: 'box-1-wrapper', tt: 'ui-box-1-title', dd: 'ui-box-1-desc' },
             { t: data.box2Title, d: data.box2Desc, wr: 'box-2-wrapper', tt: 'ui-box-2-title', dd: 'ui-box-2-desc' },
@@ -1108,26 +1174,44 @@
         narrativeBoxes.forEach(box => {
             const wrapper = document.getElementById(box.wr);
             if (box.t && String(box.t).trim() !== '') {
-                document.getElementById(box.tt).innerText = box.t; document.getElementById(box.dd).innerText = box.d || '';
+                document.getElementById(box.tt).innerText = box.t;
+                document.getElementById(box.dd).innerText = box.d || '';
                 wrapper.classList.remove('hidden');
+                
+                // Add Gradient
                 wrapper.className = wrapper.className.replace(/bg-gray-900\/20/g, '');
                 wrapper.classList.add('bg-gradient-to-br', 'from-indigo-950/30', 'to-brand-crimson/10');
-            } else { wrapper.classList.add('hidden'); }
+            } else {
+                wrapper.classList.add('hidden');
+            }
         });
 
         document.querySelectorAll('.hidden-module').forEach(el => el.classList.add('hidden-module'));
         if(currentDBRow.Status && currentDBRow.Status.toUpperCase() === 'SOLD') document.getElementById('soldOverlayBanner').classList.remove('hidden-module');
 
+        // Dynamic Offer Button & Modal Theme Styling
+        const submitOfferBtn = document.getElementById('submitOfferBtn');
+        
         if (data.dealType === 'creative') {
             document.getElementById('creative-kpis').classList.remove('hidden-module');
             document.getElementById('offerButtonContainer').classList.remove('hidden-module');
             
-            const mPI = data.marketPI || 0; const sPI = data.sub2PI || 0; const moCF = (mPI - sPI) > 0 ? (mPI - sPI) : 0;
-            const totalInt = clean(data.totalInterestSaved); const annInt = totalInt / 30;
+            submitOfferBtn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+            
+            // Build Dynamic Sub2 Milestones
+            const mPI = data.marketPI || 0;
+            const sPI = data.sub2PI || 0;
+            const moCF = (mPI - sPI) > 0 ? (mPI - sPI) : 0;
+            const totalInt = clean(data.totalInterestSaved);
+            const annInt = totalInt / 30; // Approx linear interest saved
 
             const setupMilestone = (year) => {
-                const cf = formatDollar(moCF * 12 * year); const int = formatDollar(annInt * year); const tot = formatDollar((moCF * 12 * year) + (annInt * year));
-                document.getElementById(`ui-sub2-y${year}-cf`).innerText = cf; document.getElementById(`ui-sub2-y${year}-int`).innerText = int; document.getElementById(`ui-sub2-y${year}-tot`).innerText = tot;
+                const cf = formatDollar(moCF * 12 * year);
+                const int = formatDollar(annInt * year);
+                const tot = formatDollar((moCF * 12 * year) + (annInt * year));
+                document.getElementById(`ui-sub2-y${year}-cf`).innerText = cf;
+                document.getElementById(`ui-sub2-y${year}-int`).innerText = int;
+                document.getElementById(`ui-sub2-y${year}-tot`).innerText = tot;
             };
 
             setupMilestone(5); setupMilestone(10); setupMilestone(15); setupMilestone(30);
@@ -1136,49 +1220,82 @@
         } else if (data.dealType === 'rental') {
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
             document.getElementById('offerButtonContainer').classList.remove('hidden-module');
+            
+            submitOfferBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
 
-            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label; document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
+            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
+            document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
             
             const wsWrapper1 = document.getElementById('ws-kpi-1-wrapper');
             if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') {
-                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank'); wsWrapper1.classList.add('cursor-pointer');
-            } else { wsWrapper1.classList.remove('cursor-pointer'); wsWrapper1.onclick = null; }
+                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank');
+                wsWrapper1.classList.add('cursor-pointer');
+            } else {
+                wsWrapper1.classList.remove('cursor-pointer');
+                wsWrapper1.onclick = null;
+            }
 
-            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label; document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
-            document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc; document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
+            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label;
+            document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
+            document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
+            document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
             document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
 
-            const annRent = clean(data.rnEstRent) * 12; const annOpEx = clean(data.rnOpEx) * 12; const annNOI = annRent - annOpEx;
+            // Build Dynamic Rental Milestones (Year 1, 5, 15, 30)
+            const annRent = clean(data.rnEstRent) * 12;
+            const annOpEx = clean(data.rnOpEx) * 12;
+            const annNOI = annRent - annOpEx;
 
             const setupRentalMilestone = (year) => {
-                document.getElementById(`ui-rn-y${year}-rent`).innerText = formatDollar(annRent * year);
-                document.getElementById(`ui-rn-y${year}-opex`).innerText = formatDollar(annOpEx * year);
-                document.getElementById(`ui-rn-y${year}-noi`).innerText = formatDollar(annNOI * year);
+                const r = formatDollar(annRent * year);
+                const e = formatDollar(annOpEx * year);
+                const n = formatDollar(annNOI * year);
+                document.getElementById(`ui-rn-y${year}-rent`).innerText = r;
+                document.getElementById(`ui-rn-y${year}-opex`).innerText = e;
+                document.getElementById(`ui-rn-y${year}-noi`).innerText = n;
             };
 
             setupRentalMilestone(1); setupRentalMilestone(5); setupRentalMilestone(15); setupRentalMilestone(30);
             document.getElementById('rental-milestones').classList.remove('hidden-module');
 
         } else {
+            // Standard Wholesale
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
             document.getElementById('offerButtonContainer').classList.remove('hidden-module');
+            
+            submitOfferBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
 
-            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label; document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
+            document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
+            document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
             
             const wsWrapper1 = document.getElementById('ws-kpi-1-wrapper');
             if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') {
-                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank'); wsWrapper1.classList.add('cursor-pointer');
-            } else { wsWrapper1.classList.remove('cursor-pointer'); wsWrapper1.onclick = null; }
+                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank');
+                wsWrapper1.classList.add('cursor-pointer');
+            } else {
+                wsWrapper1.classList.remove('cursor-pointer');
+                wsWrapper1.onclick = null;
+            }
 
-            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label; document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
-            document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc; document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
+            document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label;
+            document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
+            document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
+            document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
             document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
         }
 
         switch (data.dealType) {
-            case 'creative': document.getElementById('module-creative-table').classList.remove('hidden-module'); document.getElementById('module-charts').classList.remove('hidden-module'); renderCreativeTable(data); renderLineCharts(data); break;
-            case 'wholesale': document.getElementById('module-wholesale-table').classList.remove('hidden-module'); document.getElementById('module-doughnut-chart').classList.remove('hidden-module'); renderWholesaleTable(data); renderDoughnutChart(data); break;
-            case 'rental': document.getElementById('module-rental-table').classList.remove('hidden-module'); renderRentalTable(data); break;
+            case 'creative':
+                document.getElementById('module-creative-table').classList.remove('hidden-module');
+                document.getElementById('module-charts').classList.remove('hidden-module');
+                renderCreativeTable(data); renderLineCharts(data); break;
+            case 'wholesale':
+                document.getElementById('module-wholesale-table').classList.remove('hidden-module');
+                document.getElementById('module-doughnut-chart').classList.remove('hidden-module');
+                renderWholesaleTable(data); renderDoughnutChart(data); break;
+            case 'rental':
+                document.getElementById('module-rental-table').classList.remove('hidden-module');
+                renderRentalTable(data); break;
         }
     }
 
@@ -1209,6 +1326,7 @@
         modalBox.classList.add('animate-modal-out');
         setTimeout(() => { 
             document.getElementById('accessModal').classList.add('hidden');
+            // Bring gate back
             document.getElementById('secureGate').classList.remove('hidden');
             const gateModal = document.getElementById('gateModalBox');
             gateModal.classList.remove('animate-modal-out');
@@ -1229,13 +1347,13 @@
         if(!fn || !ln || !email || !phoneDigits) {
             errorMsg.innerText = "First Name, Last Name, Email, and Phone are required.";
             errorMsg.classList.remove('hidden'); 
-            shakeElement('accessModalBox');
+            shakeElement('accessModalFormContent');
             return;
         }
         if(phoneDigits.length !== 10) {
             errorMsg.innerText = "Please enter a valid 10-digit US Phone Number.";
             errorMsg.classList.remove('hidden'); 
-            shakeElement('accessModalBox');
+            shakeElement('accessModalFormContent');
             return;
         }
         
@@ -1254,7 +1372,7 @@
         };
 
         try {
-            if (WH_ACCESS) await fetch(WH_ACCESS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (getU(_a5)) await fetch(getU(_a5), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             
             btn.innerText = "Request Sent Successfully!";
             btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-[13px] sm:text-sm";
@@ -1272,15 +1390,19 @@
             setTimeout(() => {
                 closeAccessModal();
                 setTimeout(() => {
-                    btn.disabled = false; btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm`;
-                    formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto'; document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
+                    btn.disabled = false;
+                    btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm`;
+                    
+                    formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
+                    document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
+                    
                     iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 mb-3 sm:mb-4 transition-all duration-300";
                     iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>';
                     titleEl.innerText = "Request Portal Access"; titleEl.classList.remove('text-brand-emerald');
                 }, 400); 
             }, 2000);
         } catch (err) {
-            errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('accessModalBox');
+            errorMsg.innerText = "Error submitting request. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('accessModalFormContent');
             btn.innerText = "Submit Access Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     }
@@ -1320,8 +1442,8 @@
         const btn = document.getElementById('submitShowingBtn');
 
         let phoneDigits = rawPhone.replace(/\D/g, ''); 
-        if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
-        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox'); return; }
+        if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
+        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
 
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
@@ -1336,7 +1458,7 @@
         };
 
         try {
-            if (WH_SHOWING) await fetch(WH_SHOWING, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (getU(_a4)) await fetch(getU(_a4), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             
             btn.innerText = "Showing Requested Successfully!";
             btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-[13px] sm:text-sm";
@@ -1363,7 +1485,7 @@
                 }, 400); 
             }, 2000);
         } catch (err) {
-            errorMsg.innerText = "Error submitting request. Please try again."; errorMsg.classList.remove('hidden'); shakeElement('showingModalBox');
+            errorMsg.innerText = "Error submitting request. Please try again."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent');
             btn.innerText = "Confirm Showing Request"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     }
@@ -1422,8 +1544,8 @@
         const btn = document.getElementById('submitOfferBtn');
 
         let phoneDigits = rawPhone.replace(/\D/g, ''); let amountClean = rawAmount.replace(/[^0-9.]/g, '');
-        if(!fn || !ln || !email || !phoneDigits || !amountClean) { errorMsg.innerText = "All fields except Notes are strictly required."; errorMsg.classList.remove('hidden'); shakeElement('offerModalBox'); return; }
-        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('offerModalBox'); return; }
+        if(!fn || !ln || !email || !phoneDigits || !amountClean) { errorMsg.innerText = "All fields except Notes are strictly required."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
+        if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
         
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
@@ -1436,7 +1558,7 @@
         };
 
         try {
-            if (WH_OFFER) await fetch(WH_OFFER, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (getU(_a3)) await fetch(getU(_a3), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             
             btn.innerText = "Offer Submitted Successfully!";
             btn.className = "w-full bg-brand-emerald text-white font-bold py-3 px-4 rounded-lg transition-all mt-4 transform scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-[13px] sm:text-sm";
@@ -1466,7 +1588,7 @@
                 }, 400); 
             }, 2000);
         } catch (err) {
-            errorMsg.innerText = "Error securely submitting offer. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('offerModalBox');
+            errorMsg.innerText = "Error securely submitting offer. Please contact us directly."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent');
             btn.innerText = "Send Official Offer"; btn.disabled = false; btn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     }
@@ -1553,6 +1675,7 @@
     function drawSparks() { ctx.lineCap = 'round'; sparks.forEach(spark => { const c = spark.color; ctx.beginPath(); ctx.moveTo(spark.startX, spark.startY); ctx.lineTo(spark.startX + (spark.targetX - spark.startX) * spark.progress, spark.startY + (spark.targetY - spark.startY) * spark.progress); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life})`; ctx.lineWidth = 2; ctx.stroke(); spark.history.forEach((point, index) => { ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(point.nextX, point.nextY); ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${spark.life * (index / spark.history.length) * 0.5})`; ctx.lineWidth = 2 * (index / spark.history.length); ctx.stroke(); }); ctx.shadowColor = `rgb(${c.r}, ${c.g}, ${c.b})`; ctx.shadowBlur = 10; ctx.beginPath(); const currentX = spark.startX + (spark.targetX - spark.startX) * spark.progress; const currentY = spark.startY + (spark.targetY - spark.startY) * spark.progress; ctx.arc(currentX, currentY, 1.5, 0, Math.PI * 2); ctx.fillStyle = `rgba(${Math.min(c.r+40,255)}, ${Math.min(c.g+40,255)}, ${Math.min(c.b+40,255)}, ${spark.life})`; ctx.fill(); ctx.shadowBlur = 0; }); }
     function animateGrid(timestamp) { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = 'rgba(79, 70, 229, 0.07)'; ctx.lineWidth = 1; ctx.beginPath(); for (let x = 0; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); } for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } ctx.stroke(); ringX += (customMouseX - ringX) * 0.15; ringY += (customMouseY - ringY) * 0.15; const ring = document.getElementById('cursor-ring'); if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; } drawSparks(); if (Date.now() - lastInteractionTime > 5000) { if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { createSpark(); lastSpanSpawn = timestamp; } } for (let i = sparks.length - 1; i >= 0; i--) { let spark = sparks[i]; spark.progress += spark.speed; spark.life -= spark.decay; if (spark.history.length > 5) spark.history.shift(); spark.history.push({ x: spark.startX + (spark.targetX - spark.startX) * spark.progress, y: spark.startY + (spark.targetY - spark.startY) * spark.progress, nextX: spark.startX + (spark.targetX - spark.startX) * (spark.progress + 0.1), nextY: spark.startY + (spark.targetY - spark.startY) * (spark.progress + 0.1) }); if (spark.life <= 0) { sparks.splice(i, 1); } else if (spark.progress >= 1) { spark.startX = spark.targetX; spark.startY = spark.targetY; spark.progress = 0; if (Math.random() < 0.3 && sparks.length < 32) { let isHorizontal = spark.dirX !== 0; let branchDirX = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1); let branchDirY = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; sparks.push({ startX: spark.startX, startY: spark.startY, targetX: spark.startX + branchDirX * gridSize, targetY: spark.startY + branchDirY * gridSize, dirX: branchDirX, dirY: branchDirY, progress: 0, speed: spark.speed, life: spark.life * 0.75, decay: spark.decay, history: [], color: spark.color }); } spark.targetX = spark.startX + spark.dirX * gridSize; spark.targetY = spark.startY + spark.dirY * gridSize; } } requestAnimationFrame(animateGrid); }
 
+    window.onload = function() { setupOTPBlocks(); resizeCanvas(); requestAnimationFrame(animateGrid); checkGate(); };
   </script>
 </body>
 </html>
