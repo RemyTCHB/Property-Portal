@@ -1104,6 +1104,23 @@
             reason: reasonStr, sessionId: currentSessionId 
         });
 
+        // Trigger GoHighLevel Webhook for Successful Login
+        try {
+            fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                keepalive: true,
+                body: JSON.stringify({
+                    propertyId: propId,
+                    email: email,
+                    address: typeof currentDBRow !== 'undefined' && currentDBRow ? currentDBRow.Address : "Unknown",
+                    sellerPhone: typeof currentDBRow !== 'undefined' && currentDBRow ? currentDBRow.Seller_Ph : "Unknown",
+                    source: "Investor Portal - Successful Login (Direct Link)",
+                    timestamp: new Date().toISOString()
+                })
+            });
+        } catch(e) { console.error(e); }
+
         setTimeout(() => { 
             document.getElementById('secureGate').classList.add('hidden');
             unlockPage(); 
