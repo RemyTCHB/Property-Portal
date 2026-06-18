@@ -359,11 +359,9 @@
 
         <div id="loadingIndicator" class="text-center py-16 flex flex-col items-center justify-center">
             <div class="relative w-36 h-36 sm:w-48 sm:h-48 mb-8 flex items-center justify-center">
-                <div class="gradient-ring-glow z-0 opacity-70"></div>
+                <div class="gradient-ring-glow z-0 opacity-80"></div>
                 <div class="gradient-ring-border z-10"></div>
-                <!-- Dark mask blocks the center glow bleed -->
-                <div class="absolute inset-[3px] bg-[#0b0f19] rounded-full z-10"></div>
-                <img src="icon.svg" alt="Loading" class="w-20 h-20 sm:w-28 sm:h-28 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
+                <img src="icon.svg" alt="Loading" class="w-24 h-24 sm:w-32 sm:h-32 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
             </div>
             <p class="font-mono text-base sm:text-lg tracking-widest uppercase animate-text-gradient-pulse mt-4">Syncing Live Database...</p>
         </div>
