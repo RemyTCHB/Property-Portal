@@ -143,7 +143,6 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <!-- AUTHENTICATION GATE -->
   <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
     <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl transition-colors transition-shadow duration-500" id="gateModalBox">
         <button onclick="window.location.href='../'" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-20">
@@ -162,33 +161,37 @@
                 <input type="email" id="gateEmailInput" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 <input type="password" id="gateAccessKeyInput" placeholder="Property Data Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest placeholder:tracking-normal focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 
-                <!-- Compliance Opt-in Section -->
                 <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
-                    <label class="flex items-start gap-3 cursor-pointer group">
-                        <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <div class="flex items-start gap-3 group">
+                        <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                             <input type="checkbox" id="gateOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                             <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                            I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
-                        </span>
-                    </label>
-                    <label class="flex items-start gap-3 cursor-pointer group">
-                        <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <div class="flex-1">
+                            <label for="gateOptInReq" id="gateReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                                I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                            </label>
+                            <button type="button" onclick="document.getElementById('gateReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 group">
+                        <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                             <input type="checkbox" id="gateOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                             <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                            I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
-                        </span>
-                    </label>
+                        <div class="flex-1">
+                            <label for="gateOptInMkt" id="gateMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                                I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                            </label>
+                            <button type="button" onclick="document.getElementById('gateMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div id="gateStep2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
                 <p class="text-xs text-indigo-400 text-center font-medium mb-4">A 6-Digit Verification Code Has Been Sent To Your Email.</p>
                 
-                <!-- 6-Block OTP Input -->
                 <div class="flex justify-center gap-2 sm:gap-3" id="otpBlockContainer">
                     <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                     <input type="number" maxlength="1" class="otp-digit w-10 h-12 sm:w-12 sm:h-14 bg-[#18182d] border border-white/10 rounded-xl text-center font-extrabold text-white text-lg sm:text-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all cursor-text" style="font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -207,7 +210,6 @@
             </button>
         </div>
 
-        <!-- Disclaimer Block -->
         <div class="mt-6 border-t border-gray-800 pt-5 text-center leading-relaxed">
             <h4 class="text-base sm:text-lg font-bold text-white mb-4">No Property Data Access Key?!</h4>
             <div class="flex flex-col gap-3">
@@ -228,7 +230,6 @@
     </div>
   </div>
 
-  <!-- REQUEST ACCESS KEY MODAL -->
   <div id="accessModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
       <div class="bg-[#0f0f1f] border border-indigo-500/20 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95 transition-colors transition-shadow duration-500" id="accessModalBox">
           <button onclick="closeAccessModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
@@ -259,26 +260,31 @@
               </div>
               <div><textarea id="accNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
-              <!-- Compliance Opt-in Section -->
               <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
-                  <label class="flex items-start gap-3 cursor-pointer group">
-                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                  <div class="flex items-start gap-3 group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                           <input type="checkbox" id="accOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                           <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                       </div>
-                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                          I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
-                      </span>
-                  </label>
-                  <label class="flex items-start gap-3 cursor-pointer group">
-                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <div class="flex-1">
+                          <label for="accOptInReq" id="accReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                              I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                          </label>
+                          <button type="button" onclick="document.getElementById('accReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                      </div>
+                  </div>
+                  <div class="flex items-start gap-3 group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                           <input type="checkbox" id="accOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                           <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                       </div>
-                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                          I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
-                      </span>
-                  </label>
+                      <div class="flex-1">
+                          <label for="accOptInMkt" id="accMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                              I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                          </label>
+                          <button type="button" onclick="document.getElementById('accMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                      </div>
+                  </div>
               </div>
 
               <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
@@ -289,7 +295,6 @@
       </div>
   </div>
 
-  <!-- REQUEST SHOWING MODAL -->
   <div id="showingModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
       <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95 transition-colors transition-shadow duration-500" id="showingModalBox">
           <button onclick="closeShowingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
@@ -331,26 +336,31 @@
 
               <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
-              <!-- Compliance Opt-in Section -->
               <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
-                  <label class="flex items-start gap-3 cursor-pointer group">
-                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                  <div class="flex items-start gap-3 group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                           <input type="checkbox" id="shOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                           <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                       </div>
-                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                          I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
-                      </span>
-                  </label>
-                  <label class="flex items-start gap-3 cursor-pointer group">
-                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <div class="flex-1">
+                          <label for="shOptInReq" id="shReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                              I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                          </label>
+                          <button type="button" onclick="document.getElementById('shReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                      </div>
+                  </div>
+                  <div class="flex items-start gap-3 group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                           <input type="checkbox" id="shOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                           <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                       </div>
-                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                          I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
-                      </span>
-                  </label>
+                      <div class="flex-1">
+                          <label for="shOptInMkt" id="shMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                              I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                          </label>
+                          <button type="button" onclick="document.getElementById('shMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                      </div>
+                  </div>
               </div>
 
               <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
@@ -361,7 +371,6 @@
       </div>
   </div>
 
-  <!-- CUSTOM DATE/TIME/ZONE PICKER MODAL -->
   <div id="customDtModal" class="fixed inset-0 z-[160] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
       <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-sm p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="customDtModalBox">
           <button onclick="closeCustomDateTimePicker()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
@@ -423,7 +432,6 @@
       </div>
   </div>
 
-  <!-- MAKE AN OFFER MODAL -->
   <div id="offerModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print transition-opacity duration-300">
     <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95 transition-colors transition-shadow duration-500" id="offerModalBox">
         <button onclick="closeOfferModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
@@ -467,26 +475,31 @@
                 <textarea id="offerNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
             </div>
             
-            <!-- Compliance Opt-in Section -->
             <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
-                <label class="flex items-start gap-3 cursor-pointer group">
-                    <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                <div class="flex items-start gap-3 group">
+                    <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                         <input type="checkbox" id="offOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                         <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                     </div>
-                    <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                        I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
-                    </span>
-                </label>
-                <label class="flex items-start gap-3 cursor-pointer group">
-                    <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <div class="flex-1">
+                        <label for="offOptInReq" id="offReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                            I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                        </label>
+                        <button type="button" onclick="document.getElementById('offReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 group">
+                    <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0 cursor-pointer">
                         <input type="checkbox" id="offOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
                         <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                     </div>
-                    <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                        I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
-                    </span>
-                </label>
+                    <div class="flex-1">
+                        <label for="offOptInMkt" id="offMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
+                            I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
+                        </label>
+                        <button type="button" onclick="document.getElementById('offMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -515,17 +528,14 @@
         Alert: This Property Has Been Sold Or Closed. Data Is Preserved For Archival Purposes Only.
     </div>
 
-    <!-- Print Page 1: Header & KPIs -->
     <div class="mb-8">
       <header class="flex flex-col md:flex-row gap-6 items-center justify-between pb-8 border-b border-gray-800">
-        <!-- Left: Logo -->
         <div class="flex-1 flex justify-center md:justify-start w-full md:w-auto">
           <a href="../" class="flex items-center hover:opacity-90 active:scale-95 duration-150 transition-all cursor-pointer">
             <img src="logo.svg" alt="Total Cash Home Buyers Logo" class="h-16 md:h-20 w-auto object-contain" onerror="this.src='https://via.placeholder.com/200x80?text=TCHB+Logo'">
           </a>
         </div>
         
-        <!-- Center: Action Buttons -->
         <div class="flex-1 flex flex-col sm:flex-row gap-3 justify-center w-full md:w-auto hidden-module no-print" id="offerButtonContainer">
             <button onclick="handleBtnAnim(this, openShowingModal)" class="btn-showing group text-gray-900 font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-[13px] sm:text-sm shadow-lg whitespace-nowrap overflow-hidden w-full sm:w-auto">
                 <span class="flip-inner flex items-center gap-2">
@@ -541,7 +551,6 @@
             </button>
         </div>
 
-        <!-- Right: Address Details -->
         <div class="flex-1 flex flex-col items-center md:items-end text-center md:text-right w-full md:w-auto">
           <span id="ui-badge" class="inline-flex items-center px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold border mb-2 uppercase tracking-wide">...</span>
           <h2 id="ui-address" class="text-lg sm:text-xl font-bold tracking-tight text-white">...</h2>
@@ -558,7 +567,6 @@
         </div>
       </div>
 
-      <!-- CREATIVE KPIs -->
       <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 hidden-module" id="creative-kpis">
         <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
           <div class="flex justify-between items-start">
@@ -598,7 +606,6 @@
         </div>
       </div>
 
-      <!-- WHOLESALE / RENTAL KPIs -->
       <div class="mt-6 flex flex-col gap-6 hidden-module" id="wholesale-kpis">
          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div id="ws-kpi-1-wrapper" class="relative gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl flex flex-col justify-center items-center text-center transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
@@ -630,9 +637,7 @@
       </div>
     </div>
 
-    <!-- Print Page 2: Tables -->
     <div class="print-page-break">
-        <!-- CREATIVE/SUBJECT TO TABLE -->
         <div id="module-creative-table" class="hidden-module bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden mb-8">
             <div class="p-5 sm:p-6 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div><h3 class="text-base sm:text-lg font-bold text-white">Subject-To / Creative Deal Architecture</h3><p class="text-[11px] sm:text-xs text-gray-400 mt-1">Comparing Sub2/Creative against standard market debt.</p></div>
@@ -641,7 +646,6 @@
             <div class="overflow-x-auto custom-scrollbar"><table class="w-full text-center text-xs sm:text-sm text-gray-300 min-w-[600px]"><thead class="bg-gray-950/60 text-[10px] sm:text-xs text-gray-400 uppercase"><tr><th class="px-4 sm:px-6 py-4 text-center">Metric / Dimension</th><th class="px-4 sm:px-6 py-4 text-purple-400 bg-purple-950/20 font-bold text-center">🔥 Proposed Deal</th><th class="px-4 sm:px-6 py-4 text-center">Standard Market</th><th class="px-4 sm:px-6 py-4 text-brand-emerald text-center">Net Advantage</th></tr></thead><tbody id="ui-creative-tbody" class="divide-y divide-gray-800"></tbody></table></div>
         </div>
 
-        <!-- WHOLESALE TABLE -->
         <div id="module-wholesale-table" class="hidden-module bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden mb-8">
             <div class="p-5 sm:p-6 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div><h3 class="text-base sm:text-lg font-bold text-white" id="ws-table-title">Wholesale / Off-Market Breakdown</h3><p class="text-[11px] sm:text-xs text-gray-400 mt-1">Direct spread analysis and expected ROI metrics.</p></div>
@@ -650,7 +654,6 @@
             <div class="overflow-x-auto custom-scrollbar"><table class="w-full text-xs sm:text-sm text-gray-300 min-w-[700px]"><thead class="bg-gray-950/60 text-[10px] sm:text-xs text-gray-400 uppercase text-center"><tr><th class="px-4 sm:px-6 py-4 text-left pl-4 sm:pl-6">Acquisition Info & Costs</th><th class="px-4 sm:px-6 py-4 text-right">Amount</th><th class="px-4 sm:px-6 py-4 text-left border-l border-gray-800 pl-4 sm:pl-6">Exit Strategy & Returns</th><th class="px-4 sm:px-6 py-4 text-right pr-4 sm:pr-6">Amount</th></tr></thead><tbody id="ui-wholesale-tbody" class="divide-y divide-gray-800 text-center"></tbody></table></div>
         </div>
 
-        <!-- RENTAL TABLE -->
         <div id="module-rental-table" class="hidden-module bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden mb-8">
             <div class="p-5 sm:p-6 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div><h3 class="text-base sm:text-lg font-bold text-white">Turnkey / Rental Portfolio Operations</h3><p class="text-[11px] sm:text-xs text-gray-400 mt-1">Operational analysis of total expected rent and yields.</p></div>
@@ -660,9 +663,7 @@
         </div>
     </div>
 
-    <!-- Print Page 3: Narrative Boxes & Charts -->
     <div class="print-page-break">
-        <!-- NARRATIVE BOXES -->
         <div id="narrative-container" class="flex flex-col gap-4 sm:gap-6 mb-12">
             <div id="box-1-wrapper" class="hidden p-5 sm:p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
               <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
@@ -697,7 +698,6 @@
             </div>
         </div>
 
-        <!-- CHARTS -->
         <div id="module-charts" class="hidden-module mb-12">
             <div class="text-center mb-6 no-print md:block">
                 <span class="text-indigo-400 font-bold uppercase text-[10px] sm:text-xs tracking-wider">Visual Performance Analytics</span>
@@ -728,9 +728,7 @@
         </div>
     </div>
 
-    <!-- Print Page 4: Milestones -->
     <div class="print-page-break">
-        <!-- SUBJECT-TO WEALTH MILESTONES -->
         <div id="creative-milestones" class="mb-12 hidden-module">
           <div class="bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 p-6 sm:p-8 rounded-2xl border border-gray-800 text-center flex flex-col items-center">
             <div class="max-w-6xl mx-auto flex flex-col items-center">
@@ -741,28 +739,24 @@
               </div>
               
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full justify-center">
-                <!-- Year 5 -->
                 <div class="bg-gray-900/80 p-4 sm:p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-indigo-400 tracking-wider uppercase block text-center">Year 5 Milestone</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y5-cf" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
                   <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Interest Saved</p><p id="ui-sub2-y5-int" class="text-base sm:text-lg font-bold text-brand-emerald text-center">...</p></div>
                   <div class="mt-3 text-center bg-indigo-950/50 rounded py-1"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Combined Yield Boost</p><p id="ui-sub2-y5-tot" class="text-[13px] sm:text-sm font-bold text-white text-center">...</p></div>
                 </div>
-                <!-- Year 10 -->
                 <div class="bg-gray-900/80 p-4 sm:p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-indigo-400 tracking-wider uppercase block text-center">Year 10 Milestone</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y10-cf" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
                   <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Interest Saved</p><p id="ui-sub2-y10-int" class="text-base sm:text-lg font-bold text-brand-emerald text-center">...</p></div>
                   <div class="mt-3 text-center bg-indigo-950/50 rounded py-1"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Combined Yield Boost</p><p id="ui-sub2-y10-tot" class="text-[13px] sm:text-sm font-bold text-white text-center">...</p></div>
                 </div>
-                <!-- Year 15 -->
                 <div class="bg-gray-900/80 p-4 sm:p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-indigo-400 tracking-wider uppercase block text-center">Year 15 Milestone</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y15-cf" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
                   <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Interest Saved</p><p id="ui-sub2-y15-int" class="text-base sm:text-lg font-bold text-brand-emerald text-center">...</p></div>
                   <div class="mt-3 text-center bg-indigo-950/50 rounded py-1"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Combined Yield Boost</p><p id="ui-sub2-y15-tot" class="text-[13px] sm:text-sm font-bold text-white text-center">...</p></div>
                 </div>
-                <!-- Year 30 (Full Maturity) -->
                 <div class="bg-gradient-to-b from-indigo-950/60 to-gray-900/80 p-4 sm:p-5 rounded-xl border border-indigo-500/30 hover:border-indigo-400/50 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_30px_rgba(99,102,241,0.2)] transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-brand-gold tracking-wider uppercase block text-center">Full Maturity (30 Yr)</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Cash Flow Saved</p><p id="ui-sub2-y30-cf" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
@@ -774,7 +768,6 @@
           </div>
         </div>
 
-        <!-- RENTAL WEALTH MILESTONES -->
         <div id="rental-milestones" class="mb-12 hidden-module">
           <div class="bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 p-6 sm:p-8 rounded-2xl border border-gray-800 text-center flex flex-col items-center">
             <div class="max-w-6xl mx-auto flex flex-col items-center">
@@ -785,28 +778,24 @@
               </div>
               
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full justify-center">
-                <!-- Year 1 -->
                 <div class="bg-gray-900/80 p-4 sm:p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-emerald-400 tracking-wider uppercase block text-center">Year 1 Milestone</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y1-rent" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
                   <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y1-opex" class="text-base sm:text-lg font-bold text-red-400 text-center">...</p></div>
                   <div class="mt-3 text-center bg-emerald-950/50 rounded py-1"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y1-noi" class="text-[13px] sm:text-sm font-bold text-brand-emerald text-center">...</p></div>
                 </div>
-                <!-- Year 5 -->
                 <div class="bg-gray-900/80 p-4 sm:p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-emerald-400 tracking-wider uppercase block text-center">Year 5 Milestone</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y5-rent" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
                   <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y5-opex" class="text-base sm:text-lg font-bold text-red-400 text-center">...</p></div>
                   <div class="mt-3 text-center bg-emerald-950/50 rounded py-1"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y5-noi" class="text-[13px] sm:text-sm font-bold text-brand-emerald text-center">...</p></div>
                 </div>
-                <!-- Year 15 -->
                 <div class="bg-gray-900/80 p-4 sm:p-5 rounded-xl border border-gray-800 hover:border-gray-700 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-emerald-400 tracking-wider uppercase block text-center">Year 15 Milestone</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y15-rent" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
                   <div class="mt-2 pt-2 border-t border-gray-800"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Operating Expenses</p><p id="ui-rn-y15-opex" class="text-base sm:text-lg font-bold text-red-400 text-center">...</p></div>
                   <div class="mt-3 text-center bg-emerald-950/50 rounded py-1"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative NOI</p><p id="ui-rn-y15-noi" class="text-[13px] sm:text-sm font-bold text-brand-emerald text-center">...</p></div>
                 </div>
-                <!-- Year 30 (Full Maturity) -->
                 <div class="bg-gradient-to-b from-emerald-950/60 to-gray-900/80 p-4 sm:p-5 rounded-xl border border-emerald-500/30 hover:border-emerald-400/50 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_15px_30px_rgba(16,185,129,0.2)] transition-all duration-300 text-center flex flex-col justify-between">
                   <span class="text-[10px] sm:text-xs font-bold text-brand-gold tracking-wider uppercase block text-center">Full Horizon (30 Yr)</span>
                   <div class="mt-3"><p class="text-[9px] sm:text-[10px] text-gray-400 text-center">Cumulative Gross Rent</p><p id="ui-rn-y30-rent" class="text-lg sm:text-xl font-bold text-white text-center">...</p></div>
@@ -819,10 +808,8 @@
         </div>
     </div>
 
-    <!-- EXACT MATCH FOOTER FROM INDEX.HTML -->
     <footer class="mt-20 text-center border-t border-white/10 pt-8 pb-6 flex flex-col items-center gap-5 relative z-20 px-4">
         
-        <!-- Branding Row -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm w-full">
             <div class="flex items-center justify-center gap-2">
                 <img class="w-5 h-5 drop-shadow-md" src="icon.svg" alt="TCHB Icon" onerror="this.style.display='none'">
@@ -832,7 +819,6 @@
             <span class="text-gray-400 font-medium">Investor Network Portal</span>
         </div>
         
-        <!-- Contact Row -->
         <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center text-[13px] items-center text-gray-400 w-full">
             <a href="mailto:Carlos@totalchb.com" class="hover:text-indigo-400 transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -848,9 +834,9 @@
         <div class="flex flex-col gap-1.5 mt-2">
             <p class="text-xs sm:text-[13px] text-gray-500 tracking-wide">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
             <div class="flex items-center justify-center gap-4 mt-1 text-[11px] sm:text-xs font-bold">
-                <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Privacy Policy</a>
+                <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Privacy Policy</a>
                 <span class="text-gray-700">•</span>
-                <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Terms & Conditions</a>
+                <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Terms & Conditions</a>
             </div>
             <p class="text-[10px] sm:text-[11px] text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 mt-1">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Property Data Access Keys Is Strictly Prohibited.</p>
         </div>
@@ -1116,8 +1102,13 @@
             if (emailInput.toLowerCase().endsWith('@totalchb.com') && keyInput === 'Portal@2026') { grantAccess(urlPropId, emailInput, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
             if (keyInput !== currentDBRow.Access_Password) { showGateError("Incorrect Security Authorization Code. Please Try Again."); return; }
 
+            const isInternal = emailInput.toLowerCase().endsWith('@totalchb.com');
             const reqOptIn = document.getElementById('gateOptInReq').checked;
-            if (!reqOptIn) { showGateError("You must agree to the Required Terms to proceed."); return; }
+            
+            if (!isInternal && !reqOptIn) { 
+                showGateError("You must agree to the required Terms & Consent to proceed."); 
+                return; 
+            }
 
             gateExpectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
             
@@ -1460,8 +1451,15 @@
             return;
         }
 
+        const isInternal = email.toLowerCase().endsWith('@totalchb.com');
         const reqOptIn = document.getElementById('accOptInReq').checked;
-        if (!reqOptIn) { errorMsg.innerText = "You must agree to the Required Terms to proceed."; errorMsg.classList.remove('hidden'); shakeElement('accessModalFormContent'); return; }
+        
+        if (!isInternal && !reqOptIn) { 
+            errorMsg.innerText = "You must agree to the required Terms & Consent to proceed."; 
+            errorMsg.classList.remove('hidden'); 
+            shakeElement('accessModalFormContent'); 
+            return; 
+        }
         
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
@@ -1586,8 +1584,15 @@
         if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
         if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
 
+        const isInternal = email.toLowerCase().endsWith('@totalchb.com');
         const reqOptIn = document.getElementById('shOptInReq').checked;
-        if (!reqOptIn) { errorMsg.innerText = "You must agree to the Required Terms to proceed."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
+        
+        if (!isInternal && !reqOptIn) { 
+            errorMsg.innerText = "You must agree to the required Terms & Consent to proceed."; 
+            errorMsg.classList.remove('hidden'); 
+            shakeElement('showingModalFormContent'); 
+            return; 
+        }
 
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
@@ -1731,8 +1736,15 @@
         if(!fn || !ln || !email || !phoneDigits || !amountClean) { errorMsg.innerText = "All fields except Notes are strictly required."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
         if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
         
+        const isInternal = email.toLowerCase().endsWith('@totalchb.com');
         const reqOptIn = document.getElementById('offOptInReq').checked;
-        if (!reqOptIn) { errorMsg.innerText = "You must agree to the Required Terms to proceed."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
+        
+        if (!isInternal && !reqOptIn) { 
+            errorMsg.innerText = "You must agree to the required Terms & Consent to proceed."; 
+            errorMsg.classList.remove('hidden'); 
+            shakeElement('offerModalFormContent'); 
+            return; 
+        }
 
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
