@@ -171,7 +171,7 @@
                             <label for="gateOptInReq" id="gateReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                                 I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                             </label>
-                            <button type="button" onclick="document.getElementById('gateReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                            <button type="button" onclick="const t=document.getElementById('gateReqText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                         </div>
                     </div>
                     <div class="flex items-start gap-3 group">
@@ -183,7 +183,7 @@
                             <label for="gateOptInMkt" id="gateMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                                 I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                             </label>
-                            <button type="button" onclick="document.getElementById('gateMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                            <button type="button" onclick="const t=document.getElementById('gateMktText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                         </div>
                     </div>
                 </div>
@@ -270,7 +270,7 @@
                           <label for="accOptInReq" id="accReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                               I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                           </label>
-                          <button type="button" onclick="document.getElementById('accReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                          <button type="button" onclick="const t=document.getElementById('accReqText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                       </div>
                   </div>
                   <div class="flex items-start gap-3 group">
@@ -282,7 +282,7 @@
                           <label for="accOptInMkt" id="accMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                               I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                           </label>
-                          <button type="button" onclick="document.getElementById('accMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                          <button type="button" onclick="const t=document.getElementById('accMktText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                       </div>
                   </div>
               </div>
@@ -346,7 +346,7 @@
                           <label for="shOptInReq" id="shReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                               I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                           </label>
-                          <button type="button" onclick="document.getElementById('shReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                          <button type="button" onclick="const t=document.getElementById('shReqText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                       </div>
                   </div>
                   <div class="flex items-start gap-3 group">
@@ -358,7 +358,7 @@
                           <label for="shOptInMkt" id="shMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                               I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                           </label>
-                          <button type="button" onclick="document.getElementById('shMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                          <button type="button" onclick="const t=document.getElementById('shMktText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                       </div>
                   </div>
               </div>
@@ -485,7 +485,7 @@
                         <label for="offOptInReq" id="offReqText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                             I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                         </label>
-                        <button type="button" onclick="document.getElementById('offReqText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                        <button type="button" onclick="const t=document.getElementById('offReqText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                     </div>
                 </div>
                 <div class="flex items-start gap-3 group">
@@ -497,7 +497,7 @@
                         <label for="offOptInMkt" id="offMktText" class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors cursor-pointer">
                             I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>.
                         </label>
-                        <button type="button" onclick="document.getElementById('offMktText').classList.remove('line-clamp-2'); this.style.display='none';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
+                        <button type="button" onclick="const t=document.getElementById('offMktText'); t.classList.toggle('line-clamp-2'); this.innerText=t.classList.contains('line-clamp-2') ? 'Read Full Consent ▼' : 'Show Less ▲';" class="text-indigo-400 hover:text-indigo-300 font-bold mt-1 text-[9px] uppercase tracking-wider cursor-pointer select-none">Read Full Consent ▼</button>
                     </div>
                 </div>
             </div>
@@ -827,7 +827,7 @@
             <span class="text-brand-emerald text-[10px] hidden sm:block">•</span> 
             <a href="tel:+18889889150" class="hover:text-indigo-400 transition-colors flex items-center justify-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                <span class="tracking-widest font-medium whitespace-nowrap">+1&nbsp;&nbsp;(888)&nbsp;&nbsp;988-9150</span>
+                <span class="tracking-widest font-medium whitespace-nowrap">(888)&nbsp;&nbsp;988-9150</span>
             </a>
         </div>
         
@@ -835,7 +835,7 @@
             <p class="text-xs sm:text-[13px] text-gray-500 tracking-wide">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
             <div class="flex items-center justify-center gap-4 mt-1 text-[11px] sm:text-xs font-bold">
                 <a href="https://portal.totalchb.com/privacy-policy.html" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Privacy Policy</a>
-                <span class="text-gray-700">•</span>
+                <span class="text-brand-crimson">•</span>
                 <a href="https://portal.totalchb.com/terms-and-conditions.html" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Terms & Conditions</a>
             </div>
             <p class="text-[10px] sm:text-[11px] text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 mt-1">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Property Data Access Keys Is Strictly Prohibited.</p>
