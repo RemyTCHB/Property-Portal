@@ -161,6 +161,28 @@
             <div id="gateStep1Container" class="space-y-3 sm:space-y-4">
                 <input type="email" id="gateEmailInput" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 <input type="password" id="gateAccessKeyInput" placeholder="Property Data Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest placeholder:tracking-normal focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                
+                <!-- Compliance Opt-in Section -->
+                <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
+                    <label class="flex items-start gap-3 cursor-pointer group">
+                        <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <input type="checkbox" id="gateOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                            <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                            I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
+                        </span>
+                    </label>
+                    <label class="flex items-start gap-3 cursor-pointer group">
+                        <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <input type="checkbox" id="gateOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                            <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                            I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
+                        </span>
+                    </label>
+                </div>
             </div>
 
             <div id="gateStep2Container" class="space-y-3 sm:space-y-4 hidden mt-2">
@@ -237,6 +259,28 @@
               </div>
               <div><textarea id="accNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
+              <!-- Compliance Opt-in Section -->
+              <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
+                  <label class="flex items-start gap-3 cursor-pointer group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <input type="checkbox" id="accOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                          <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                      </div>
+                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                          I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
+                      </span>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <input type="checkbox" id="accOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                          <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                      </div>
+                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                          I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
+                      </span>
+                  </label>
+              </div>
+
               <p id="accessErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
               <button id="submitAccessBtn" onclick="submitAccessRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm">
                   Submit Access Request
@@ -287,6 +331,28 @@
 
               <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
               
+              <!-- Compliance Opt-in Section -->
+              <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
+                  <label class="flex items-start gap-3 cursor-pointer group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <input type="checkbox" id="shOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                          <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                      </div>
+                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                          I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
+                      </span>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer group">
+                      <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <input type="checkbox" id="shOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                          <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                      </div>
+                      <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                          I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
+                      </span>
+                  </label>
+              </div>
+
               <p id="showingErrorMessage" class="text-[11px] sm:text-xs text-brand-crimson font-bold text-center hidden mt-2">Please fill out all required fields.</p>
               <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm">
                   Confirm Showing Request
@@ -399,6 +465,28 @@
 
             <div>
                 <textarea id="offerNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
+            </div>
+            
+            <!-- Compliance Opt-in Section -->
+            <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <input type="checkbox" id="offOptInReq" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                        <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                        I agree to receive non-marketing (transactional) text messages from Total Cash Home Buyers, LLC at the mobile number provided — including login and verification codes, my property data access key, account and security notifications, showing scheduling, confirmations and reminders, and offer and transaction updates. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to opt out. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Required)
+                    </span>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <div class="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <input type="checkbox" id="offOptInMkt" class="peer appearance-none w-4 h-4 border border-gray-500 rounded bg-[#18182d] checked:bg-indigo-600 checked:border-indigo-600 focus:outline-none transition-colors cursor-pointer">
+                        <svg class="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <span class="text-[10px] sm:text-[11px] text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                        I agree to receive recurring automated marketing text messages (special offers, discounts, new property listings, and service updates) from Total Cash Home Buyers, LLC at the mobile number provided. Consent is not a condition of any purchase. Message frequency may vary. Message and data rates may apply. Reply HELP for help, reply STOP to unsubscribe. See our <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Privacy Policy</a> and <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-indigo-400 hover:text-indigo-300 underline transition-colors">Terms & Conditions</a>. (Optional)
+                    </span>
+                </label>
             </div>
         </div>
 
@@ -759,7 +847,12 @@
         
         <div class="flex flex-col gap-1.5 mt-2">
             <p class="text-xs sm:text-[13px] text-gray-500 tracking-wide">&copy; <script>document.write(new Date().getFullYear())</script> Total Cash Home Buyers. Strictly Confidential.</p>
-            <p class="text-[10px] sm:text-[11px] text-gray-600 max-w-2xl mx-auto leading-relaxed px-2">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Property Data Access Keys Is Strictly Prohibited.</p>
+            <div class="flex items-center justify-center gap-4 mt-1 text-[11px] sm:text-xs font-bold">
+                <a href="https://portal.totalchb.com/privacy_policy" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Privacy Policy</a>
+                <span class="text-gray-700">•</span>
+                <a href="https://portal.totalchb.com/terms_and_conditions" target="_blank" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer">Terms & Conditions</a>
+            </div>
+            <p class="text-[10px] sm:text-[11px] text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 mt-1">All Data Contained Within The Portal Is Proprietary And Subject To Active Non-Disclosure Agreements. Distribution Of Property Data Access Keys Is Strictly Prohibited.</p>
         </div>
     </footer>
 
@@ -1023,6 +1116,9 @@
             if (emailInput.toLowerCase().endsWith('@totalchb.com') && keyInput === 'Portal@2026') { grantAccess(urlPropId, emailInput, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
             if (keyInput !== currentDBRow.Access_Password) { showGateError("Incorrect Security Authorization Code. Please Try Again."); return; }
 
+            const reqOptIn = document.getElementById('gateOptInReq').checked;
+            if (!reqOptIn) { showGateError("You must agree to the Required Terms to proceed."); return; }
+
             gateExpectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
             
             btn.innerText = "Sending Code...";
@@ -1031,7 +1127,8 @@
 
             sendWebhookEvent({ 
                 action: 'send_otp', timestamp: Date.now(), email: emailInput, 
-                propertyId: urlPropId, accessKeyUsed: keyInput, otpSent: gateExpectedOTP, sessionId: currentSessionId 
+                propertyId: urlPropId, accessKeyUsed: keyInput, otpSent: gateExpectedOTP, sessionId: currentSessionId,
+                marketingConsent: document.getElementById('gateOptInMkt').checked 
             });
 
             setTimeout(() => {
@@ -1117,7 +1214,8 @@
                         address: typeof currentDBRow !== 'undefined' && currentDBRow && currentDBRow.Address ? currentDBRow.Address + ", " + currentDBRow.City_State : "Unknown",
                         sellerPhone: typeof currentDBRow !== 'undefined' && currentDBRow ? currentDBRow.Seller_Ph : "Unknown",
                         source: "Investor Portal - Accessed (Property Data)",
-                        timestamp: new Date().toISOString()
+                        timestamp: new Date().toISOString(),
+                        marketingConsent: document.getElementById('gateOptInMkt').checked
                     })
                 });
             } catch(e) { console.error(e); }
@@ -1318,6 +1416,9 @@
             modalBox.classList.remove('animate-modal-out');
             modalBox.classList.add('animate-modal-in');
             
+            document.getElementById('accOptInReq').checked = false;
+            document.getElementById('accOptInMkt').checked = false;
+
             document.getElementById('submitAccessBtn').innerText = "Submit Access Request";
             document.getElementById('accessErrorMessage').classList.add('hidden');
         }, 300);
@@ -1358,6 +1459,9 @@
             shakeElement('accessModalFormContent');
             return;
         }
+
+        const reqOptIn = document.getElementById('accOptInReq').checked;
+        if (!reqOptIn) { errorMsg.innerText = "You must agree to the Required Terms to proceed."; errorMsg.classList.remove('hidden'); shakeElement('accessModalFormContent'); return; }
         
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
@@ -1371,7 +1475,8 @@
             address: currentDBRow ? currentDBRow.Address + ", " + currentDBRow.City_State : "Unknown",
             sellerPhone: currentDBRow ? currentDBRow.Seller_Ph : "Unknown",
             firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
-            source: "Investor Portal - Request Access Key (Property Data)", timestamp: new Date().toISOString()
+            source: "Investor Portal - Request Access Key (Property Data)", timestamp: new Date().toISOString(),
+            marketingConsent: document.getElementById('accOptInMkt').checked 
         };
 
         try {
@@ -1406,6 +1511,7 @@
                 setTimeout(() => {
                     btn.disabled = false; btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20 text-[13px] sm:text-sm`;
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto'; document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = ''; document.getElementById('accNote').value = '';
+                    document.getElementById('accOptInReq').checked = false; document.getElementById('accOptInMkt').checked = false;
                     
                     // Reset perfectly to Gold while hidden
                     iconContainer.classList.remove('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
@@ -1451,6 +1557,9 @@
         modalBox.classList.remove('animate-modal-out');
         modalBox.classList.add('animate-modal-in');
         
+        document.getElementById('shOptInReq').checked = false;
+        document.getElementById('shOptInMkt').checked = false;
+
         document.getElementById('shEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
         document.getElementById('submitShowingBtn').innerText = "Confirm Showing Request";
         document.getElementById('showingErrorMessage').classList.add('hidden');
@@ -1477,6 +1586,9 @@
         if(!fn || !ln || !email || !phoneDigits || !dateTimeInput) { errorMsg.innerText = "All fields except Notes are required."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
         if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
 
+        const reqOptIn = document.getElementById('shOptInReq').checked;
+        if (!reqOptIn) { errorMsg.innerText = "You must agree to the Required Terms to proceed."; errorMsg.classList.remove('hidden'); shakeElement('showingModalFormContent'); return; }
+
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
         btn.innerText = "Sending Request...";
@@ -1487,7 +1599,8 @@
             propertyId: currentDBRow.Property_ID, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State,
             sellerPhone: currentDBRow.Seller_Ph || "Unknown",
             firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: dateTimeInput, note: note,
-            source: "Investor Portal - Request Showing (Property Data)", timestamp: new Date().toISOString()
+            source: "Investor Portal - Request Showing (Property Data)", timestamp: new Date().toISOString(),
+            marketingConsent: document.getElementById('shOptInMkt').checked 
         };
 
         try {
@@ -1524,6 +1637,8 @@
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                     document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = ''; document.getElementById('shDateTimeDisplay').value = ''; document.getElementById('shNote').value = '';
                     
+                    document.getElementById('shOptInReq').checked = false; document.getElementById('shOptInMkt').checked = false;
+
                     // Reset perfectly to Gold while hidden
                     iconContainer.classList.remove('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
                     iconContainer.classList.add('bg-brand-gold/10', 'border-brand-gold/20');
@@ -1566,6 +1681,9 @@
         document.getElementById('offerModal').classList.remove('hidden');
         modalBox.classList.remove('animate-modal-out');
         modalBox.classList.add('animate-modal-in');
+
+        document.getElementById('offOptInReq').checked = false;
+        document.getElementById('offOptInMkt').checked = false;
 
         document.getElementById('offerEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
         document.getElementById('submitOfferBtn').innerText = "Send Official Offer";
@@ -1613,6 +1731,9 @@
         if(!fn || !ln || !email || !phoneDigits || !amountClean) { errorMsg.innerText = "All fields except Notes are strictly required."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
         if(phoneDigits.length !== 10) { errorMsg.innerText = "Please enter a valid 10-digit US Phone Number."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
         
+        const reqOptIn = document.getElementById('offOptInReq').checked;
+        if (!reqOptIn) { errorMsg.innerText = "You must agree to the Required Terms to proceed."; errorMsg.classList.remove('hidden'); shakeElement('offerModalFormContent'); return; }
+
         const formattedPhone = '+1' + phoneDigits;
         errorMsg.classList.add('hidden');
         btn.innerText = "Sending Secure Offer..."; btn.disabled = true; btn.classList.add('opacity-75', 'cursor-not-allowed');
@@ -1621,7 +1742,8 @@
             propertyId: currentDBRow.Property_ID, accessKey: currentDBRow.Access_Password, address: currentDBRow.Address + ", " + currentDBRow.City_State,
             sellerPhone: currentDBRow.Seller_Ph || "Unknown",
             firstName: fn, lastName: ln, email: email, phone: formattedPhone, offerAmount: rawAmount, note: note,
-            source: "Investor Portal - Make An Offer (Property Data)", timestamp: new Date().toISOString()
+            source: "Investor Portal - Make An Offer (Property Data)", timestamp: new Date().toISOString(),
+            marketingConsent: document.getElementById('offOptInMkt').checked 
         };
 
         try {
@@ -1660,6 +1782,8 @@
                     formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto'; 
                     document.getElementById('ofFirstName').value = ''; document.getElementById('ofLastName').value = ''; document.getElementById('offerAmount').value = ''; document.getElementById('offerNote').value = '';
                     
+                    document.getElementById('offOptInReq').checked = false; document.getElementById('offOptInMkt').checked = false;
+
                     // Reset perfectly to Gold while hidden
                     iconContainer.classList.remove('bg-brand-emerald/10', 'border-brand-emerald/20', 'animate-bounce');
                     iconContainer.classList.add('bg-brand-gold/10', 'border-brand-gold/20');
