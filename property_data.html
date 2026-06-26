@@ -158,7 +158,20 @@
         
         <div id="gateFormContent">
             <div id="gateStep1Container" class="space-y-3 sm:space-y-4">
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                    <input type="text" id="gateFirstNameInput" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                    <input type="text" id="gateLastNameInput" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                </div>
                 <input type="email" id="gateEmailInput" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                <div>
+                    <div class="flex gap-2">
+                        <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
+                            +1
+                        </div>
+                        <input type="tel" id="gatePhoneInput" placeholder="Phone Number (Optional)" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                    </div>
+                </div>
                 <input type="password" id="gateAccessKeyInput" placeholder="Property Data Access Key" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest placeholder:tracking-normal focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                 
                 <div class="mt-4 space-y-3 text-left bg-black/20 p-3 rounded-lg border border-white/5">
@@ -1093,13 +1106,15 @@
     async function handleGateAuthStep() {
         const emailInput = document.getElementById('gateEmailInput').value.trim();
         const keyInput = document.getElementById('gateAccessKeyInput').value.trim();
+        const fnInput = document.getElementById('gateFirstNameInput').value.trim();
+        const lnInput = document.getElementById('gateLastNameInput').value.trim();
         const btn = document.getElementById('gateAuthButton');
         
         currentSessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2,7);
 
         if (gateAuthStep === 1) {
+            if (!fnInput || !lnInput) { showGateError("First and Last Name are required."); return; }
             if (!isValidEmail(emailInput)) { showGateError("Please Enter A Valid Email Address."); return; }
-            if (emailInput.toLowerCase().endsWith('@totalchb.com') && keyInput === 'Portal@2026') { grantAccess(urlPropId, emailInput, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
             if (keyInput !== currentDBRow.Access_Password) { showGateError("Incorrect Security Authorization Code. Please Try Again."); return; }
 
             const isInternal = emailInput.toLowerCase().endsWith('@totalchb.com');
@@ -1173,6 +1188,11 @@
         sessionStorage.setItem('tchb_active_property', propId);
         sessionStorage.setItem('tchb_email_' + propId, email); 
         sessionStorage.setItem('tchb_sess_' + propId, currentSessionId);
+        if(document.getElementById('gateFirstNameInput')) {
+            sessionStorage.setItem('tchb_fn', document.getElementById('gateFirstNameInput').value.trim());
+            sessionStorage.setItem('tchb_ln', document.getElementById('gateLastNameInput').value.trim());
+            sessionStorage.setItem('tchb_phone', document.getElementById('gatePhoneInput').value.trim());
+        }
         
         lockIcon.classList.remove('text-brand-gold');
         lockIcon.classList.add('text-brand-emerald', 'scale-110');
@@ -1558,7 +1578,11 @@
         document.getElementById('shOptInReq').checked = false;
         document.getElementById('shOptInMkt').checked = false;
 
+        document.getElementById('shFirstName').value = sessionStorage.getItem('tchb_fn') || "";
+        document.getElementById('shLastName').value = sessionStorage.getItem('tchb_ln') || "";
         document.getElementById('shEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
+        document.getElementById('shPhone').value = sessionStorage.getItem('tchb_phone') || "";
+        
         document.getElementById('submitShowingBtn').innerText = "Confirm Showing Request";
         document.getElementById('showingErrorMessage').classList.add('hidden');
     }
@@ -1690,7 +1714,11 @@
         document.getElementById('offOptInReq').checked = false;
         document.getElementById('offOptInMkt').checked = false;
 
+        document.getElementById('ofFirstName').value = sessionStorage.getItem('tchb_fn') || "";
+        document.getElementById('ofLastName').value = sessionStorage.getItem('tchb_ln') || "";
         document.getElementById('offerEmail').value = sessionStorage.getItem('tchb_email_' + urlPropId) || "";
+        document.getElementById('offerPhone').value = sessionStorage.getItem('tchb_phone') || "";
+        
         document.getElementById('submitOfferBtn').innerText = "Send Official Offer";
         document.getElementById('offerErrorMessage').classList.add('hidden');
     }
