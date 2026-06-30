@@ -656,7 +656,7 @@
             const s = (status || '').toUpperCase();
             if (s === 'SOLD' || s === 'CLOSED') return { bg: 'bg-brand-crimson/10', text: 'text-brand-crimson', border: 'border-brand-crimson/20', dot: '🔴', label: 'Sold', locked: true };
             if (s === 'UPCOMING') return { bg: 'bg-slate-400/10', text: 'text-slate-300', border: 'border-slate-400/30', dot: '⚪', label: 'Upcoming', locked: true };
-            if (s === 'PENDING' || s === 'UNDER CONTRACT') return { bg: 'bg-brand-gold/10', text: 'text-brand-gold', border: 'border-brand-gold/20', dot: '🟡', label: 'Under Contract', locked: false, pulse: 'animate-pulse' };
+            if (s === 'PENDING' || s === 'UNDER CONTRACT') return { bg: 'bg-brand-gold/10', text: 'text-brand-gold', border: 'border-brand-gold/20', dot: '🟡', label: 'Under Contract', locked: true, pulse: 'animate-pulse' };
             return { bg: 'bg-brand-emerald/10', text: 'text-brand-emerald', border: 'border-brand-emerald/20', dot: '🟢', label: 'Available', locked: false };
         }
 
@@ -721,15 +721,49 @@
                 const dynamicHoverHalo = isLocked ? `onclick="shakeElement('card-${prop.Property_ID}')"` : `onmouseover="this.style.boxShadow='0 20px 40px ${deal.halo}'" onmouseout="this.style.boxShadow='none'"`;
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed" : `bg-white/5 text-white border border-white/10 shadow-lg ${deal.btnHover} cursor-pointer`;
 
+                let displayAddress = prop.Address;
+                let displayCityState = prop.City_State;
                 let lockOverlay = '';
+
                 if (isLocked) {
-                    const icon = prop.Status === 'UPCOMING' ? '<svg class="w-12 h-12 mb-3 text-slate-300 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' : '<svg class="w-12 h-12 mb-3 text-brand-crimson drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
-                    const color = prop.Status === 'UPCOMING' ? 'text-slate-300' : 'text-brand-crimson';
+                    const s = (prop.Status || '').toUpperCase();
+                    let icon, color, subtext, mainText;
+                    
+                    displayCityState = prop.City_State; // Always unblurred for all locked states
+
+                    if (s === 'UPCOMING') {
+                        displayAddress = `<span class="blur-[6px] opacity-40 select-none">${prop.Address}</span>`;
+                        icon = '<svg class="w-12 h-12 mb-3 text-slate-300 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+                        color = 'text-slate-300';
+                        subtext = 'Data Is Being Constructed';
+                        mainText = 'UPCOMING';
+                    } else if (s === 'PENDING' || s === 'UNDER CONTRACT') {
+                        const parts = (prop.Address || '').split(' ');
+                        const firstPart = parts.shift();
+                        const restOfAddress = parts.join(' ');
+                        displayAddress = `<span class="blur-[6px] opacity-40 select-none">${firstPart}</span> ${restOfAddress}`;
+                        
+                        icon = '<svg class="w-12 h-12 mb-3 text-brand-gold drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
+                        color = 'text-brand-gold';
+                        subtext = 'Property Is Under Contract';
+                        mainText = 'UNDER CONTRACT';
+                    } else {
+                        const parts = (prop.Address || '').split(' ');
+                        const firstPart = parts.shift();
+                        const restOfAddress = parts.join(' ');
+                        displayAddress = `<span class="blur-[6px] opacity-40 select-none">${firstPart}</span> ${restOfAddress}`;
+                        
+                        icon = '<svg class="w-12 h-12 mb-3 text-brand-crimson drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
+                        color = 'text-brand-crimson';
+                        subtext = 'Data Secured In Archive';
+                        mainText = s === 'CLOSED' ? 'CLOSED' : 'SOLD';
+                    }
+
                     lockOverlay = `
                         <div class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none mt-4">
                             ${icon}
-                            <span class="font-extrabold uppercase tracking-widest text-xl ${color} drop-shadow-lg">${prop.Status}</span>
-                            <span class="text-xs text-white mt-1.5 font-bold drop-shadow-md text-center tracking-wide">${prop.Status === 'UPCOMING' ? 'Data Is Being Constructed' : 'Data Secured In Archive'}</span>
+                            <span class="font-extrabold uppercase tracking-widest text-xl ${color} drop-shadow-lg">${mainText}</span>
+                            <span class="text-xs text-white mt-1.5 font-bold drop-shadow-md text-center tracking-wide">${subtext}</span>
                         </div>
                     `;
                 }
@@ -744,8 +778,8 @@
                             </span>
                         </div>
                         <div class="mb-6 flex-grow relative z-0">
-                            <h3 class="text-lg sm:text-xl font-bold text-white mb-1 truncate ${isLocked ? 'blur-[6px] opacity-40 select-none' : ''}">${prop.Address}</h3>
-                            <p class="text-[13px] sm:text-sm text-gray-400 font-mono ${isLocked ? 'blur-[4px] opacity-40 select-none' : ''}">${prop.City_State}</p>
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-1 truncate">${displayAddress}</h3>
+                            <p class="text-[13px] sm:text-sm text-gray-400 font-mono">${displayCityState}</p>
                         </div>
                         <div class="space-y-3 mb-6 relative z-0 ${isLocked ? 'blur-[4px] opacity-40 select-none' : ''}">
                             ${[prop.Portal_Feature_1, prop.Portal_Feature_2, prop.Portal_Feature_3].filter(f => f).map(feature => `
