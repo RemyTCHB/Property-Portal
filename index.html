@@ -729,7 +729,18 @@
                     const s = (prop.Status || '').toUpperCase();
                     let icon, color, subtext, mainText;
                     
-                    displayCityState = prop.City_State; // Always unblurred for all locked states
+                    displayCityState = prop.City_State; 
+
+                    // Extract the blur logic: keep grabbing parts until one doesn't end with a comma
+                    const addrParts = (prop.Address || '').split(' ');
+                    let blurredParts = [];
+                    while (addrParts.length > 0) {
+                        let p = addrParts.shift();
+                        blurredParts.push(p);
+                        if (!p.endsWith(',')) break;
+                    }
+                    const blurredStreetNum = blurredParts.join(' ');
+                    const restOfStreet = addrParts.join(' ');
 
                     if (s === 'UPCOMING') {
                         displayAddress = `<span class="blur-[6px] opacity-40 select-none">${prop.Address}</span>`;
@@ -738,20 +749,14 @@
                         subtext = 'Data Is Being Constructed';
                         mainText = 'UPCOMING';
                     } else if (s === 'PENDING' || s === 'UNDER CONTRACT') {
-                        const parts = (prop.Address || '').split(' ');
-                        const firstPart = parts.shift();
-                        const restOfAddress = parts.join(' ');
-                        displayAddress = `<span class="blur-[6px] opacity-40 select-none">${firstPart}</span> ${restOfAddress}`;
+                        displayAddress = `<span class="blur-[6px] opacity-40 select-none">${blurredStreetNum}</span> ${restOfStreet}`;
                         
                         icon = '<svg class="w-12 h-12 mb-3 text-brand-gold drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
                         color = 'text-brand-gold';
                         subtext = 'Property Is Under Contract';
                         mainText = 'UNDER CONTRACT';
                     } else {
-                        const parts = (prop.Address || '').split(' ');
-                        const firstPart = parts.shift();
-                        const restOfAddress = parts.join(' ');
-                        displayAddress = `<span class="blur-[6px] opacity-40 select-none">${firstPart}</span> ${restOfAddress}`;
+                        displayAddress = `<span class="blur-[6px] opacity-40 select-none">${blurredStreetNum}</span> ${restOfStreet}`;
                         
                         icon = '<svg class="w-12 h-12 mb-3 text-brand-crimson drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
                         color = 'text-brand-crimson';
