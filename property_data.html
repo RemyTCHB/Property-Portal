@@ -1988,11 +1988,13 @@
     function renderLineCharts(data) {
         if(lineChart1) lineChart1.destroy(); if(lineChart2) lineChart2.destroy();
         
+        const formatChartVal = (v) => '$' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
         const ctxPayment = document.getElementById('paymentChart').getContext('2d');
         lineChart1 = new Chart(ctxPayment, {
             type: 'bar',
             data: { labels: ['Proposed Deal', "Standard Market"], datasets: [ { label: 'P&I', data: [data.sub2PI, data.marketPI], backgroundColor: '#4f46e5' }, { label: 'Escrow', data: [data.escrow, data.escrow], backgroundColor: '#10b981' } ] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } }
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } }, plugins: { datalabels: { color: '#ffffff', font: { size: 10 }, formatter: formatChartVal } } }
         });
 
         const m1 = data.marketPI * 12; const s1 = data.sub2PI * 12;
@@ -2000,7 +2002,7 @@
         lineChart2 = new Chart(ctxInterest, {
             type: 'line',
             data: { labels: ['Year 1', 'Year 10', 'Year 20', 'Year 30'], datasets: [ { label: "Standard Market", data: [m1, m1*7, m1*13, m1*16], borderColor: '#dc2626', fill: true, backgroundColor: 'rgba(220, 38, 38, 0.1)' }, { label: 'Proposed Deal', data: [s1, s1*4, s1*7, s1*9], borderColor: '#10b981', fill: true, backgroundColor: 'rgba(16, 185, 129, 0.1)' } ] },
-            options: { responsive: true, maintainAspectRatio: false }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { datalabels: { color: '#ffffff', font: { size: 10 }, formatter: formatChartVal } } }
         });
     }
 
@@ -2014,7 +2016,7 @@
         pieChart = new Chart(ctx, {
             type: 'doughnut',
             data: { labels: chartLabels, datasets: [{ data: chartData, backgroundColor: chartColors, borderWidth: 0, hoverOffset: 10 }] },
-            options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { color: '#f3f4f6' } }, datalabels: { color: '#ffffff', font: { weight: 'bold', size: 12 }, formatter: (v) => '$' + v.toLocaleString('en-US', {maximumFractionDigits:0}) } } }
+            options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { color: '#f3f4f6' } }, datalabels: { color: '#ffffff', font: { weight: 'bold', size: 12 }, formatter: (v) => '$' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) } } }
         });
     }
 
