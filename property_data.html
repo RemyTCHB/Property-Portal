@@ -618,12 +618,12 @@
           <p id="ui-kpi-3-desc" class="text-[11px] sm:text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
         
-        <div class="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8 gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
-            <div>
+        <div id="cr-specs-notes-wrapper" class="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8 gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group mx-auto w-full">
+            <div id="cr-specs-container" class="w-full">
                <h4 class="text-sm sm:text-base font-extrabold text-white mb-4">Property Specs</h4>
                <div id="ui-cr-kpi-4-specs" class="text-[11px] sm:text-xs text-gray-300 leading-relaxed">...</div>
             </div>
-            <div>
+            <div id="cr-notes-container" class="w-full">
                <h4 class="text-sm sm:text-base font-extrabold text-white mb-4">Important Notes</h4>
                <div id="ui-cr-kpi-4-notes" class="text-[11px] sm:text-xs text-gray-300 leading-relaxed">...</div>
             </div>
@@ -648,12 +648,12 @@
               <p id="ui-ws-kpi-2-desc" class="text-[11px] sm:text-xs text-gray-300 mt-4 leading-relaxed z-10">...</p>
             </div>
          </div>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
-            <div>
+         <div id="ws-specs-notes-wrapper" class="grid grid-cols-1 md:grid-cols-2 gap-8 gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group mx-auto w-full">
+            <div id="ws-specs-container" class="w-full">
                <h4 class="text-sm sm:text-base font-extrabold text-white mb-4">Property Specs</h4>
                <div id="ui-ws-kpi-3-specs" class="text-[11px] sm:text-xs text-gray-300 leading-relaxed">...</div>
             </div>
-            <div>
+            <div id="ws-notes-container" class="w-full">
                <h4 class="text-sm sm:text-base font-extrabold text-white mb-4">Important Notes</h4>
                <div id="ui-ws-kpi-3-notes" class="text-[11px] sm:text-xs text-gray-300 leading-relaxed">...</div>
             </div>
@@ -1334,6 +1334,21 @@
         if (document.getElementById('ui-cr-kpi-4-specs')) {
             document.getElementById('ui-cr-kpi-4-specs').innerHTML = formatBullets(data.info4Specs, 'text-purple-400');
             document.getElementById('ui-cr-kpi-4-notes').innerHTML = formatBullets(data.info4Notes, 'text-purple-400');
+            
+            const crHasNotes = data.info4Notes && data.info4Notes.trim() !== '' && data.info4Notes.trim().toUpperCase() !== 'N/A';
+            const crWrapper = document.getElementById('cr-specs-notes-wrapper');
+            const crNotes = document.getElementById('cr-notes-container');
+            if (crWrapper && crNotes) {
+                if (!crHasNotes) {
+                    crNotes.style.display = 'none';
+                    crWrapper.classList.remove('md:grid-cols-2', 'w-full');
+                    crWrapper.classList.add('max-w-2xl');
+                } else {
+                    crNotes.style.display = 'block';
+                    crWrapper.classList.add('md:grid-cols-2', 'w-full');
+                    crWrapper.classList.remove('max-w-2xl');
+                }
+            }
         }
 
         const narrativeBoxes = [
@@ -1386,6 +1401,14 @@
             document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc; document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
             document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
 
+            const wsHasNotes = data.wsInfo3Notes && data.wsInfo3Notes.trim() !== '' && data.wsInfo3Notes.trim().toUpperCase() !== 'N/A';
+            const wsWrapper = document.getElementById('ws-specs-notes-wrapper');
+            const wsNotes = document.getElementById('ws-notes-container');
+            if (wsWrapper && wsNotes) {
+                if (!wsHasNotes) { wsNotes.style.display = 'none'; wsWrapper.classList.remove('md:grid-cols-2', 'w-full'); wsWrapper.classList.add('max-w-2xl'); }
+                else { wsNotes.style.display = 'block'; wsWrapper.classList.add('md:grid-cols-2', 'w-full'); wsWrapper.classList.remove('max-w-2xl'); }
+            }
+
             const annRent = clean(data.rnEstRent) * 12; const annOpEx = clean(data.rnOpEx) * 12; const annNOI = annRent - annOpEx;
 
             const setupRentalMilestone = (year) => {
@@ -1411,6 +1434,14 @@
             document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label; document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
             document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc; document.getElementById('ui-ws-kpi-3-specs').innerHTML = formatBullets(data.wsInfo3Specs, 'text-emerald-400');
             document.getElementById('ui-ws-kpi-3-notes').innerHTML = formatBullets(data.wsInfo3Notes, 'text-emerald-400');
+
+            const wsHasNotes = data.wsInfo3Notes && data.wsInfo3Notes.trim() !== '' && data.wsInfo3Notes.trim().toUpperCase() !== 'N/A';
+            const wsWrapper = document.getElementById('ws-specs-notes-wrapper');
+            const wsNotes = document.getElementById('ws-notes-container');
+            if (wsWrapper && wsNotes) {
+                if (!wsHasNotes) { wsNotes.style.display = 'none'; wsWrapper.classList.remove('md:grid-cols-2', 'w-full'); wsWrapper.classList.add('max-w-2xl'); }
+                else { wsNotes.style.display = 'block'; wsWrapper.classList.add('md:grid-cols-2', 'w-full'); wsWrapper.classList.remove('max-w-2xl'); }
+            }
         }
 
         switch (data.dealType) {
