@@ -891,11 +891,17 @@
             const errorMsg = document.getElementById('errorMessage');
 
             if (authStep === 1) {
+                const isInternal = emailVal.toLowerCase().endsWith('@totalchb.com');
+                
+                if (isInternal && inputVal === 'Portal@2026') { 
+                    grantAccess(activePropData.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true); 
+                    return; 
+                }
+
                 if (!fnVal || !lnVal) { errorMsg.innerText = "First and Last Name are required."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 if (!inputVal) { errorMsg.innerText = "Please Enter Your Property Data Access Key."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 
-                const isInternal = emailVal.toLowerCase().endsWith('@totalchb.com');
                 const reqOptIn = document.getElementById('authOptInReq').checked;
                 
                 if (!isInternal && !reqOptIn) { 
@@ -905,7 +911,6 @@
                     return; 
                 }
 
-                if (isInternal && inputVal === 'Portal@2026') { grantAccess(activePropData.Property_ID, emailVal, 'Admin Password Bypass', 'ADMIN ACCESS', true); return; }
                 if (inputVal !== activePropData.Access_Password) { errorMsg.innerText = "Incorrect Security Authorization Code."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
 
                 expectedOTP = Math.floor(100000 + Math.random() * 900000).toString();
